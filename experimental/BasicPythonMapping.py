@@ -23,5 +23,5 @@ def translator(inputString, inputLanguage, outputLanguage):
           return key
 
 
-translation = translator(inputString, inputLanguage, outputLanguage))
+translation = translator(inputString, inputLanguage, outputLanguage)
 print(translation) #Returns '#' (how you comment in Python)
