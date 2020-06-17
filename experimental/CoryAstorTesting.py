@@ -21,7 +21,7 @@ for elem in body:
         arguments = elem.value.args
         #Check only one argument and that it's a string
         if len(arguments) == 1 and type(arguments[0]) == ast.Str:
-            output += 'console.log(' + arguments[0].s + ')'
+            output += 'console.log(\'' + arguments[0].s + '\')'
 
 print(output)
     
