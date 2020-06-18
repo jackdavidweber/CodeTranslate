@@ -53,11 +53,13 @@ def pyexpr_to_gast(node):
         if type(node.value.func) == ast.Name:
             if node.value.func.id == "print":
                 gast["type"] = "logStatement"
-                gast["args"] =  pyargs_to_strlist(node.value.args)
-                return gast
             else:
                 gast["type"] = "customStatement"
-                return gast
+            
+            # add arguments and return
+            gast["args"] =  pyargs_to_strlist(node.value.args)
+            return gast
+
 
 def py_to_gast(python_input_filename):
     input_ast =  astor.code_to_ast.parse_file(python_input_filename)
