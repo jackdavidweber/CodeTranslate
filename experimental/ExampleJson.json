@@ -1,0 +1,6 @@
+{"type": "root", 
+ "body": [
+     {"type": "logStatement", 
+      "args": ["Hello World!"]}
+  ]
+}
