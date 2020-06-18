@@ -1,17 +1,41 @@
 // Snippet for using AST to go from console.log() to print()
-// NOTE: only works with single string arg for console.log()
+// NOTE: only works with single string arg for console.log()/
 
-const parser = require('@babel/parser').parse;
-
-const inputCode = 'console.log("ss")';
+//const parser = require('@babel/parser').parse;
+import babel from '@babel/core';
+const inputCode = 'console.log("hello world")';
 let outputCode = "";
 
 // parse the code -> ast
-const ast = parser(inputCode, {sourceType: 'module'});
+const ast = babel.parse(inputCode)
+
+// Approach using traverse for console.log() -> print()
+babel.traverse(ast, {
+  CallExpression: function(path) { 
+    const args = (path.node.arguments);
+
+    // function called on object
+    if (path.node.callee.type == "MemberExpression") {
+      const object = path.node.callee.object.name;
+      const func = path.node.callee.property.name;
+      // TODO: check if object.func is in map (console.log)
+      outputCode += 'print("'
+      // TODO: seperate functions to parse args 
+      outputCode += args[0].value;
+      outputCode += '")\n';
+    }
+    // function called
+    if (path.node.callee.type == "Identifer") {
+      const funcName = path.node.callee.name; 
+    }
+  }
+});
 
 // loop through all expressions in body 
-ast.program.body.forEach(handleExpression);
+//ast.program.body.forEach(handleExpression);
 
+// Approach using if statements for console.log() -> print()
+// Not ideal solution IMO
 function handleExpression(expression) {
 
   // checks if function was called
