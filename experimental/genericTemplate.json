@@ -1,0 +1,28 @@
+{
+    "logStatementNoArguments": {
+        "py": "print()",
+        "js": "console.log()",
+        "gast": {
+            "type": "root",
+            "body": [
+                {
+                    "type": "logStatement",
+                    "attributes": []
+                }
+            ]   
+        }
+    },
+    "logStatementWithArguments": {
+        "py": "print('hello world')",
+        "js": "console.log('hello world')",
+        "gast": {
+            "type": "root",
+            "body": [
+                {
+                    "type": "logStatement",
+                    "attributes": ["hello world"]
+                }
+            ]   
+        }
+    }
+}

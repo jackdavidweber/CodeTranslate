@@ -1,32 +1,30 @@
 import ast
 import astor
 
-def pyexpr_to_gast(node, gast):
+def pyexpr_to_gast(node):
+    gast = {}
     if type(node.value) == ast.Call: # FIXME: should type of call be embedded in the gast?
-        gast["type"] = "callexpr"
         if type(node.value.func) == ast.Name:
             if node.value.func.id == "print":
-                gast["id"] = "log"
+                gast["type"] = "logStatement"
                 return gast
             else:
-                # if
-                gast["id"] = "custom"
+                gast["type"] = "customStatement"
                 return gast
 
 def py_to_gast(python_input_filename):
     input_ast =  astor.code_to_ast.parse_file(python_input_filename)
     
     # TODO: can add more fields to the generic ast
-    gast = {
-        "type": None,
-        "id": None,
-    }
+    gast = {"type": "root", "body": []}
 
     # NOTE: with current implementation, it will just go until it sees something it recognizes
     # eventually can implement nested structures
     for node in input_ast.body:
         if type(node) == ast.Expr:
-            return pyexpr_to_gast(node, gast)
+            gast["body"].append(pyexpr_to_gast(node))
+    
+    return gast
 
 """
 Function for translating between input and output language.
@@ -41,12 +39,12 @@ def translator(input_filename, ds, inputLanguage, outputLanguage):
         return 
     else:
         return
-    for match in ds:
-        return astToJsMap[match.type]
 
+    for node in gast["body"]:
+        print(astToJsMap[node["type"]])
 
 astToJsMap = {
-    logStatement: "console.log()"
+    "logStatement": "console.log()"
 }
 
 ds = [
@@ -55,19 +53,9 @@ ds = [
         'js': 'console.log()',
         'py': 'print()'
     },
-    {'type': 'logStatement', 'args': },
-    
+    {'type': 'logStatement', 'args': "" }
 ]
 
-    class logStatement:
-        def __init__(self, args):
-            self.args = args
-        def toPython():
-            return "print(" + args.__.__.arguments + ")"
-        def toJavaScript
-            return 
-
-
-
 fileName = "/home/jackweber/cjs_capstone/experimental/jackPython/sampleCode.py"
+print(py_to_gast(fileName))
 print(translator(fileName, ds, 'py', 'js'))
