@@ -9,7 +9,8 @@ def pyexpr_to_gast(node, gast):
                 gast["id"] = "log"
                 return gast
             else:
-                gast["id"] = node.value.func.id
+                # if
+                gast["id"] = "custom"
                 return gast
 
 def py_to_gast(python_input_filename):
@@ -40,18 +41,33 @@ def translator(input_filename, ds, inputLanguage, outputLanguage):
         return 
     else:
         return
-    for potential_match in ds:
-        if potential_match['gast'] == gast:
-            return potential_match[outputLanguage]
+    for match in ds:
+        return astToJsMap[match.type]
 
+
+astToJsMap = {
+    logStatement: "console.log()"
+}
 
 ds = [
     {
-        'gast': {'type': 'callexpr', 'id': 'log'},
+        'gast': {'type': 'callexpr', 'id': 'custom'},
         'js': 'console.log()',
         'py': 'print()'
-    }
+    },
+    {'type': 'logStatement', 'args': },
+    
 ]
+
+    class logStatement:
+        def __init__(self, args):
+            self.args = args
+        def toPython():
+            return "print(" + args.__.__.arguments + ")"
+        def toJavaScript
+            return 
+
+
 
 fileName = "/home/jackweber/cjs_capstone/experimental/jackPython/sampleCode.py"
 print(translator(fileName, ds, 'py', 'js'))
