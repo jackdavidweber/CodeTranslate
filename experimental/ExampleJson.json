@@ -4,6 +4,10 @@
      "args": ["Hello World!"]},
     {"type": "varAssign",
      "varId": "x",
-     "varValue": 5} 
+     "varValue": 5},
+     {"type": "varAssign",
+      "varId": "string",
+      "varValue": []}
+     
   ]
 }

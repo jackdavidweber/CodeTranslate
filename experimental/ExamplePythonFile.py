@@ -1,3 +1,3 @@
 print("Hello World!")
 
-x = 5
+arr = []
