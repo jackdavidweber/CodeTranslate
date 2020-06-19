@@ -7,7 +7,7 @@
      "varValue": 5},
      {"type": "varAssign",
       "varId": "string",
-      "varValue": "test"}
+      "varValue": []}
      
   ]
 }

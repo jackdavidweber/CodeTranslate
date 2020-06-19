@@ -32,6 +32,8 @@ def handleAssign(statement):
       return {'type': 'varAssign', 'varId': statement.targets[0].id, 'varValue': val.n}
     if type(val) == ast.Str:
       return {'type': 'varAssign', 'varId': statement.targets[0].id, 'varValue': val.s}
+    if type(val) == ast.List:
+      return {'type': 'varAssign', 'varId': statement.targets[0].id, 'varValue': val.elts}
 
 
 def astToPython(genericAst):
@@ -42,7 +44,10 @@ def astToPython(genericAst):
       outputPython += genericAstToPython[statement['type']]
       outputPython += '(\'' + statement['args'][0] + '\')\n'
     elif statement['type'] == 'varAssign':
-      outputPython += statement['varId'] + ' = ' + str(statement['varValue']) + '\n'
+      if type(statement['varValue']) == list:
+        outputPython += statement['varId'] + ' = ' + '[]' + '\n'  
+      else:
+        outputPython += statement['varId'] + ' = ' + str(statement['varValue']) + '\n'
   print(outputPython)
 
 
