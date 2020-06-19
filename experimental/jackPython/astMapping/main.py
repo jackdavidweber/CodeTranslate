@@ -67,8 +67,21 @@ def pyexpr_to_gast(node):
             gast["args"] =  pyargs_to_strlist(node.value.args)
             return gast
 
+"""
+takes python ast assigns and converts them to generic ast format
+note, that this assumes only a single assignment (i.e. x = 4)
+for now, it does not work for things link x,y = 4,5
+"""
 def pyassign_to_gast(node):
-    pass
+    gast = {}
+    gast["type"] = "varAssign"
+
+    # note that this does not work if there are multiple assignments in same line
+    firstTarget = node.targets[0]
+    gast["varId"] = node.targets[0].id
+
+    gast["varValue"] = pyarg_to_str(node.value) # note that need to make it work for arrays, tuples, etc.
+    return gast
 
 
 def py_to_gast(python_input_filename):
@@ -105,6 +118,8 @@ def translator(input_filename, ds, inputLanguage, outputLanguage):
     for node in gast["body"]:
         print(astToJsMap[node["type"]][outputLanguage])
 
+
+#TODO: replace the mapping for each one with a function that returns the correct output string WITH arguments
 astToJsMap = {
     "logStatement": {
         "py": "print()",
@@ -114,6 +129,10 @@ astToJsMap = {
         "py": "custom_function_name()",
         "js": "customFunctionName()"
     },
+    "varAssign": {
+        "py": "varName = assignment",
+        "js": "const varName = assignment"
+    }
 }
 
 ds = [
