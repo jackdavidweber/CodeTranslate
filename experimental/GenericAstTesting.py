@@ -3,6 +3,7 @@ import ast
 import json
 
 
+# Takes source code 
 def pythonToAst(filename):
   pythonToGenericAst = {'print':'logStatement'}
   srcAst = astor.code_to_ast.parse_file(filename)
@@ -15,8 +16,7 @@ def pythonToAst(filename):
       convertedAst['body'].append(handleExpression(statement, pythonToGenericAst))
     if type(statement) == ast.Assign:
       convertedAst['body'].append(handleAssign(statement))
-  
-  print(convertedAst)
+  return convertedAst
 
 def handleExpression(statement, pythonToGenericAst):
   if type(statement.value) == ast.Call:
@@ -48,10 +48,10 @@ def astToPython(genericAst):
         outputPython += statement['varId'] + ' = ' + '[]' + '\n'  
       else:
         outputPython += statement['varId'] + ' = ' + str(statement['varValue']) + '\n'
-  print(outputPython)
+  return outputPython
 
 
-pythonToAst('ExamplePythonFile.py')
+print(pythonToAst('ExamplePythonFile.py'))
 
 json = json.load(open('ExampleJson.json'))
-astToPython(json)
+print(astToPython(json))
