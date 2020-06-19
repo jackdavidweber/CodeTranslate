@@ -27,6 +27,18 @@ def binOp_to_str(bop):
     return s
     
 
+def pyarg_to_str(arg):
+    if type(arg) == ast.Str:
+        return arg.s
+    elif type(arg) == ast.Num:
+        return arg.n
+    elif type(arg) == ast.BinOp:
+        return binOp_to_str(arg)
+    else:
+        return ""
+
+
+
 """
 takes list of arguments in python ast and converts them to a list of
 strings
@@ -34,13 +46,8 @@ strings
 def pyargs_to_strlist(args):
     out = []
     for arg in args:
-        if type(arg) == ast.Str:
-            out.append(arg.s)
-        elif type(arg) == ast.Num:
-            out.append(arg.n)
-        elif type(arg) == ast.BinOp:
-            out.append(binOp_to_str(arg))
-    
+        out.append(pyarg_to_str(arg))
+            
     return out
 
 """
@@ -60,6 +67,9 @@ def pyexpr_to_gast(node):
             gast["args"] =  pyargs_to_strlist(node.value.args)
             return gast
 
+def pyassign_to_gast(node):
+    pass
+
 
 def py_to_gast(python_input_filename):
     input_ast =  astor.code_to_ast.parse_file(python_input_filename)
@@ -72,6 +82,8 @@ def py_to_gast(python_input_filename):
     for node in input_ast.body:
         if type(node) == ast.Expr:
             gast["body"].append(pyexpr_to_gast(node))
+        if type(node) == ast.Assign:
+            gast["body"].append(pyassign_to_gast(node))
     
     return gast
 
