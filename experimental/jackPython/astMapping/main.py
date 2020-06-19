@@ -27,6 +27,18 @@ def binOp_to_str(bop):
     return s
     
 
+def pyarg_to_str(arg):
+    if type(arg) == ast.Str:
+        return arg.s
+    elif type(arg) == ast.Num:
+        return arg.n
+    elif type(arg) == ast.BinOp:
+        return binOp_to_str(arg)
+    else:
+        return ""
+
+
+
 """
 takes list of arguments in python ast and converts them to a list of
 strings
@@ -34,13 +46,8 @@ strings
 def pyargs_to_strlist(args):
     out = []
     for arg in args:
-        if type(arg) == ast.Str:
-            out.append(arg.s)
-        elif type(arg) == ast.Num:
-            out.append(arg.n)
-        elif type(arg) == ast.BinOp:
-            out.append(binOp_to_str(arg))
-    
+        out.append(pyarg_to_str(arg))
+            
     return out
 
 """
@@ -60,6 +67,22 @@ def pyexpr_to_gast(node):
             gast["args"] =  pyargs_to_strlist(node.value.args)
             return gast
 
+"""
+takes python ast assigns and converts them to generic ast format
+note, that this assumes only a single assignment (i.e. x = 4)
+for now, it does not work for things link x,y = 4,5
+"""
+def pyassign_to_gast(node):
+    gast = {}
+    gast["type"] = "varAssign"
+
+    # note that this does not work if there are multiple assignments in same line
+    firstTarget = node.targets[0]
+    gast["varId"] = node.targets[0].id
+
+    gast["varValue"] = pyarg_to_str(node.value) # note that need to make it work for arrays, tuples, etc.
+    return gast
+
 
 def py_to_gast(python_input_filename):
     input_ast =  astor.code_to_ast.parse_file(python_input_filename)
@@ -72,6 +95,8 @@ def py_to_gast(python_input_filename):
     for node in input_ast.body:
         if type(node) == ast.Expr:
             gast["body"].append(pyexpr_to_gast(node))
+        if type(node) == ast.Assign:
+            gast["body"].append(pyassign_to_gast(node))
     
     return gast
 
@@ -93,6 +118,8 @@ def translator(input_filename, ds, inputLanguage, outputLanguage):
     for node in gast["body"]:
         print(astToJsMap[node["type"]][outputLanguage])
 
+
+#TODO: replace the mapping for each one with a function that returns the correct output string WITH arguments
 astToJsMap = {
     "logStatement": {
         "py": "print()",
@@ -102,6 +129,10 @@ astToJsMap = {
         "py": "custom_function_name()",
         "js": "customFunctionName()"
     },
+    "varAssign": {
+        "py": "varName = assignment",
+        "js": "const varName = assignment"
+    }
 }
 
 ds = [

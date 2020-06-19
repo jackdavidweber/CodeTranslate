@@ -34,5 +34,19 @@
                 {"type": "customStatement"}
             ]
         }
+    },
+    "variableAssign": {
+        "py": "x=5",
+        "js": "FILL THIS IN- prob need to change gast to account for var vs. let vs const",
+        "gast": {
+            "type": "root",
+            "body": [
+                {
+                    "type": "varAssign",
+                    "varId": "x",
+                    "varValue": 5
+                }
+            ]
+        }
     }
 }
