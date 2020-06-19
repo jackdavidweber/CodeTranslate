@@ -26,30 +26,6 @@ def binOp_to_str(bop):
         s = str(bop.left.n) + pyop_to_str(bop.op) + str(bop.right.n)
     return s
     
-
-def pyarg_to_str(arg):
-    if type(arg) == ast.Str:
-        return arg.s
-    elif type(arg) == ast.Num:
-        return arg.n
-    elif type(arg) == ast.BinOp:
-        return binOp_to_str(arg)
-    else:
-        return ""
-
-
-
-"""
-takes list of arguments in python ast and converts them to a list of
-strings
-"""
-def pyargs_to_strlist(args):
-    out = []
-    for arg in args:
-        out.append(pyarg_to_str(arg))
-            
-    return out
-
 """
 takes pyton file and converts it to a node
 node is then dealt with by node_to_gast 
@@ -154,11 +130,11 @@ def translator(input_filename, ds, inputLanguage, outputLanguage):
         return
 
     for node in gast["body"]:
-        print(astToJsMap[node["type"]][outputLanguage])
+        print(ds[node["type"]][outputLanguage])
 
 
 #TODO: replace the mapping for each one with a function that returns the correct output string WITH arguments
-astToJsMap = {
+ds = {
     "logStatement": {
         "py": "print()",
         "js": "console.log()"
@@ -172,15 +148,6 @@ astToJsMap = {
         "js": "const varName = assignment"
     }
 }
-
-ds = [
-    {
-        'gast': {'type': 'callexpr', 'id': 'custom'},
-        'js': 'console.log()',
-        'py': 'print()'
-    },
-    {'type': 'logStatement', 'args': "" }
-]
 
 fileName = "/home/jackweber/cjs_capstone/experimental/jackPython/sampleCode.py"
 translator(fileName, ds, 'py', 'js')
