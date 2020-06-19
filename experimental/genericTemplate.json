@@ -7,7 +7,7 @@
             "body": [
                 {
                     "type": "logStatement",
-                    "attributes": []
+                    "args": []
                 }
             ]   
         }
@@ -20,9 +20,19 @@
             "body": [
                 {
                     "type": "logStatement",
-                    "attributes": ["hello world"]
+                    "args": ["hello world"]
                 }
             ]   
+        }
+    },
+    "customStatementNoArgs": {
+        "py": "custom_function_name()",
+        "js": "customFunctionName()",
+        "gast": {
+            "type": "root",
+            "body": [
+                {"type": "customStatement"}
+            ]
         }
     }
 }

@@ -1,2 +1,1 @@
-print("Hello World")
-jack("test")
+jack("hello world", 4*4, 4+5+6.4)
