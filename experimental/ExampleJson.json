@@ -1,6 +1,9 @@
 {"type": "root", 
  "body": [
-     {"type": "logStatement", 
-      "args": ["Hello World!"]}
+    {"type": "logStatement", 
+     "args": ["Hello World!"]},
+    {"type": "varAssign",
+     "varId": "x",
+     "varValue": 5} 
   ]
 }
