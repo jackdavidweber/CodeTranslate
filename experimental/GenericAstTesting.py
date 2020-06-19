@@ -3,7 +3,7 @@ import ast
 import json
 
 
-# Takes source code 
+# Takes source code and returns generic AST
 def pythonToAst(filename):
   pythonToGenericAst = {'print':'logStatement'}
   srcAst = astor.code_to_ast.parse_file(filename)
@@ -18,6 +18,7 @@ def pythonToAst(filename):
       convertedAst['body'].append(handleAssign(statement))
   return convertedAst
 
+#Helper function to convert expressions
 def handleExpression(statement, pythonToGenericAst):
   if type(statement.value) == ast.Call:
     func = statement.value.func
@@ -25,6 +26,7 @@ def handleExpression(statement, pythonToGenericAst):
     if type(func) == ast.Name:
       return {'type': pythonToGenericAst[func.id], 'args': [args.s]}
 
+#Helper function to convert declarations
 def handleAssign(statement):
   if type(statement.targets[0]) == ast.Name:
     val = statement.value
@@ -35,7 +37,7 @@ def handleAssign(statement):
     if type(val) == ast.List:
       return {'type': 'varAssign', 'varId': statement.targets[0].id, 'varValue': val.elts}
 
-
+# Takes generic AST and returns Python source code
 def astToPython(genericAst):
   genericAstToPython = {'logStatement': 'print'}
   outputPython = ''
