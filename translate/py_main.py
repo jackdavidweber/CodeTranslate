@@ -1,4 +1,3 @@
-import sys 
 from routers.py_router import *
 from expression.py_expression import *
 from assign.py_assign import *

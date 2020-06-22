@@ -1,7 +1,6 @@
 import ast
 from ..helpers.jack_py_helpers import *
 
-
 def node_to_gast(node):
     # Base Cases
     if type(node) == ast.Str:
