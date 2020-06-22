@@ -1,13 +1,20 @@
-{"type": "root", 
- "body": [
-    {"type": "logStatement", 
-     "args": ["Hello World!"]},
-    {"type": "varAssign",
-     "varId": "x",
-     "varValue": 5},
-     {"type": "varAssign",
+{
+  "type": "root", 
+  "body": [
+    { 
+      "type": "logStatement", 
+      "args": ["Hello World!"]
+    },
+    {
+      "type": "varAssign",
+      "varId": "x",
+      "varValue": 5
+    },
+    {
+      "type": "varAssign",
       "varId": "string",
-      "varValue": []}
-     
+      "varValue": []
+    }
   ]
 }
+
