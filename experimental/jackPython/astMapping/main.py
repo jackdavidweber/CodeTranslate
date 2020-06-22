@@ -17,13 +17,17 @@ def pyop_to_str(op):
 
 """
 converts a python ast BinOp and converts it to a readable string recursively 
+example 3+4:
+    exampleIn BinOp(left=Num(n=3), op=Add, right=Num(n=4))
+    exampleOut '3+4'
 """
-def binOp_to_str(bop):
-    if type(bop.left) == ast.BinOp:
-        s = binOp_to_str(bop.left) + pyop_to_str(bop.op) + str(bop.right.n)
+def binOp_to_str(node):
+    if type(node.left) == ast.BinOp:
+        s = binOp_to_str(node.left) + pyop_to_str(node.op) + str(node.right.n)
     else:
         # base case: if left is just a number, operate on left wrt right
-        s = str(bop.left.n) + pyop_to_str(bop.op) + str(bop.right.n)
+        s = str(node.left.n) + pyop_to_str(node.op) + str(node.right.n)
+
     return s
     
 """
@@ -35,6 +39,13 @@ def py_to_gast(python_input_filename):
     print(astor.dump_tree(input_ast))
     return node_to_gast(input_ast)
 
+"""
+takes ast node of type module and returns
+a generic ast for that node
+example print("hello"):
+    node (input): Module(body=[Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
+    gast (output): {'type': 'root', 'body': [{'type': 'logStatement', 'args': ['hello']}]}
+"""
 def module(node):
     gast = {"type": "root"}
     gast["body"] = node_to_gast(node.body)
@@ -43,46 +54,80 @@ def module(node):
 """
 takes a node that represents a list of nodes.
 returns a list of gast
+example print("hello"):
+    node (input): [Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))]
+    gast (output): [{'type': 'logStatement', 'args': ['hello']}]
+example array of strings:
+    input: [Str(s='hello'), Str(s='world')]
+    output:['hello', 'world']
 """
 def node_list(node):
     gast_list = []
     for i in range(0, len(node)):
         gast_list.append(node_to_gast(node[i]))
-    
+
     return gast_list
 
 """
-Takes python expressions and converts them to the generic
+Takes python ast.expr node and converts them to the generic
 ast format
+example print('hello')
+    exampleIn Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))
+    exampleOut {'type': 'logStatement', 'args': ['hello']}
 """
 def expr(node):
     return node_to_gast(node.value)
 
+"""
+takes python ast call node and converts to generic ast format
+example print('hello'):
+    exampleIn Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[])
+    exampleOut {'type': 'logStatement', 'args': ['hello']}
+"""
 def call(node):
     gast = {}
     gast["type"] = node_to_gast(node.func)
     gast["args"] = node_to_gast(node.args)
+
     return gast
 
 """
 takes python ast assigns and converts them to generic ast format
 note, that this assumes only a single assignment (i.e. x = 4)
 for now, it does not work for things link x,y = 4,5
+example:
+    exampleIn Assign(targets=[Name(id='x')], value=Num(n=5))
+    exampleOut {'type': 'varAssign', 'varId': 'customStatement', 'varValue': 5}
 """
 def assign(node):
     gast = {}
     gast["type"] = "varAssign"
     gast["varId"] = node_to_gast(node.targets[0]) # FIXME: understand when targets won't be 0
     gast["varValue"] = node_to_gast(node.value)
+
     return gast
 
+"""
+takes ast.name node from python ast and converts to string 
+represenation for the generic ast
+"""
 def name(node):
     if node.id == "print":
         return "logStatement"
     else:
         return "customStatement"
                 
+"""
+takes any ast node and routes it to the correct solution for
+the gast
+example Assign:
+    exampleIn Assign(targets=[Name(id='x')], value=Num(n=5))
+    exampleOut {'type': 'varAssign', 'varId': 'customStatement', 'varValue': 5}
+example BinOps
+    exampleIn BinOp(left=Num(n=3), op=Add, right=Num(n=4))
+    exampleOut '3+4'
 
+"""
 def node_to_gast(node):
     # Base Cases
     if type(node) == ast.Str:

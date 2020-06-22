@@ -1,2 +1,1 @@
-print('hello')
-x=4
+print(3+4)
