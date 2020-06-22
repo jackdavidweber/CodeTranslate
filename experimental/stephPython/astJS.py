@@ -1,7 +1,7 @@
 import esprima
 import ast 
 
-program = 'console.log("el" + 1)'
+program = 'console.log("s")'
 
 # tokens parses each character and classifies it - may be usefu;
 #tokens = esprima.tokenize(program)
@@ -15,11 +15,14 @@ def jsexpr_to_gast(node):
   gast = {}
   if node.type == "CallExpression":
     # handle callee
-    if node.callee.object.name == "console" and node.callee.property.name == "log":
-      gast["type"] = "logStatement"
+    if node.callee.type == "MemberExpression":
+      if (memExp_to_str(node.callee) == "console.log"):
+        gast["type"] = "logStatement"
+      else: 
+        gast["type"] = "customStatement"
     else:
-      #TODO recursive handling of callee
       gast["type"] = "customStatement"
+    
     # handle args
     gast["args"] = jsargs_to_strlist(node.arguments)
   return gast
@@ -44,6 +47,19 @@ def binOp_to_str(bop):
     # base case: if left is just a number, operate on left wrt right
     s = bop.left.raw + bop.operator + bop.right.raw
   return s
+
+"""
+Converts Member Expression and converts to readable string recursively
+Used for functions called on objects and std funcs like console.log
+"""
+def memExp_to_str(node):
+  #base case: object is literal
+  if node.object.type == "MemberExpression":
+    s = memExp_to_str(node.object) + '.' + node.property.name
+  else:
+    s = node.object.name + '.' + node.property.name
+  return s
+
 
 """
 takes list of arguments in js ast and converts them to a list of
