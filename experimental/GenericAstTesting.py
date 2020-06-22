@@ -48,12 +48,18 @@ def astToPython(genericAst):
     elif statement['type'] == 'varAssign':
       if type(statement['varValue']) == list:
         outputPython += statement['varId'] + ' = ' + '[]' + '\n'  
+      elif type(statement['varValue']) == str:
+        outputPython += statement['varId'] + ' = \'' + str(statement['varValue']) + '\'\n'
       else:
         outputPython += statement['varId'] + ' = ' + str(statement['varValue']) + '\n'
-  return outputPython
+  #Get rid of last \n character
+  return outputPython[:-1]
 
+# Translates from Python to Generic AST and back to Python
+def codeTranslate(filename):
+  genericAst = pythonToAst(filename)
+  return astToPython(genericAst)
 
-print(pythonToAst('ExamplePythonFile.py'))
-
-json = json.load(open('ExampleJson.json'))
-print(astToPython(json))
+#print(pythonToAst('ExamplePythonFile.py'))
+#json = json.load(open('ExampleJson.json'))
+#print(astToPython(json))
