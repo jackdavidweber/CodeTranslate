@@ -1,8 +1,5 @@
-import sys
 import ast
-sys.path.insert(1,'helpers')
-from jack_py_helpers import *
-
+from ..helpers.jack_py_helpers import *
 
 def node_to_gast(node):
     # Base Cases
@@ -23,7 +20,6 @@ def node_to_gast(node):
 
     # Other
     elif type(node) == ast.Module:
-        print('module call')
         return module(node)
 
     elif type(node) == ast.Expr:
