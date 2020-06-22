@@ -1,3 +1,8 @@
+import sys
+
+sys.path.insert(1,'routers')
+import py_router as pr
+
 """
 takes python ast assigns and converts them to generic ast format
 note, that this assumes only a single assignment (i.e. x = 4)
@@ -9,7 +14,7 @@ example:
 def assign(node):
     gast = {}
     gast["type"] = "varAssign"
-    gast["varId"] = node_to_gast(node.targets[0]) # FIXME: understand when targets won't be 0
-    gast["varValue"] = node_to_gast(node.value)
+    gast["varId"] = pr.node_to_gast(node.targets[0]) # FIXME: understand when targets won't be 0
+    gast["varValue"] = pr.node_to_gast(node.value)
 
     return gast

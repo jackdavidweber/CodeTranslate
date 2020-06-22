@@ -1,3 +1,10 @@
+import sys
+import ast
+
+sys.path.insert(1,'routers')
+import py_router as pr
+
+
 """
 converts python ast operations to common string representation
 TODO: add in boolean logic
@@ -37,7 +44,7 @@ example print("hello"):
 """
 def module(node):
     gast = {"type": "root"}
-    gast["body"] = node_to_gast(node.body)
+    gast["body"] = pr.node_to_gast(node.body)
     return gast
 
 
@@ -54,6 +61,6 @@ example array of strings:
 def node_list(node):
     gast_list = []
     for i in range(0, len(node)):
-        gast_list.append(node_to_gast(node[i]))
+        gast_list.append(pr.node_to_gast(node[i]))
 
     return gast_list

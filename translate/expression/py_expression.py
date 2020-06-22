@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(1,'routers')
+import py_router as pr
+
 """
 Takes python ast.expr node and converts them to the generic
 ast format
@@ -6,7 +10,7 @@ example print('hello')
     exampleOut {'type': 'logStatement', 'args': ['hello']}
 """
 def expr(node):
-    return node_to_gast(node.value)
+    return pr.node_to_gast(node.value)
 
 """
 takes python ast call node and converts to generic ast format
@@ -16,8 +20,8 @@ example print('hello'):
 """
 def call(node):
     gast = {}
-    gast["type"] = node_to_gast(node.func)
-    gast["args"] = node_to_gast(node.args)
+    gast["type"] = pr.node_to_gast(node.func)
+    gast["args"] = pr.node_to_gast(node.args)
 
     return gast
 

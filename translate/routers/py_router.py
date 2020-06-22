@@ -1,5 +1,13 @@
+import sys
 import ast
-from ..helpers.jack_py_helpers import *
+sys.path.insert(1,'helpers')
+import jack_py_helpers as h
+
+sys.path.insert(1, 'expression')
+import py_expression as e
+
+sys.path.insert(1, 'assign')
+import py_assign as a
 
 def node_to_gast(node):
     # Base Cases
@@ -10,24 +18,24 @@ def node_to_gast(node):
 
     # Base Cases with embedded recursion / if statements
     elif type(node) == ast.BinOp: #FIXME: I treat this as a base case even though there are if statements inside.
-        return binOp_to_str(node)
+        return h.binOp_to_str(node)
     elif type(node) == ast.Name:
-        return name(node)
+        return e.name(node)
 
     # List of Nodes to list of gast
     elif type(node) == list:
-        return node_list(node)
+        return h.node_list(node)
 
     # Other
     elif type(node) == ast.Module:
-        return module(node)
+        return h.module(node)
 
     elif type(node) == ast.Expr:
-        return expr(node)
+        return e.expr(node)
     elif type(node) == ast.Assign:
-        return assign(node)
+        return a.assign(node)
     elif type(node) == ast.Call:
-        return call(node)
+        return e.call(node)
     else:
         print("nothing hit")
         return "nothing hit"

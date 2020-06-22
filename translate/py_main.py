@@ -15,6 +15,6 @@ def py_to_gast(python_input_filename):
     return node_to_gast(input_ast)
 
 
-fileName = "/home/jackweber/cjs_capstone/experimental/jackPython/astMapping/sampleCode.py"
+fileName = "/home/jackweber/cjs_capstone/translate/py_sample_code.py"
 gast = py_to_gast(fileName)
 print(gast)
