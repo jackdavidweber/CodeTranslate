@@ -1,3 +1,0 @@
-print("Hello World!")
-
-arr = []
