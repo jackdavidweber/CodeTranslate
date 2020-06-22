@@ -1,7 +1,7 @@
 import esprima
 import ast 
 
-program = 'console.log("s")'
+program = 'const x = [1, "ste", x]\n console.log("i love lucy")'
 
 # tokens parses each character and classifies it - may be usefu;
 #tokens = esprima.tokenize(program)
@@ -27,13 +27,32 @@ def jsexpr_to_gast(node):
     gast["args"] = jsargs_to_strlist(node.arguments)
   return gast
 
+"""
+Handles js var declerations to generic AST node
+"""
+def jsassign_to_gast(node):
+  gast = {}
+  gast["type"] = "varAssign"
+
+  # only works with single assignment
+  gast["varId"] = node[0].id.name
+  gast["varValue"] = jsarg_to_str(node[0].init) 
+  return gast
+
+#TODO: handling of booleans (have type literal)
 def jsarg_to_str(arg):
   if arg.type == "Literal":
     return arg.value
   elif arg.type == "Identifier":
+    #identifier has quotes around name
     return arg.name
   elif arg.type == "BinaryExpression":
     return binOp_to_str(arg)
+  elif arg.type == "ArrayExpression":
+    arg_list = []
+    for elm in arg.elements:
+        arg_list.append(jsarg_to_str(elm))
+    return arg_list
   else:
     return ""
 
@@ -84,7 +103,8 @@ def js_to_gast(program):
     for node in input_ast.body:
       if node.type == "ExpressionStatement":
         gast["body"].append(jsexpr_to_gast(node.expression))
-    
+      if node.type == "VariableDeclaration":
+        gast["body"].append(jsassign_to_gast(node.declarations))
     return gast
 
 
