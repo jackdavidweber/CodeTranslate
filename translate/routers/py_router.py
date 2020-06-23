@@ -1,7 +1,7 @@
 import sys
 import ast
 sys.path.insert(1,'helpers')
-import jack_py_helpers as h
+import py_helpers as h
 
 sys.path.insert(1, 'expression')
 import py_expression as e
