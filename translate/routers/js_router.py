@@ -3,9 +3,9 @@ import sys
 import os
 
 # get path automatically and handle imports
-path = os.path.dirname(os.getcwd()) + '/var_declare'
+path = os.path.dirname(os.getcwd()) + '/assign'
 sys.path.insert(1, path)
-import js_var_declare as a
+import js_assign as a
 
 program = "let my_container = 20"
 
