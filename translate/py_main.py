@@ -14,7 +14,6 @@ def py_to_gast(python_input_filename):
     print(astor.dump_tree(input_ast))
     return node_to_gast(input_ast)
 
-
-fileName = "/home/jackweber/cjs_capstone/translate/py_sample_code.py"
+fileName = "py_sample_code.py"
 gast = py_to_gast(fileName)
 print(gast)
