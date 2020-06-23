@@ -2,11 +2,9 @@ import sys
 import os
 
 # get path automatically and handle imports
-os.path.abspath(os.curdir)
-path = os.path.abspath(os.curdir) + "/helpers"
+path = os.path.dirname(os.getcwd()) + '/helpers'
 sys.path.insert(1, path)
 import steph_helpers
-
 
 """
 Handles js var declerations to generic AST node

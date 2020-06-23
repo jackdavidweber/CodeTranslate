@@ -3,9 +3,7 @@ import sys
 import os
 
 # get path automatically and handle imports
-os.path.abspath(os.curdir)
-path = os.path.abspath(os.curdir) + "/var_declare/"
-print(path)
+path = os.path.dirname(os.getcwd()) + '/var_declare'
 sys.path.insert(1, path)
 import js_var_declare as a
 
