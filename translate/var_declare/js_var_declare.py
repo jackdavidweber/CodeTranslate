@@ -1,5 +1,10 @@
 import sys
-sys.path.insert(1, '/home/stephwalsh/capstone/cjs_capstone/translate/helpers')
+import os
+
+# get path automatically and handle imports
+os.path.abspath(os.curdir)
+path = os.path.abspath(os.curdir) + "/helpers"
+sys.path.insert(1, path)
 import steph_helpers
 
 
@@ -12,5 +17,5 @@ def jsassign_to_gast(node):
 
   # only works with single assignment
   gast["varId"] = node[0].id.name
-  gast["varValue"] = steph_helpers.jsarg_to_str(node[0].init) 
+  gast["varValue"] = steph_helpers.jsarg_to_str(node[0].init)
   return gast
