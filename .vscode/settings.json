@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "python",
+    "python.linting.pylintPath": "/home/stephwalsh/.local/lib/python3.7/site-packages/pylint/",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+}
