@@ -1,3 +1,4 @@
+import js_router
 
 #TODO: handling of booleans (have type literal)
 def jsarg_to_str(arg):
@@ -15,6 +16,18 @@ def jsarg_to_str(arg):
     return arg_list
   else:
     return ""
+
+"""
+takes ast node of type program and returns
+a generic ast for that node
+example print("hello"):
+    node (input): Program(body=[ExpressionStatement(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
+    gast (output): {'type': 'root', 'body': [{'type': 'logStatement', 'args': ['hello']}]}
+"""
+def program(node):
+    gast = {"type": "root"}
+    gast["body"] = js_router.node_to_gast(node.body)
+    return gast
 
 """
 converts a python ast BinOp and converts it to a readable string recursively 
@@ -48,3 +61,19 @@ def jsargs_to_strlist(args):
   for arg in args:
     out.append(jsarg_to_str(arg))
   return out
+
+"""
+takes a node that represents a list of nodes.
+returns a list of gast
+example console.log("hello"):
+    node (input):
+    gast (output): [{'type': 'logStatement', 'args': ['hello']}]
+example array of strings:
+    input: [Str(s='hello'), Str(s='world')]
+    output:['hello', 'world']
+"""
+def node_list(node):
+    gast_list = []
+    for i in range(0, len(node)):
+        gast_list.append(js_router.node_to_gast(node[i]))
+    return gast_list
