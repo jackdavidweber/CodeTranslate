@@ -19,5 +19,3 @@ def js_to_gast(program):
         # call router
         router.js_to_node(node, gast)
     return gast
-
-print(js_to_gast(program))

@@ -27,22 +27,3 @@ def handle_var_assign(statement):
   else:
     output += statement['varId'] + ' = ' + str(statement['varValue']) + '\n'
   return output
-
-
-ex = {
-  "type": "root", 
-  "body": [
-    { 
-      "type": "logStatement", 
-      "args": ["Hello World!"]
-    },
-    {
-      "type": "varAssign",
-      "varId": "x",
-      "varValue": 5
-    }
-  ]
-}
-
-print(gast_to_py(ex))
-
