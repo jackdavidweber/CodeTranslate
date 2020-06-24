@@ -17,7 +17,3 @@ def py_to_gast(python_input):
     input_ast = ast.parse(python_input)
     print(astor.dump_tree(input_ast))
     return py_router.node_to_gast(input_ast)
-
-python_input = "print('hello world')"
-gast = py_to_gast(python_input)
-print(gast)
