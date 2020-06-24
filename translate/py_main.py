@@ -10,7 +10,7 @@ sys.path.append('routers')
 import py_router
 
 """
-takes pyton file and converts it to a node
+takes pyton string and converts it to a node
 node is then dealt with by node_to_gast 
 """
 def py_to_gast(python_input):
@@ -18,6 +18,6 @@ def py_to_gast(python_input):
     print(astor.dump_tree(input_ast))
     return py_router.node_to_gast(input_ast)
 
-file = "print('hello world')"
-gast = py_to_gast(file)
+python_input = "print('hello world')"
+gast = py_to_gast(python_input)
 print(gast)
