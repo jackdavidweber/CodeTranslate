@@ -10,6 +10,7 @@ sys.path.append('translate/helpers')
 sys.path.append('translate/routers')
 
 import js_main as js_main
+import py_main as py_main
 import gast_to_py as gast_to_py
 import gast_to_code as gtc
 
@@ -38,7 +39,7 @@ class Translate(Resource):
         if input_lang == "js":
             gast = js_main.js_to_gast(input_code)
         elif input_lang == "py":
-            pass # TODO: fill this in
+            gast = py_main.py_to_gast(input_code)
         else:
             return {"Error": "must specify valid input language"}
 
