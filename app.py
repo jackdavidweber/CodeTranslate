@@ -11,6 +11,7 @@ sys.path.append('translate/routers')
 
 import js_main as js_main
 import gast_to_py as gast_to_py
+import gast_to_code as gtc
 
 
 app = Flask(__name__)
@@ -40,8 +41,9 @@ class Translate(Resource):
             pass # TODO: fill this in
         else:
             return {"Error": "must specify valid input language"}
-        
-        output_code = gast_to_py.gast_to_py(gast)
+
+        output_code = gtc.gast_router(gast, output_lang)
+
         return {'response': output_code}
 
 api.add_resource(Translate, '/')
