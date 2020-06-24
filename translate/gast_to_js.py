@@ -2,8 +2,8 @@
 
 def list_to_csv_str(l):
     s = ""
-    for i in l:
-        s += str(i) + ", "
+    for i in l: 
+        s += str(i) + ", " # FIXME: consider using join instead
     
     return s[:-2] # remove last comma and space
 
@@ -22,7 +22,8 @@ def value_to_str(val):
 
 def varAssign(gast):
     value = value_to_str(gast["varValue"])
-    return "const " + gast["varId"] + " = " + value
+    
+    return "const " + gast["varId"] + " = " + value # TODO: rethink const
 
 
 def body(gast_list):
