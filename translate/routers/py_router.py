@@ -1,12 +1,7 @@
 import sys
 import ast
-sys.path.insert(1,'helpers')
-import py_helpers as h
-
-sys.path.insert(1, 'expression')
+import helpers.py_helpers as h
 import py_expression as e
-
-sys.path.insert(1, 'assign')
 import py_assign as a
 
 def node_to_gast(node):
