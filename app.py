@@ -18,16 +18,29 @@ api = Api(app)
 CORS(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('input')
+parser.add_argument('in_code')
+parser.add_argument('in_lang')
+parser.add_argument('out_lang')
 
 class Translate(Resource):
     def get(self):
         return {'work': 'ing'}
 
     def post(self):
+        # bring in post arguments
         args = parser.parse_args()
-        input_text = args['input']
-        gast = js_main.js_to_gast(input_text)
+        input_code = args['in_code']
+        input_lang = args['in_lang']
+        output_lang = args['out_lang']
+
+        print(input_code, input_lang, output_lang)
+        if input_lang == "js":
+            gast = js_main.js_to_gast(input_code)
+        elif input_lang == "py":
+            pass # TODO: fill this in
+        else:
+            return {"Error": "must specify valid input language"}
+        
         output_code = gast_to_py.gast_to_py(gast)
         return {'response': output_code}
 
