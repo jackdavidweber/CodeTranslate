@@ -1,13 +1,7 @@
-import sys
-import os
-
-# get path automatically and handle imports
-path = os.path.dirname(os.getcwd()) + '/helpers'
-sys.path.insert(1, path)
 import js_helpers
 
 """
-Handles js var declerations to generic AST node
+Handles js var declarations to generic AST node
 """
 def jsassign_to_gast(node):
   gast = {}
