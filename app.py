@@ -1,19 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
-import sys
-
-sys.path.append('translate')
-sys.path.append('translate/assign')
-sys.path.append('translate/expression')
-sys.path.append('translate/helpers')
-sys.path.append('translate/routers')
-
-import js_main as js_main
-import py_main as py_main
-import gast_to_py as gast_to_py
-import gast_to_code as gtc
-
+from main import main
 
 app = Flask(__name__)
 api = Api(app)
@@ -35,19 +23,7 @@ class Translate(Resource):
         input_lang = args['in_lang']
         output_lang = args['out_lang']
 
-        # TODO: remove this once frontend is updated
-        if input_lang == None and output_lang == None:
-            input_lang = "js"
-            output_lang = "py"
-
-        if input_lang == "js":
-            gast = js_main.js_to_gast(input_code)
-        elif input_lang == "py":
-            gast = py_main.py_to_gast(input_code)
-        else:
-            return {"Error": "must specify valid input language"}
-
-        output_code = gtc.gast_router(gast, output_lang)
+        output_code = main(input_code, input_lang, output_lang)
 
         return {'response': output_code}
 
