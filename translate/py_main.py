@@ -9,7 +9,7 @@ sys.path.append('routers')
 import py_router
 
 """
-takes pyton string and converts it to a node
+takes pyton code and converts it to a node
 node is then dealt with by node_to_gast 
 """
 def py_to_gast(python_input):
