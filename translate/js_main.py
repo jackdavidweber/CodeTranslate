@@ -7,13 +7,14 @@ sys.path.append('expression')
 sys.path.append('helpers')
 sys.path.append('routers')
 
-import js_router as router
+import js_router
 
+"""
+takes js string and converts it to a generic AST
+"""
 def js_to_gast(program):
-    input_ast = esprima.parseScript(program, {"tokens": True})
-    # TODO: can add more fields to the generic ast
-    gast = {"type": "root", "body": []}
-    for node in input_ast.body:
-        # call router
-        router.js_to_node(node, gast)
-    return gast
+    input_ast = esprima.parseScript(program, {"tokens": False})
+    return js_router.node_to_gast(input_ast)
+
+print(js_to_gast(program))
+
