@@ -30,6 +30,8 @@ def node_to_gast(node):
         return js_helpers.memExp_to_str(node)
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
+    elif node.type == "ArrayExpression":
+        return js_helpers.jsarg_to_str(node)
     else:
         return "No match"
 

@@ -2,21 +2,24 @@ import unittest2
 import main
 
 class TestLogStatement(unittest2.TestCase):
-    def test_py_to_js_no_args(self):
+    def test_no_args(self):
         self.assertEqual('console.log()', main.main('print()', 'py', 'js'))
-
-    def test_js_to_py_no_args(self):
         self.assertEqual('print()', main.main('console.log()', 'js', 'py'))
     
-    def test_one_string_arg(self):
+    def test_one_arg(self):
         self.assertEqual('console.log("hello")', main.main('print("hello")', 'py', 'js'))
-    
-    def test_one_int_arg(self):
         self.assertEqual('print(5)', main.main('console.log(5)', 'js', 'py'))
     
     def test_quotes_string(self):
         self.assertEqual('print("working")', main.main('console.log("working")', 'js', 'py'))
     
+    def test_arrays(self):
+        self.assertEqual('print([[1, 3], [3, 4]])', main.main('console.log([[1, 3], [3,4]])', 'js', 'py'))
+        self.assertEqual('console.log(["hi", "bye"])', main.main('print(["hi", "bye"])', 'py', 'js'))
+    
+    def test_boolean(self):
+        self.assertEqual('print(True)', main.main('console.log(true)', 'js', 'py'))
+        self.assertEqual('console.log(false)', main.main('print(False)', 'py', 'js'))
 
 if __name__ == '__main__':
     unittest2.main()
