@@ -12,7 +12,7 @@ import js_router
 program = "let x = 's' + 1 + 3\n console.log(x)"
 
 """
-takes js string and converts it to a general AST
+takes js string and converts it to a generic AST
 """
 def js_to_gast(program):
     input_ast = esprima.parseScript(program, {"tokens": False})

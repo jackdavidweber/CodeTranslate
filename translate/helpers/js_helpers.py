@@ -24,7 +24,7 @@ example print("hello"):
     node (input): Program(body=[ExpressionStatement(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
     gast (output): {'type': 'root', 'body': [{'type': 'logStatement', 'args': ['hello']}]}
 """
-def program(node):
+def program_to_gast(node):
     gast = {"type": "root"}
     gast["body"] = js_router.node_to_gast(node.body)
     return gast

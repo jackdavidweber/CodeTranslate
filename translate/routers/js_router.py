@@ -23,15 +23,14 @@ def node_to_gast(node):
     elif node.type == "VariableDeclaration":
         return js_assign.jsassign_to_gast(node.declarations)
     elif node.type == "ExpressionStatement":
-        return js_expression.expr(node)
+        return js_expression.convert_expression_to_gast(node)
     elif node.type == "CallExpression":
-        return js_expression.call(node)
+        return js_expression.call_expression_to_gast(node)
     elif node.type == "MemberExpression":
         return js_helpers.memExp_to_str(node)
     elif node.type == "Program":
-        return js_helpers.program(node)
+        return js_helpers.program_to_gast(node)
     else:
-        print(node.type)
         return "No match"
 
 
