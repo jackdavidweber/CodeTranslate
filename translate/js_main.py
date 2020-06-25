@@ -19,3 +19,4 @@ def js_to_gast(program):
     return js_router.node_to_gast(input_ast)
 
 print(js_to_gast(program))
+
