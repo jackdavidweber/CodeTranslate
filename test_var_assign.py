@@ -14,6 +14,8 @@ class TestLogStatement(unittest2.TestCase):
     def test_int_assign_py_to_js(self):
         self.assertEqual('const n = 12', main.main('n = 12', 'py', 'js'))
     
+    def test_array_assign_js_to_py(self):
+        self.assertEqual('arr = [3, 6]', main.main('let arr = [3, 6]', 'js', 'py'))
 
 if __name__ == '__main__':
     unittest2.main()

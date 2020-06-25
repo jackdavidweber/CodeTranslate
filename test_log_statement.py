@@ -17,6 +17,8 @@ class TestLogStatement(unittest2.TestCase):
     def test_quotes_string(self):
         self.assertEqual('print("working")', main.main('console.log("working")', 'js', 'py'))
     
+    def test_simple_array(self):
+        self.assertEqual('console.log(["please", "work"])', main.main('print(["please", "work"])', 'py', 'js'))
 
 if __name__ == '__main__':
     unittest2.main()
