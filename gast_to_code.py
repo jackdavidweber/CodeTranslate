@@ -67,37 +67,3 @@ def gast_router(gast, out_lang):
 
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
-
-
-# EXAMPLE
-
-example_gast =  {
-            "type": "root",
-            "body": [
-                {
-                    "type": "logStatement",
-                    "args": ["hello world", "hi", 3]
-                },
-                {
-                    "type": "varAssign",
-                    "varId": "x",
-                    "varValue": 5
-                }
-            ]   
-        }
-
-#EXAMPLE Python
-print(gast_router(example_gast, "py"))
-"""
-output:
-    print(hello world, hi, 3)
-    x = 5
-"""
-
-#EXAMPLE javascript
-print(gast_router(example_gast, "js"))
-"""
-output:
-    console.log(hello world, hi, 3)
-    const x = 5
-"""

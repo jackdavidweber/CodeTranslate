@@ -40,7 +40,6 @@ class Translate(Resource):
             input_lang = "js"
             output_lang = "py"
 
-        print(input_code, input_lang, output_lang)
         if input_lang == "js":
             gast = js_main.js_to_gast(input_code)
         elif input_lang == "py":

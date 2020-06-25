@@ -9,8 +9,6 @@ sys.path.append('routers')
 
 import js_router as router
 
-program = "let my_container = 20\n console.log('eh')"
-
 def js_to_gast(program):
     input_ast = esprima.parseScript(program, {"tokens": True})
     # TODO: can add more fields to the generic ast
