@@ -26,10 +26,11 @@ def call(node):
 """
 takes ast.name node from python ast and converts to string 
 represenation for the generic ast
+FIXME: this should prob be in helpers since it is also used by assign
 """
 def name(node):
+    #FIXME: prob going to have type issues since logstatement is very different than node.id
     if node.id == "print":
         return "logStatement"
     else:
-        return "customStatement"
-      
+        return node.id      

@@ -9,8 +9,6 @@ sys.path.append('routers')
 
 import js_router
 
-program = "let x = 's' + 1 + 3\n console.log(x)"
-
 """
 takes js string and converts it to a generic AST
 """
