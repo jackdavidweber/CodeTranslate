@@ -10,6 +10,8 @@ def node_to_gast(node):
         return node.s
     elif type(node) == ast.Num:
         return node.n
+    elif type(node) == ast.NameConstant:
+        return node.value
 
     # Base Cases with embedded recursion / if statements
     elif type(node) == ast.BinOp: #FIXME: I treat this as a base case even though there are if statements inside.
