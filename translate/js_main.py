@@ -16,5 +16,3 @@ def js_to_gast(program):
     input_ast = esprima.parseScript(program, {"tokens": False})
     return js_router.node_to_gast(input_ast)
 
-print(js_to_gast(program))
-
