@@ -1,8 +1,14 @@
 
 # general_helpers
-def value_to_str(val):
+def value_to_str(val, out_lang):
+    print(type(val))
     if type(val) == str:
         return '"' + val + '"'
+    elif type(val) == bool: 
+        if out_lang == 'js':
+            return 'true' if val else 'false'
+        elif out_lang == 'py':
+            return str(val)
     else:
         return str(val)
 
@@ -14,31 +20,29 @@ def body(gast_list, out_lang):
 
     return out[:-1] # remove \nS
 
-def list_to_csv_str(l):
+def list_to_csv_str(l, out_lang):
     s = ""
     for i in l:
-        if type(i) == str:
-            i = '"' + i + '"'
-        s += str(i) + ", "
+        s += value_to_str(i, out_lang) + ", "
     
     return s[:-2] # remove last comma and space
 
 # py_specific_helpers
-def py_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+def py_logStatement(gast, out_lang):
+    arg_string = list_to_csv_str(gast["args"], out_lang)
     return "print(" + arg_string + ")"
 
-def py_varAssign(gast):
-    value = value_to_str(gast["varValue"])
+def py_varAssign(gast, out_lang):
+    value = value_to_str(gast["varValue"], out_lang)
     return gast["varId"] + " = " + value
 
 # js_specific_helpers
-def js_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+def js_logStatement(gast, out_lang):
+    arg_string = list_to_csv_str(gast["args"], out_lang)
     return "console.log(" + arg_string + ")"
 
-def js_varAssign(gast):
-    value = value_to_str(gast["varValue"])
+def js_varAssign(gast, out_lang):
+    value = value_to_str(gast["varValue"], out_lang)
     return "const " + gast["varId"] + " = " + value
 
 out = {
@@ -65,7 +69,9 @@ def gast_router(gast, out_lang):
         return body(gast["body"], out_lang)
 
     elif gast["type"] == "logStatement":
-        return out["logStatement"][out_lang](gast)
+        return out["logStatement"][out_lang](gast, out_lang)
 
     elif gast["type"] == "varAssign":
-        return out["varAssign"][out_lang](gast)
+        return out["varAssign"][out_lang](gast, out_lang)
+
+print(gast_router({'type': 'root', 'body': [{'type': 'varAssign', 'varId': 'x', 'varValue': True}]}, 'py'))
