@@ -17,6 +17,8 @@ def body(gast_list, out_lang):
 def list_to_csv_str(l):
     s = ""
     for i in l:
+        if type(i) == str:
+            i = '"' + i + '"'
         s += str(i) + ", "
     
     return s[:-2] # remove last comma and space
