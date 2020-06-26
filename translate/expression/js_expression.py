@@ -1,26 +1,6 @@
 import js_helpers
 import js_router
 
-"""
-Takes javascript expressions and converts them to the generic
-ast format
-"""
-def jsexpr_to_gast(node):
-    gast = {}
-    if node.type == "CallExpression":
-        # handle callee
-        if node.callee.type == "MemberExpression":
-            if (js_helpers.memExp_to_str(node.callee) == "console.log"):
-                gast["type"] = "logStatement"
-            else:
-                gast["type"] = "customStatement"
-        else:
-            gast["type"] = "customStatement"
-
-        # handle args
-        gast["args"] = js_helpers.jsargs_to_strlist(node.arguments)
-    return gast
-
 def convert_expression_to_gast(node):
     return js_router.node_to_gast(node.expression)
 

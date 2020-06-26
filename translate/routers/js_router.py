@@ -16,9 +16,9 @@ def node_to_gast(node):
         # must check bool first since bool is instance of int
         if isinstance(node.value, bool):
             if node.raw == "true":
-                node.value = 0
-            else:
                 node.value = 1
+            else:
+                node.value = 0
             return {"type": "bool", "value": node.value}
         elif isinstance(node.value, int):
             return {"type": "num", "value": node.value}
@@ -33,7 +33,7 @@ def node_to_gast(node):
         return js_helpers.binOp_to_str(node)
     #statements
     elif node.type == "VariableDeclaration":
-        return js_assign.jsassign_to_gast(node.declarations)
+        return js_assign.jsassign_to_gast(node)
     elif node.type == "ExpressionStatement":
         return js_expression.convert_expression_to_gast(node)
     elif node.type == "CallExpression":

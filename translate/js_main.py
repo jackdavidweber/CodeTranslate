@@ -19,4 +19,4 @@ def js_to_gast(js_input):
     #except:
      #  return "Error: code could not compile"
 
-print(js_to_gast("['hello', [1, 2]]"))
+print(js_to_gast("console.log(true)"))
