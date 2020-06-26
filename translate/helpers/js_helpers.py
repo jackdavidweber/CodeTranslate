@@ -54,6 +54,7 @@ def binOp(bop):
       gast["right"] = js_router.node_to_gast(bop.right)
   return gast
 
+# TODO: address gharel comment https://github.com/jackdavidweber/cjs_capstone/pull/32#discussion_r446407392
 def boolOp(node):
     gast = {"type": "boolOp"}
     if node.left.type != "LogicalExpression" and node.right.type != "LogicalExpression":
