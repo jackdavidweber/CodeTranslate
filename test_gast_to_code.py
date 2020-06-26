@@ -34,6 +34,21 @@ gast_arr = {
 		]
 }
 
+gast_logStatement_bool = {
+            "type": "root",
+            "body": [
+                {
+                    "type": "logStatement",
+                    "args": [
+                        {
+                            "type": "bool",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        }
+
 gast_logStatement = {
             "type": "root",
             "body": [
@@ -123,6 +138,9 @@ class TestGastToCode(unittest2.TestCase):
 
 
     # test logStatement
+    def test_js_logStatement_bool (self):
+        self.assertEqual('console.log(false)', gtc.gast_router(gast_logStatement_bool, "js"))
+
     def test_js_logStatement_two_arguments(self):
         self.assertEqual('console.log("hello world", 5)', gtc.gast_router(gast_logStatement, "js"))
 
