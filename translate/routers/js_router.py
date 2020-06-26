@@ -30,7 +30,9 @@ def node_to_gast(node):
         # identifier has quotes around name
         return node.name
     elif node.type == "BinaryExpression":
-        return js_helpers.binOp_to_str(node)
+        return js_helpers.binOp(node)
+    elif node.type == "LogicalExpression":
+        return js_helpers.boolOp(node)
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.jsassign_to_gast(node)
@@ -46,6 +48,7 @@ def node_to_gast(node):
         return js_helpers.js_array_expression(node)
     else:
         # not supported
+        print(node.type)
         return "No match"
 
 

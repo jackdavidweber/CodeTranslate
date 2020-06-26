@@ -36,23 +36,39 @@ def program_to_gast(node):
     return gast
 
 """
-converts a python ast BinOp and converts it to a readable string recursively 
+converts a python ast BinOp and converts it to a gast node
 """
-def binOp_to_str(bop):
+def binOp(bop):
   gast = {"type" : "binOp"}
   if bop.left.type != "BinaryExpression" and bop.right.type != "BinaryExpression":
       gast["left"] = js_router.node_to_gast(bop.left)
-      gast["operator"] = bop.operator
+      gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   if bop.left.type == "BinaryExpression":
-      gast["left"] = binOp_to_str(bop.left)
-      gast["operator"] = bop.operator
+      gast["left"] = binOp(bop.left)
+      gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   if bop.right.type == "BinaryExpression":
-      gast["left"] = binOp_to_str(bop.left)
-      gast["operator"] = bop.operator
+      gast["left"] = binOp(bop.left)
+      gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   return gast
+
+def boolOp(node):
+    gast = {"type": "boolOp"}
+    if node.left.type != "LogicalExpression" and node.right.type != "LogicalExpression":
+        gast["left"] = js_router.node_to_gast(node.left)
+        gast["op"] = node.operator
+        gast["right"] = js_router.node_to_gast(node.right)
+    elif node.left.type == "LogicalExpression":
+        gast["left"] = boolOp(node.left)
+        gast["op"] = node.operator
+        gast["right"] = js_router.node_to_gast(node.right)
+    elif node.right.type == "LogicalExpression":
+        gast["left"] = js_router.node_to_gast(node.left)
+        gast["op"] = node.operator
+        gast["right"] = boolOp(node.right)
+    return gast
 
 """
 Converts Member Expression and converts to readable string recursively
