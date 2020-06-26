@@ -34,9 +34,9 @@ gast_arr = {
 		]
 }
 
-gast_binOp_add = {'type': 'root', 'body': [{'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}]}
+gast_binOp_add = {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}
 
-gast_binOp_add_sub_mult_div = {'type': 'root', 'body': [{'type': 'binOp', 'op': '-', 'left': {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 1}, 'right': {'type': 'num', 'value': 2}}, 'right': {'type': 'binOp', 'op': '/', 'left': {'type': 'binOp', 'op': '*', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}, 'right': {'type': 'num', 'value': 5}}}]}
+gast_binOp_add_sub_mult_div = {'type': 'binOp', 'op': '-', 'left': {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 1}, 'right': {'type': 'num', 'value': 2}}, 'right': {'type': 'binOp', 'op': '/', 'left': {'type': 'binOp', 'op': '*', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}, 'right': {'type': 'num', 'value': 5}}}
 
 gast_logStatement_bool = {
             "type": "root",
@@ -145,7 +145,7 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('3+4', gtc.gast_router(gast_binOp_add, "js"))
 
     def test_binOp_add_sub_mult_divb (self):
-        self.assertEqual('1 +2-3*4/5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
+        self.assertEqual('1+2-3*4/5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
         self.assertEqual('1+2-3*4/5', gtc.gast_router(gast_binOp_add_sub_mult_div, "js"))
 
     # test logStatement
