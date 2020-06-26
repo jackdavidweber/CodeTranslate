@@ -16,7 +16,6 @@ def list_helper(gast_list, out_lang, btwn_str = ", "):
         
 
 def binOp_helper(gast, out_lang):
-    op = " " + str(gast["op"]) + " "
     left = gast_router(gast["left"], out_lang)
     right = gast_router(gast["right"], out_lang)
 
