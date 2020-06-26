@@ -1,36 +1,45 @@
 import sys
 import ast
-import helpers.py_helpers as h
-import py_expression as e
-import py_assign as a
+import helpers.py_helpers as helpers
+import py_expression as expression
+import py_assign as assign
 
+"""
+router that all nodes in the python AST are passed through recursively
+"""
 def node_to_gast(node):
     # Base Cases
     if type(node) == ast.Str:
-        return node.s
+        return helpers.string(node)
     elif type(node) == ast.Num:
-        return node.n
+        return helpers.num(node)
+    elif type(node) == ast.NameConstant:
+        return helpers.boolean(node)
 
-    # Base Cases with embedded recursion / if statements
-    elif type(node) == ast.BinOp: #FIXME: I treat this as a base case even though there are if statements inside.
-        return h.binOp_to_str(node)
-    elif type(node) == ast.Name:
-        return e.name(node)
-
-    # List of Nodes to list of gast
-    elif type(node) == list:
-        return h.node_list(node)
-
-    # Other
+    # Helpers
     elif type(node) == ast.Module:
-        return h.module(node)
+        return helpers.module(node)
+    elif type(node) == ast.BinOp:
+        return helpers.binOp(node)
+    elif type(node) == ast.BoolOp:
+        return helpers.boolOp(node)
+    elif type(node) == ast.List:
+        return helpers.array(node)
+    elif type(node) == list:
+        return helpers.node_list(node)
 
+    # Expressions
+    elif type(node) == ast.Name:
+        return expression.name(node)
     elif type(node) == ast.Expr:
-        return e.expr(node)
-    elif type(node) == ast.Assign:
-        return a.assign(node)
+        return expression.expr(node)
     elif type(node) == ast.Call:
-        return e.call(node)
+        return expression.call(node)
+
+    # Assigns
+    elif type(node) == ast.Assign:
+        return assign.assign(node)
+
     else:
         print("nothing hit")
         return "nothing hit"
