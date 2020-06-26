@@ -6,15 +6,21 @@ def value_to_str(val):
     else:
         return str(val)
 
-def list_helper(gast_list, out_lang):
+"""
+Helper for lists of gast
+Default is to put comma and space btwn each stringified gast
+    i.e. list_helper({str_gast}, {str_gast}, out_lang) --> str, str
+Can specify different btwn string with third parameter
+    i.e. list_helper({str_gast}, {str_gast}, out_lang, "**") --> str**str
+"""
+def list_helper(gast_list, out_lang, btwn_str = ", "):
     out = ""
     for gast in gast_list:
         out += gast_router(gast, out_lang)
-        out += "\n"
+        out += btwn_str
     
-    return out[:-1] # remove \nS
-
-
+    num_btwn_chars = len(btwn_str)
+    return out[:-num_btwn_chars] # remove \nS
         
 
 def list_to_csv_str(l):
@@ -90,6 +96,8 @@ def gast_router(gast, out_lang):
     # Primitives
     if gast["type"] == "num":
         return str(gast["value"])
+    if gast["type"] == "arr":
+        return gast_router(gast["elts"], out_lang)
     if gast["type"] == "str":
         return '"' + gast["value"] + '"'
     if gast["type"] == "bool":
@@ -99,7 +107,7 @@ def gast_router(gast, out_lang):
 
     #Other
     if gast["type"] == "root":
-        return gast_router(gast["body"], out_lang)
+        return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
 
@@ -125,13 +133,17 @@ new_gast_log = {
                         {
                             "type": "str",
                             "value": "hello world"
+                        },
+                        {
+                            "type": "num",
+                            "value": 5
                         }
                     ]
                 }
             ]
         }
 
-new_gast_assign = {
+new_gast_log_assign = {
 	"type": "root",
 	"body": [
 		{
@@ -143,10 +155,48 @@ new_gast_assign = {
                     "type": "num",
                     "value": 5
                 }
+        },
+        {
+            "type": "logStatement",
+            "args": [
+                {
+                    "type": "str",
+                    "value": "hello world"
+                },
+                {
+                    "type": "num",
+                    "value": 5
+                }
+            ]
         }
 		]
 }
 
+new_gast_arr = {
+	"type": "arr",
+	"elts": 
+		[
+            {
+                "type": "str",
+                "value": "hello"
+            },
+            {
+                "type": "arr",
+                "elts":
+                    [
+                        {
+                            "type": "num",
+                            "value": 1
+                        },
+                        {
+                            "type": "num",
+                            "value": 2
+                        }
+                    ]
+            }
+		]
+}
 
 
-print(gast_router(new_gast_log, "js"))
+print(gast_router(new_gast_log_assign, "py"))
+# print(gast_router(new_gast_arr, "js"))
