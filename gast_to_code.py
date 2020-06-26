@@ -28,21 +28,24 @@ def list_to_csv_str(l):
 
 # py_specific_helpers
 def py_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+    arg_string = gast_router(gast["args"],"py")
     return "print(" + arg_string + ")"
 
 def py_varAssign(gast):
-    value = value_to_str(gast["varValue"])
+    value = gast_router(gast["varValue"], "py")
     return gast["varId"] + " = " + value
 
 # js_specific_helpers
 def js_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+    arg_string = gast_router(gast["args"],"py")
     return "console.log(" + arg_string + ")"
 
 def js_varAssign(gast):
-    value = value_to_str(gast["varValue"])
-    return "const " + gast["varId"] + " = " + value
+    kind = gast["kind"]
+    varId = gast["varId"]
+    varValue = gast_router(gast["varValue"], "js")
+    
+    return kind + " " + varId + " = " + varValue
 
 def py_bool(gast):
     if gast["value"] == 1:
@@ -81,6 +84,9 @@ javascript: js
 python: py
 """
 def gast_router(gast, out_lang):
+    if type(gast) == list:
+        return list_helper(gast, out_lang)
+
     # Primitives
     if gast["type"] == "num":
         return str(gast["value"])
@@ -89,9 +95,11 @@ def gast_router(gast, out_lang):
     if gast["type"] == "bool":
         return out["bool"][out_lang](gast)
 
+    # commonly used
+
     #Other
     if gast["type"] == "root":
-        return list_helper(gast["body"], out_lang)
+        return gast_router(gast["body"], out_lang)
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
 
@@ -108,7 +116,7 @@ old_gast = {
             ]   
         }
 
-new_gast = {
+new_gast_log = {
             "type": "root",
             "body": [
                 {
@@ -123,5 +131,22 @@ new_gast = {
             ]
         }
 
+new_gast_assign = {
+	"type": "root",
+	"body": [
+		{
+			"type": "varAssign",
+			"kind": "let",
+			"varId": "x",
+            "varValue": 
+                {
+                    "type": "num",
+                    "value": 5
+                }
+        }
+		]
+}
 
-print(gast_router(old_gast, "py"))
+
+
+print(gast_router(new_gast_log, "js"))
