@@ -25,7 +25,7 @@ def py_varAssign(gast):
 
 # js_specific_helpers
 def js_logStatement(gast):
-    arg_string = gast_router(gast["args"],"py")
+    arg_string = gast_router(gast["args"],"js")
     return "console.log(" + arg_string + ")"
 
 def js_varAssign(gast):
