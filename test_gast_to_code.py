@@ -5,6 +5,10 @@ gast_str = { "type": "str", "value": "hello world" }
 
 gast_num = { "type": "num", "value": 47.47 }
 
+gast_true = {"type": "bool", "value": 1}
+
+gast_false = {"type": "bool", "value": 0}
+
 gast_arr = {
 	"type": "arr",
 	"elts": 
@@ -95,10 +99,22 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('"hello world"', gtc.gast_router(gast_str, "py"))
         self.assertEqual('"hello world"', gtc.gast_router(gast_str, "js"))
 
-
     def test_primitive_num(self):
         self.assertEqual('47.47', gtc.gast_router(gast_num,"py"))
         self.assertEqual('47.47', gtc.gast_router(gast_num,"js"))
+
+    def test_primitive_true_js (self):
+        self.assertEqual('true', gtc.gast_router(gast_true, "js"))
+
+    def test_primitive_false_js (self):
+        self.assertEqual('false', gtc.gast_router(gast_false, "js"))
+
+    def test_primitive_true_py (self):
+        self.assertEqual('True', gtc.gast_router(gast_true, "py"))
+
+    def test_primitive_false_py (self):
+        self.assertEqual('False', gtc.gast_router(gast_false, "py"))
+
 
     # test other types
     def test_nested_arr(self):
