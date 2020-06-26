@@ -33,6 +33,7 @@ def node_to_gast(node):
     elif node.type == "ArrayExpression":
         return js_helpers.jsarg_to_str(node)
     else:
+        # not supported
         return "No match"
 
 
