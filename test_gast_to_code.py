@@ -165,10 +165,10 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('True && False', gtc.gast_router(gast_boolOp_and, "js"))
 
     def test_boolOp_or_and_py (self):
-        self.assertEqual('True and False', gtc.gast_router(gast_boolOp_or_and, "py"))
+        self.assertEqual('True or False and 4', gtc.gast_router(gast_boolOp_or_and, "py"))
 
     def test_boolOp_or_and_js (self):
-        self.assertEqual('True && False', gtc.gast_router(gast_boolOp_or_and, "js"))
+        self.assertEqual('True or False and 4', gtc.gast_router(gast_boolOp_or_and, "js"))
 
     # test logStatement
     def test_js_logStatement_bool (self):
