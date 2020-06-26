@@ -13,7 +13,19 @@ def node_to_gast(node):
         return js_helpers.node_list(node)
     # base cases
     if node.type == "Literal":
-        return node.value
+        # must check bool first since bool is instance of int
+        if isinstance(node.value, bool):
+            if node.raw == "true":
+                node.value = 0
+            else:
+                node.value = 1
+            return {"type": "bool", "value": node.value}
+        elif isinstance(node.value, int):
+            return {"type": "num", "value": node.value}
+        elif isinstance(node.value, str):
+            return {"type": "str", "value": node.value}
+        else:
+            return "Unsupported prim"
     elif node.type == "Identifier":
         # identifier has quotes around name
         return node.name
@@ -31,7 +43,7 @@ def node_to_gast(node):
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
-        return js_helpers.jsarg_to_str(node)
+        return js_helpers.js_array_expression(node)
     else:
         # not supported
         return "No match"

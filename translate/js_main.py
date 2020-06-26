@@ -13,10 +13,10 @@ import js_router
 takes js string and converts it to a generic AST
 """
 def js_to_gast(js_input):
-    try:
+    #try:
         input_ast = esprima.parseScript(js_input, {"tokens": False})
         return js_router.node_to_gast(input_ast)
-    except:
-        return "Error: code could not compile"
+    #except:
+     #  return "Error: code could not compile"
 
-#print(js_to_gast("x.+"))
+print(js_to_gast("['hello', [1, 2]]"))

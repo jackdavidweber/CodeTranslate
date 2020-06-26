@@ -17,6 +17,12 @@ def jsarg_to_str(arg):
   else:
     return ""
 
+def js_array_expression(node):
+    gast = {"type" : "arr"}
+    gast["elts"] = []
+    for elm in node.elements:
+        gast["elts"].append(js_router.node_to_gast(elm))
+    return gast
 """
 takes ast node of type program and returns
 a generic ast for that node
