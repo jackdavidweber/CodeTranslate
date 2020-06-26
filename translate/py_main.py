@@ -12,9 +12,9 @@ import py_router
 takes pyton code and converts it to a node
 node is then dealt with by node_to_gast 
 """
-def py_to_gast(python_input):
-    try:
-      input_ast = ast.parse(python_input)
-      return py_router.node_to_gast(input_ast)
-    except:
-      return "Error: code could not compile"
+def py_to_gast(python_input): 
+  try:
+    input_ast = ast.parse(python_input)
+    return py_router.node_to_gast(input_ast)
+  except:
+    return "Error: code could not compile"
