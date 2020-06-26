@@ -1,4 +1,5 @@
 import sys
+from flask import abort
 
 sys.path.append('translate')
 sys.path.append('translate/assign')
@@ -20,6 +21,7 @@ return: string representing output code or error message
 def main(input_code, input_lang, output_lang):
     # TODO: eventually replace this with 400 error
     if input_lang == None and output_lang == None:
+        abort(400, "Error: must specify input and output languages")
         input_lang = "js"
         output_lang = "py"
 
@@ -32,6 +34,10 @@ def main(input_code, input_lang, output_lang):
         #TODO: figure out hwo to do error messages
         return "Error must specify language. For example, js for javascript and py for python"
 
+
+    if (type(gast) == str) :
+        # return error if gast not built
+        return "Error: did not compile"
     output_code = gtc.gast_router(gast, output_lang)
 
     return output_code

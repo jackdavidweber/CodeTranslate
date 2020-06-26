@@ -24,7 +24,6 @@ class Translate(Resource):
         output_lang = args['out_lang']
 
         output_code = main(input_code, input_lang, output_lang)
-
         return {'response': output_code}
 
 api.add_resource(Translate, '/')
