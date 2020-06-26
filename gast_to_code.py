@@ -14,6 +14,14 @@ def list_helper(gast_list, out_lang, btwn_str = ", "):
     num_btwn_chars = len(btwn_str)
     return out[:-num_btwn_chars] # remove \nS
         
+
+def binOp_helper(gast, out_lang):
+    op = " " + str(gast["op"]) + " "
+    left = gast_router(gast["left"], out_lang)
+    right = gast_router(gast["right"], out_lang)
+
+    return left + gast["op"] + right
+
 # py_specific_helpers
 def py_logStatement(gast):
     arg_string = gast_router(gast["args"],"py")
@@ -84,14 +92,13 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
 
-    # commonly used
-
     #Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
-
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    elif gast["type"] == "binOp":
+        return binOp_helper(gast, out_lang)
 
