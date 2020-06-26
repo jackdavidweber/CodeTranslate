@@ -17,6 +17,12 @@ def jsarg_to_str(arg):
   else:
     return ""
 
+def js_array_expression(node):
+    gast = {"type" : "arr"}
+    gast["elts"] = []
+    for elm in node.elements:
+        gast["elts"].append(js_router.node_to_gast(elm))
+    return gast
 """
 takes ast node of type program and returns
 a generic ast for that node
@@ -30,15 +36,40 @@ def program_to_gast(node):
     return gast
 
 """
-converts a python ast BinOp and converts it to a readable string recursively 
+converts a python ast BinOp and converts it to a gast node
 """
-def binOp_to_str(bop):
+def binOp(bop):
+  gast = {"type" : "binOp"}
+  if bop.left.type != "BinaryExpression" and bop.right.type != "BinaryExpression":
+      gast["left"] = js_router.node_to_gast(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
   if bop.left.type == "BinaryExpression":
-    s = binOp_to_str(bop.left) + bop.operator + bop.right.raw
-  else:
-    # base case: if left is just a number, operate on left wrt right
-    s = bop.left.raw + bop.operator + bop.right.raw
-  return s
+      gast["left"] = binOp(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  if bop.right.type == "BinaryExpression":
+      gast["left"] = binOp(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  return gast
+
+# TODO: address gharel comment https://github.com/jackdavidweber/cjs_capstone/pull/32#discussion_r446407392
+def boolOp(node):
+    gast = {"type": "boolOp"}
+    if node.left.type != "LogicalExpression" and node.right.type != "LogicalExpression":
+        gast["left"] = js_router.node_to_gast(node.left)
+        gast["op"] = node.operator
+        gast["right"] = js_router.node_to_gast(node.right)
+    elif node.left.type == "LogicalExpression":
+        gast["left"] = boolOp(node.left)
+        gast["op"] = node.operator
+        gast["right"] = js_router.node_to_gast(node.right)
+    elif node.right.type == "LogicalExpression":
+        gast["left"] = js_router.node_to_gast(node.left)
+        gast["op"] = node.operator
+        gast["right"] = boolOp(node.right)
+    return gast
 
 """
 Converts Member Expression and converts to readable string recursively
