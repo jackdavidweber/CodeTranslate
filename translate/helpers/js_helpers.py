@@ -39,12 +39,20 @@ def program_to_gast(node):
 converts a python ast BinOp and converts it to a readable string recursively 
 """
 def binOp_to_str(bop):
+  gast = {"type" : "binOp"}
+  if bop.left.type != "BinaryExpression" and bop.right.type != "BinaryExpression":
+      gast["left"] = js_router.node_to_gast(bop.left)
+      gast["operator"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
   if bop.left.type == "BinaryExpression":
-    s = binOp_to_str(bop.left) + bop.operator + bop.right.raw
-  else:
-    # base case: if left is just a number, operate on left wrt right
-    s = bop.left.raw + bop.operator + bop.right.raw
-  return s
+      gast["left"] = binOp_to_str(bop.left)
+      gast["operator"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  if bop.right.type == "BinaryExpression":
+      gast["left"] = binOp_to_str(bop.left)
+      gast["operator"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  return gast
 
 """
 Converts Member Expression and converts to readable string recursively
