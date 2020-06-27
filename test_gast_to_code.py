@@ -147,28 +147,28 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('["hello", [1, 2]]', gtc.gast_router(gast_arr, "js"))
 
     def test_binOp_add (self):
-        self.assertEqual('3+4', gtc.gast_router(gast_binOp_add, "py"))
-        self.assertEqual('3+4', gtc.gast_router(gast_binOp_add, "js"))
+        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "py"))
+        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "js"))
 
     def test_binOp_bitwise (self):
-        self.assertEqual('1&3', gtc.gast_router(gast_binOp_bitwise, "py"))
-        self.assertEqual('1&3', gtc.gast_router(gast_binOp_bitwise, "js"))
+        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "py"))
+        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "js"))
 
     def test_binOp_add_sub_mult_div (self):
-        self.assertEqual('1+2-3*4/5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
-        self.assertEqual('1+2-3*4/5', gtc.gast_router(gast_binOp_add_sub_mult_div, "js"))
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "js"))
 
     def test_boolOp_and_py (self):
         self.assertEqual('True and False', gtc.gast_router(gast_boolOp_and, "py"))
 
     def test_boolOp_and_js (self):
-        self.assertEqual('True && False', gtc.gast_router(gast_boolOp_and, "js"))
+        self.assertEqual('true && false', gtc.gast_router(gast_boolOp_and, "js"))
 
     def test_boolOp_or_and_py (self):
         self.assertEqual('True or False and 4', gtc.gast_router(gast_boolOp_or_and, "py"))
 
     def test_boolOp_or_and_js (self):
-        self.assertEqual('True || False && 4', gtc.gast_router(gast_boolOp_or_and, "js"))
+        self.assertEqual('true || false && 4', gtc.gast_router(gast_boolOp_or_and, "js"))
 
     # test logStatement
     def test_js_logStatement_bool (self):
