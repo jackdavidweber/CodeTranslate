@@ -12,6 +12,7 @@ import js_main
 
 
 class test_js_to_gast_conditionals(unittest2.TestCase):
+    maxDiff = None
     def test_ifs(self):
         js_code = 'if (true) {\n\tconsole.log("This is true")\n}'
         expected_gast = {
@@ -62,7 +63,7 @@ class test_js_to_gast_conditionals(unittest2.TestCase):
                     'body': [
                         {
                         'type': 'logStatement', 
-                        'args': [{'type': 'str', 'value': '1 is NOT true'}]
+                        'args': [{'type': 'str', 'value': '2 is true'}]
                         },
                         {
                         'type': 'logStatement', 
