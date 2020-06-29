@@ -12,7 +12,8 @@ example print('hello'):
 """
 def call_expression_to_gast(node):
     gast = {}
-    gast["type"] = name_to_gast_label(js_router.node_to_gast(node.callee))
+    gast["type"] = "func" #name_to_gast_label(js_router.node_to_gast(node.callee))
+    gast["value"] = js_router.node_to_gast(node.callee)
     gast["args"] = js_router.node_to_gast(node.arguments)
     return gast
 

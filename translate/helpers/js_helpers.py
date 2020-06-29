@@ -75,13 +75,16 @@ def boolOp(node):
 Converts Member Expression and converts to readable string recursively
 Used for functions called on objects and std funcs like console.log
 """
-def memExp_to_str(node):
+def memExp(node):
   #base case: object is literal
-  if node.object.type == "MemberExpression":
-    s = memExp_to_str(node.object) + '.' + node.property.name
-  else:
-    s = node.object.name + '.' + node.property.name
-  return s
+  #if node.object.type == "MemberExpression":
+  #  s = memExp(node.object) + '.' + node.property.name
+  #else:
+  #  s = node.object.name + '.' + node.property.name
+  #return s
+  gast = {"type": "attribute", "id": node.property.name}
+  gast["value"] = js_router.node_to_gast(node.object)
+  return gast
 
 """
 takes list of arguments in js ast and converts them to a list of
