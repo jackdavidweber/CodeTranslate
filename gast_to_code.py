@@ -60,6 +60,10 @@ out = {
     "bool": {
         "py": py_bool,
         "js": js_bool,
+    },
+    "none": {
+        "py": "None",
+        "js": "null" # TODO look at undefined in JS 
     }
 }
 
@@ -85,7 +89,7 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
     elif gast["type"] == "none":
-        return "None" if out_lang == "py" else "null"
+        return out["none"][out_lang]
 
     # commonly used
 
