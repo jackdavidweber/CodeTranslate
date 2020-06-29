@@ -27,10 +27,10 @@ def node_to_gast(node):
         return helpers.array(node)
     elif type(node) == list:
         return helpers.node_list(node)
+    elif type(node) == ast.Name:
+        return helpers.name(node)
 
     # Expressions
-    elif type(node) == ast.Name:
-        return expression.name(node)
     elif type(node) == ast.Expr:
         return expression.expr(node)
     elif type(node) == ast.Call:

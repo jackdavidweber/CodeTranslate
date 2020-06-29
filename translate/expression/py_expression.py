@@ -25,16 +25,6 @@ def call(node):
     return gast
 
 """
-takes ast.name node from python ast and converts to string 
-represenation for the generic ast
-FIXME: this should prob be in helpers since it is also used by assign
-"""
-def name(node):
-    if node.id == "print":
-        return {"type": "logStatement"}
-    return {"type": "name", "value": node.id}   
-
-"""
 handles attributes for python expressions
 """
 def attribute(node):

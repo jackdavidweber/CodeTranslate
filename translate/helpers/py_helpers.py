@@ -113,3 +113,12 @@ def node_list(node):
         gast_list.append(pr.node_to_gast(node[i]))
 
     return gast_list
+
+"""
+takes ast.name node from python ast and converts to string 
+represenation for the generic ast
+"""
+def name(node):
+    if node.id == "print":
+        return {"type": "logStatement"}
+    return {"type": "name", "value": node.id}   
