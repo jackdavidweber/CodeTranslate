@@ -1,28 +1,15 @@
 import js_router
 
-#TODO: handling of booleans (have type literal)
-def jsarg_to_str(arg):
-  if arg.type == "Literal":
-    return arg.value
-  elif arg.type == "Identifier":
-    #identifier has quotes around name
-    return arg.name
-  elif arg.type == "BinaryExpression":
-    return binOp_to_str(arg)
-  elif arg.type == "ArrayExpression":
-    arg_list = []
-    for elm in arg.elements:
-        arg_list.append(jsarg_to_str(elm))
-    return arg_list
-  else:
-    return ""
-
+"""
+handles arrays and recursively calls node_to_gast on all its elements
+"""
 def js_array_expression(node):
     gast = {"type" : "arr"}
     gast["elts"] = []
     for elm in node.elements:
         gast["elts"].append(js_router.node_to_gast(elm))
     return gast
+
 """
 takes ast node of type program and returns
 a generic ast for that node
@@ -82,16 +69,6 @@ def memExp(node):
   gast = {"type": "attribute", "id": node.property.name}
   gast["value"] = js_router.node_to_gast(node.object)
   return gast
-
-"""
-takes list of arguments in js ast and converts them to a list of
-strings
-"""
-def jsargs_to_strlist(args):
-  out = []
-  for arg in args:
-    out.append(jsarg_to_str(arg))
-  return out
 
 """
 takes a node that represents a list of nodes.
