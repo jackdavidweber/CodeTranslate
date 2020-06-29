@@ -18,7 +18,7 @@ example print('hello'):
 """
 def call(node):
     gast = {}
-    gast["type"] = "func" #pr.node_to_gast(node.func)
+    gast["type"] = "func"
     gast["value"] = pr.node_to_gast(node.func)
     gast["args"] = pr.node_to_gast(node.args)
 
@@ -34,7 +34,9 @@ def name(node):
         return {"type": "logStatement"}
     return {"type": "name", "value": node.id}   
 
-
+"""
+handles attributes for python expressions
+"""
 def attribute(node):
     gast = {"type": "attribute", "id": node.attr}
     gast["value"] = pr.node_to_gast(node.value)
