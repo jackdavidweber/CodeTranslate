@@ -36,6 +36,18 @@ def js_varAssign(gast):
     
     return kind + " " + varId + " = " + varValue
 
+def py_functions(gast):
+    return gast_router(gast["value"], "py") + "(" + gast_router(gast["args"], "py") + ")"
+
+def js_functions(gast):
+    return gast_router(gast["value"], "js") + "(" + gast_router(gast["args"], "js") + ")"
+
+def py_attribute(gast):
+    return gast_router(gast["value"], "py") + "." + gast["id"] 
+
+def js_attribute(gast):
+    return gast_router(gast["value"], "js") + "." + gast["id"] 
+
 def py_bool(gast):
     if gast["value"] == 1:
         return "True"
@@ -60,6 +72,14 @@ out = {
     "bool": {
         "py": py_bool,
         "js": js_bool,
+    },
+    "func": {
+        "py": py_functions,
+        "js": js_functions
+    },
+    "attribute": {
+        "py": py_attribute,
+        "js": js_attribute
     }
 }
 
@@ -92,7 +112,14 @@ def gast_router(gast, out_lang):
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
-
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    
+    elif gast["type"] == "func":
+        return out["func"][out_lang](gast)
+    elif gast["type"] == "name":
+        return gast["value"]
+    elif gast["type"] == "attribute":
+        return out["attribute"][out_lang](gast)
+    
 
