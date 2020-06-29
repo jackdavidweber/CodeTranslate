@@ -1,45 +1,52 @@
-
-# general_helpers
-def value_to_str(val):
-    if type(val) == str:
-        return '"' + val + '"'
-    else:
-        return str(val)
-
-def body(gast_list, out_lang):
+"""
+Helper for lists of gast
+Default is to put comma and space btwn each stringified gast
+    i.e. list_helper({str_gast}, {str_gast}, out_lang) --> str, str
+Can specify different btwn string with third parameter
+    i.e. list_helper({str_gast}, {str_gast}, out_lang, "**") --> str**str
+"""
+def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     out = ""
-    for gast in gast_list:
-        out += gast_router(gast, out_lang)
-        out += "\n"
+    for i in range (0, len(gast_list)):
+        out += gast_router(gast_list[i], out_lang)
 
-    return out[:-1] # remove \nS
-
-def list_to_csv_str(l):
-    s = ""
-    for i in l:
-        if type(i) == str:
-            i = '"' + i + '"'
-        s += str(i) + ", "
+        if i< len(gast_list) - 1 : # don't add delimiter for last item
+            out += csv_delimiter
     
-    return s[:-2] # remove last comma and space
-
+    return out
+        
 # py_specific_helpers
 def py_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+    arg_string = gast_router(gast["args"],"py")
     return "print(" + arg_string + ")"
 
 def py_varAssign(gast):
-    value = value_to_str(gast["varValue"])
+    value = gast_router(gast["varValue"], "py")
     return gast["varId"] + " = " + value
 
 # js_specific_helpers
 def js_logStatement(gast):
-    arg_string = list_to_csv_str(gast["args"])
+    arg_string = gast_router(gast["args"],"js")
     return "console.log(" + arg_string + ")"
 
 def js_varAssign(gast):
-    value = value_to_str(gast["varValue"])
-    return "const " + gast["varId"] + " = " + value
+    kind = gast["kind"]
+    varId = gast["varId"]
+    varValue = gast_router(gast["varValue"], "js")
+    
+    return kind + " " + varId + " = " + varValue
+
+def py_bool(gast):
+    if gast["value"] == 1:
+        return "True"
+    else:
+        return "False"
+
+def js_bool(gast):
+    if gast["value"] == 1:
+        return "true"
+    else:
+        return "false"
 
 out = {
     "logStatement": {
@@ -49,6 +56,10 @@ out = {
     "varAssign": {
         "py": py_varAssign,
         "js": js_varAssign,
+    },
+    "bool": {
+        "py": py_bool,
+        "js": js_bool,
     }
 }
 
@@ -61,11 +72,27 @@ javascript: js
 python: py
 """
 def gast_router(gast, out_lang):
-    if gast["type"] == "root":
-        return body(gast["body"], out_lang)
+    if type(gast) == list:
+        return list_helper(gast, out_lang)
 
+    # Primitives
+    elif gast["type"] == "num":
+        return str(gast["value"])
+    elif gast["type"] == "arr":
+        return "[" + gast_router(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
+    elif gast["type"] == "str":
+        return '"' + gast["value"] + '"'
+    elif gast["type"] == "bool":
+        return out["bool"][out_lang](gast)
+
+    # commonly used
+
+    #Other
+    elif gast["type"] == "root":
+        return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
 
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+

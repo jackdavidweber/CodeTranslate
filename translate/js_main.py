@@ -18,5 +18,3 @@ def js_to_gast(js_input):
         return js_router.node_to_gast(input_ast)
     except:
         return "Error: code could not compile"
-
-#print(js_to_gast("x.+"))

@@ -11,6 +11,7 @@ example:
 def assign(node):
     gast = {}
     gast["type"] = "varAssign"
+    gast["kind"] = "let"
     gast["varId"] = pr.node_to_gast(node.targets[0]) # FIXME: understand when targets won't be 0
     gast["varValue"] = pr.node_to_gast(node.value)
 
