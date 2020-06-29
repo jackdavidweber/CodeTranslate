@@ -48,7 +48,7 @@ class test_py_to_gast_conditionals(unittest2.TestCase):
         self.assertEqual(expected_gast, py_main.py_to_gast(py_code))
    
     def test_elif(self):
-        py_code = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("1 is NOT true")\n\tprint("second line")\n'
+        py_code = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\n\tprint("second line")\n'
         expected_gast = {
             'type': 'root', 
             'body': [{
@@ -62,7 +62,7 @@ class test_py_to_gast_conditionals(unittest2.TestCase):
                     'body': [
                         {
                         'type': 'logStatement', 
-                        'args': [{'type': 'str', 'value': '1 is NOT true'}]
+                        'args': [{'type': 'str', 'value': '2 is true'}]
                         },
                         {
                         'type': 'logStatement', 
