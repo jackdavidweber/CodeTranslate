@@ -84,6 +84,8 @@ def gast_router(gast, out_lang):
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
+    elif gast["type"] == "none":
+        return "None" if out_lang == "py" else "null"
 
     # commonly used
 
