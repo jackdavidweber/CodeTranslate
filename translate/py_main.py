@@ -18,4 +18,3 @@ def py_to_gast(python_input):
     return py_router.node_to_gast(input_ast)
   except:
     return "Error: code could not compile"
-  

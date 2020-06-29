@@ -15,25 +15,14 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
         
-# py_specific_helpers
-def py_logStatement(gast):
-    arg_string = gast_router(gast["args"],"py")
-    return "print(" + arg_string + ")"
-
 def py_varAssign(gast):
     value = gast_router(gast["varValue"], "py")
-    return gast["varId"] + " = " + value
-
-# js_specific_helpers
-def js_logStatement(gast):
-    arg_string = gast_router(gast["args"],"js")
-    return "console.log(" + arg_string + ")"
+    return gast_router(gast["varId"], "py") + " = " + value
 
 def js_varAssign(gast):
     kind = gast["kind"]
-    varId = gast["varId"]
+    varId = gast_router(gast["varId"], "js")
     varValue = gast_router(gast["varValue"], "js")
-    
     return kind + " " + varId + " = " + varValue
 
 def py_functions(gast):
@@ -62,8 +51,8 @@ def js_bool(gast):
 
 out = {
     "logStatement": {
-        "py": py_logStatement,
-        "js": js_logStatement
+        "py": "print",
+        "js": "console.log"
     },
     "varAssign": {
         "py": py_varAssign,
@@ -111,7 +100,7 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
-        return out["logStatement"][out_lang](gast)
+        return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
     

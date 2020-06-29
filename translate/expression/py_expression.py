@@ -30,9 +30,8 @@ represenation for the generic ast
 FIXME: this should prob be in helpers since it is also used by assign
 """
 def name(node):
-    #FIXME: prob going to have type issues since logstatement is very different than node.id
-    #if node.id == "print":
-    #    return "logStatement"
+    if node.id == "print":
+        return {"type": "logStatement"}
     return {"type": "name", "value": node.id}   
 
 
