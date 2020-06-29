@@ -1,7 +1,7 @@
 import unittest2
 import main
 
-class TestLogStatement(unittest2.TestCase):
+class TestConditionals(unittest2.TestCase):
     def test_if(self):
         js_code = 'if (true) {\n\tconsole.log("This is true")\n}'
         py_code = 'if (True):\n\tprint("This is true")'
