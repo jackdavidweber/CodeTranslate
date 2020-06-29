@@ -35,6 +35,8 @@ def node_to_gast(node):
         return expression.expr(node)
     elif type(node) == ast.Call:
         return expression.call(node)
+    elif type(node) == ast.Attribute:
+        return expression.attribute(node)
 
     # Assigns
     elif type(node) == ast.Assign:

@@ -18,7 +18,8 @@ example print('hello'):
 """
 def call(node):
     gast = {}
-    gast["type"] = pr.node_to_gast(node.func)
+    gast["type"] = "func" #pr.node_to_gast(node.func)
+    gast["value"] = pr.node_to_gast(node.func)
     gast["args"] = pr.node_to_gast(node.args)
 
     return gast
@@ -30,7 +31,12 @@ FIXME: this should prob be in helpers since it is also used by assign
 """
 def name(node):
     #FIXME: prob going to have type issues since logstatement is very different than node.id
-    if node.id == "print":
-        return "logStatement"
-    else:
-        return node.id      
+    #if node.id == "print":
+    #    return "logStatement"
+    return {"type": "name", "value": node.id}   
+
+
+def attribute(node):
+    gast = {"type": "attribute", "id": node.attr}
+    gast["value"] = pr.node_to_gast(node.value)
+    return gast
