@@ -14,40 +14,11 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
             out += csv_delimiter
     
     return out
-        
+
+# assign helpers
 def gast_to_py_varAssign(gast):
     value = gast_to_node_router(gast["varValue"], "py")
     return gast_to_node_router(gast["varId"], "py") + " = " + value
-
-def gast_to_node_binOp_helper(gast, out_lang):
-    op = " " + str(gast["op"]) + " "
-    left = gast_to_node_router(gast["left"], out_lang)
-    right = gast_to_node_router(gast["right"], out_lang)
-
-    return left + op + right
-
-# py_specific_helpers
-def gast_to_py_logStatement(gast):
-    arg_string = gast_to_node_router(gast["args"],"py")
-    return "print(" + arg_string + ")"
-
-def gast_to_py_bool(gast):
-    if gast["value"] == 1:
-        return "True"
-    else:
-        return "False"
-
-def gast_to_py_boolOp(gast):
-    op = " and " if gast["op"] == "&&" else " or "
-    left = gast_to_node_router(gast["left"], "py")
-    right = gast_to_node_router(gast["right"], "py")
-
-    return left + op + right
-
-# js_specific_helpers
-def gast_to_js_logStatement(gast):
-    arg_string = gast_to_node_router(gast["args"],"js")
-    return "console.log(" + arg_string + ")"
 
 def gast_to_js_varAssign(gast):
     kind = gast["kind"]
@@ -55,6 +26,7 @@ def gast_to_js_varAssign(gast):
     varValue = gast_to_node_router(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
+# expression helpers
 def gast_to_py_functions(gast):
     return gast_to_node_router(gast["value"], "py") + "(" + gast_to_node_router(gast["args"], "py") + ")"
 
@@ -67,6 +39,40 @@ def gast_to_py_attribute(gast):
 def gast_to_js_attribute(gast):
     return gast_to_node_router(gast["value"], "js") + "." + gast["id"] 
 
+def gast_to_py_logStatement(gast):
+    arg_string = gast_to_node_router(gast["args"],"py")
+    return "print(" + arg_string + ")"
+
+def gast_to_js_logStatement(gast):
+    arg_string = gast_to_node_router(gast["args"],"js")
+    return "console.log(" + arg_string + ")"
+
+
+# Operation helpers
+def gast_to_node_binOp_helper(gast, out_lang):
+    op = " " + str(gast["op"]) + " "
+    left = gast_to_node_router(gast["left"], out_lang)
+    right = gast_to_node_router(gast["right"], out_lang)
+
+    return left + op + right
+
+def gast_to_py_boolOp(gast):
+    op = " and " if gast["op"] == "&&" else " or "
+    left = gast_to_node_router(gast["left"], "py")
+    right = gast_to_node_router(gast["right"], "py")
+
+    return left + op + right
+
+def gast_to_js_boolOp(gast):
+    return binOp_helper(gast, "js")
+
+def gast_to_py_unaryOp(gast):
+    return "not " + gast_to_node_router(gast["arg"], "py")
+
+def gast_to_js_unaryOp(gast):
+    return "!" + gast_to_node_router(gast["arg"], "js")
+
+# Boolean helpers
 def gast_to_py_bool(gast):
     if gast["value"] == 1:
         return "True"
@@ -79,6 +85,7 @@ def gast_to_js_bool(gast):
     else:
         return "false"
 
+# Conditional helpers
 def gast_to_py_if(gast):
     test = gast_to_node_router(gast["test"], "py")
     body = list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
@@ -111,15 +118,6 @@ def gast_to_js_if(gast):
 
     return out
 
-  
-def gast_to_js_boolOp(gast):
-    return binOp_helper(gast, "js")
-
-def gast_to_py_unaryOp(gast):
-    return "not " + gast_to_node_router(gast["arg"], "py")
-
-def gast_to_js_unaryOp(gast):
-    return "!" + gast_to_node_router(gast["arg"], "js")
 
 out = {
     "logStatement": {
