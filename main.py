@@ -4,6 +4,7 @@ from flask import abort
 sys.path.append('translate')
 sys.path.append('translate/assign')
 sys.path.append('translate/expression')
+sys.path.append('translate/conditional')
 sys.path.append('translate/helpers')
 sys.path.append('translate/routers')
 

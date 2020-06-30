@@ -209,6 +209,26 @@ class TestGastToCode(unittest2.TestCase):
     def test_multi_body (self):
         self.assertEqual('x = 5\nx = 5', gtc.gast_router(gast_multi_body, "py"))
 
+    # TODO: add elif and else if tests once new way of doing logstatements are merged
+    def test_if (self):
+        input_gast = {
+            'type': 'root',
+            'body': [{
+                'type': 'if',
+                 'body': [{
+                     'type': 'logStatement',
+                     'args': [{'type': 'str', 'value': 'This is true'}]
+                    }],
+                'orelse': [],
+                'test': {'type': 'bool', 'value': 1}
+                }]
+            }
+        expected_js = 'if (true) {\n\tconsole.log("This is true")\n}'
+        # self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+
+        expected_py = 'if (True):\n\tprint("This is true")'
+        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+
 
 if __name__ == '__main__':
     unittest2.main()

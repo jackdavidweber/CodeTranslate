@@ -1,5 +1,6 @@
 import js_assign
 import js_expression
+import js_conditional
 import js_helpers
 import esprima
 
@@ -48,6 +49,11 @@ def node_to_gast(node):
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
         return js_helpers.js_array_expression(node)
+    elif node.type == "BlockStatement":
+        return js_helpers.js_block_statement(node)
+    # Conditionals
+    elif node.type == "IfStatement":
+        return js_conditional.if_statement(node)
     else:
         # not supported
         print(node.type)

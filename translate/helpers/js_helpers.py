@@ -85,3 +85,11 @@ def node_list(node):
     for i in range(0, len(node)):
         gast_list.append(js_router.node_to_gast(node[i]))
     return gast_list
+
+"""
+Seems like this block statement type is called
+whenever there are curly braces. Probably will need 
+to end up making this function more robust.
+"""
+def js_block_statement(node):
+  return js_router.node_to_gast(node.body)

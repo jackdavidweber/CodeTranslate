@@ -79,6 +79,39 @@ def js_bool(gast):
     else:
         return "false"
 
+def py_if(gast):
+    test = gast_router(gast["test"], "py")
+    body = list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
+
+    out = 'if (' + test + '):\n\t' + body
+
+    # orelse can either be empty, or be an elif or be an else
+    if len(gast["orelse"]) == 0:
+        pass
+    elif gast["orelse"][0]["type"] == "if":
+        out += "\nel" + gast_router(gast["orelse"], "py")
+    else:
+        out += "\nelse:\n\t" + list_helper(gast["orelse"], "py", "\n\t")
+
+    return out
+
+def js_if(gast):
+    test = gast_router(gast["test"], "js")
+    body = list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
+
+    out = 'if (' + test + ') {\n\t' + body + "\n}"
+
+    # orelse can either be empty, or be an elif or be an else
+    if len(gast["orelse"]) == 0:
+        pass
+    elif gast["orelse"][0]["type"] == "if":
+        out += " else " + gast_router(gast["orelse"], "js")
+    else:
+        out += " else {\n\t" + list_helper(gast["orelse"], "js", "\n\t") + "\n}"
+
+    return out
+
+  
 def js_boolOp(gast):
     return binOp_helper(gast, "js")
 
@@ -94,6 +127,10 @@ out = {
     "bool": {
         "py": py_bool,
         "js": js_bool,
+    },
+    "if": {
+        "py": py_if,
+        "js": js_if
     },
     "funcCall": {
         "py": py_functions,
@@ -134,6 +171,8 @@ def gast_router(gast, out_lang):
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
+    elif gast["type"] == "if":
+        return out["if"][out_lang](gast)
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
@@ -157,3 +196,65 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
 
+
+
+
+if_gast = {
+    'type': 'root',
+    'body': [{
+        'type': 'if',
+            'body': [{
+                'type': 'logStatement',
+                'args': [{'type': 'str', 'value': 'This is true'}]
+            }],
+        'orelse': [],
+        'test': {'type': 'bool', 'value': 1}
+        }]
+    }
+
+
+else_gast = {
+    'type': 'root', 
+    'body': [{
+        'type': 'if',
+        'body': [{
+                'type': 'logStatement', 
+                'args': [{'type': 'str', 'value': '1 is true'}]
+                }], 
+        'orelse': [{
+                    'type': 'logStatement',
+                    'args': [{'type': 'str', 'value': '1 is NOT true'}]
+                    }], 
+        'test': {'type': 'num', 'value': 1}
+        }]
+    }
+
+elif_gast = {
+    'type': 'root', 
+    'body': [{
+        'type': 'if', 
+        'body': [{
+            'type': 'logStatement', 
+            'args': [{'type': 'str', 'value': '1 is true'}]
+            }], 
+        'orelse': [{
+            'type': 'if', 
+            'body': [
+                {
+                'type': 'logStatement', 
+                'args': [{'type': 'str', 'value': '2 is true'}]
+                },
+                {
+                'type': 'logStatement', 
+                'args': [{'type': 'str', 'value': 'second line'}]
+                }
+            ], 
+            'orelse': [], 
+            'test': {'type': 'num', 'value': 2}
+            }], 
+        'test': {'type': 'num', 'value': 1}
+        }]
+    }     
+
+# print(gast_router(else_gast,"js"))
+# print(gast_router(elif_gast,"js"))
