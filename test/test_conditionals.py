@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('../cjs_capstone')
+
 import unittest2
 import main
 

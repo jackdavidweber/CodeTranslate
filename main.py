@@ -1,16 +1,16 @@
 import sys
 from flask import abort
 
-sys.path.append('translate')
-sys.path.append('translate/assign')
-sys.path.append('translate/expression')
-sys.path.append('translate/conditional')
-sys.path.append('translate/helpers')
-sys.path.append('translate/routers')
+sys.path.append('code_to_gast')
+sys.path.append('code_to_gast/assign')
+sys.path.append('code_to_gast/expression')
+sys.path.append('code_to_gast/conditional')
+sys.path.append('code_to_gast/helpers')
+sys.path.append('code_to_gast/routers')
 
 import js_main
 import py_main
-import gast_to_code as gtc
+import gast_to_code.gast_to_code_main as gtc
 
 """
 input_code: string representing input code
