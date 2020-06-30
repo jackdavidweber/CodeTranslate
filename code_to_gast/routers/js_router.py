@@ -33,9 +33,9 @@ def node_to_gast(node):
         # identifier has quotes around name
         return {"type": "name", "value": node.name}
     elif node.type == "BinaryExpression":
-        return js_helpers.binOp(node)
+        return js_helpers.binOp_to_gast(node)
     elif node.type == "LogicalExpression":
-        return js_helpers.boolOp(node)
+        return js_helpers.boolOp_to_gast(node)
     elif node.type == "UnaryExpression":
         return js_helpers.unary_to_gast(node)
     #statements
@@ -50,12 +50,12 @@ def node_to_gast(node):
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
-        return js_helpers.js_array_expression(node)
+        return js_helpers.js_array_expression_to_gast(node)
     elif node.type == "BlockStatement":
-        return js_helpers.js_block_statement(node)
+        return js_helpers.js_block_statement_to_gast(node)
     # Conditionals
     elif node.type == "IfStatement":
-        return js_conditional.if_statement(node)
+        return js_conditional.if_statement_to_gast(node)
     else:
         # not supported
         print(node.type)

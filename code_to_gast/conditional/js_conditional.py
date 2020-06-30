@@ -1,6 +1,6 @@
 import js_router as jr
 
-def if_statement(node):
+def if_statement_to_gast(node):
     gast = {}
     gast["type"] = "if"
 

@@ -8,7 +8,7 @@ example:
     exampleIn Assign(targets=[Name(id='x')], value=Num(n=5))
     exampleOut {'type': 'varAssign', 'kind': 'let', 'varId': {'type': 'name', 'value': 'x'}, 'varValue': 5}
 """
-def assign(node):
+def assign_to_gast(node):
     gast = {}
     gast["type"] = "varAssign"
     gast["kind"] = "let"
