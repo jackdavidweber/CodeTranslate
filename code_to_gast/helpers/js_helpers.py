@@ -93,3 +93,7 @@ to end up making this function more robust.
 """
 def js_block_statement(node):
   return js_router.node_to_gast(node.body)
+
+
+def unary_to_gast(node):
+    return {"type": "unaryOp", "op": node.operator, "value": js_router.node_to_gast(node.argument)}
