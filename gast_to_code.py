@@ -15,6 +15,14 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
         
+
+def binOp_helper(gast, out_lang):
+    op = " " + str(gast["op"]) + " "
+    left = gast_router(gast["left"], out_lang)
+    right = gast_router(gast["right"], out_lang)
+
+    return left + op + right
+
 # py_specific_helpers
 def py_logStatement(gast):
     arg_string = gast_router(gast["args"],"py")
@@ -23,6 +31,19 @@ def py_logStatement(gast):
 def py_varAssign(gast):
     value = gast_router(gast["varValue"], "py")
     return gast["varId"] + " = " + value
+
+def py_bool(gast):
+    if gast["value"] == 1:
+        return "True"
+    else:
+        return "False"
+
+def py_boolOp(gast):
+    op = " and " if gast["op"] == "&&" else " or "
+    left = gast_router(gast["left"], "py")
+    right = gast_router(gast["right"], "py")
+
+    return left + op + right
 
 # js_specific_helpers
 def js_logStatement(gast):
@@ -36,17 +57,14 @@ def js_varAssign(gast):
     
     return kind + " " + varId + " = " + varValue
 
-def py_bool(gast):
-    if gast["value"] == 1:
-        return "True"
-    else:
-        return "False"
-
 def js_bool(gast):
     if gast["value"] == 1:
         return "true"
     else:
         return "false"
+
+def js_boolOp(gast):
+    return binOp_helper(gast, "js")
 
 out = {
     "logStatement": {
@@ -60,6 +78,10 @@ out = {
     "bool": {
         "py": py_bool,
         "js": js_bool,
+    },
+    "boolOp": {
+        "py": py_boolOp,
+        "js": js_boolOp
     }
 }
 
@@ -85,14 +107,15 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
 
-    # commonly used
-
     #Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang](gast)
-
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    elif gast["type"] == "binOp":
+        return binOp_helper(gast, out_lang)
+    elif gast["type"] == "boolOp":
+        return out["boolOp"][out_lang](gast)
 
