@@ -19,7 +19,8 @@ class test_py_to_gast_conditionals(unittest2.TestCase):
             'body': [{
                 'type': 'if',
                  'body': [{
-                     'type': 'logStatement',
+                     'type': 'funcCall',
+                     'value': {'type': 'logStatement'},
                      'args': [{'type': 'str', 'value': 'This is true'}]
                     }],
                 'orelse': [],
@@ -35,11 +36,13 @@ class test_py_to_gast_conditionals(unittest2.TestCase):
             'body': [{
                 'type': 'if',
                 'body': [{
-                     'type': 'logStatement', 
+                     'type': 'funcCall',
+                     'value': {'type': 'logStatement'}, 
                      'args': [{'type': 'str', 'value': '1 is true'}]
                      }], 
                 'orelse': [{
-                         'type': 'logStatement',
+                         'type': 'funcCall',
+                         'value': {'type': 'logStatement'},
                          'args': [{'type': 'str', 'value': '1 is NOT true'}]
                          }], 
                 'test': {'type': 'num', 'value': 1}
@@ -54,18 +57,21 @@ class test_py_to_gast_conditionals(unittest2.TestCase):
             'body': [{
                 'type': 'if', 
                 'body': [{
-                    'type': 'logStatement', 
+                    'type': 'funcCall',
+                    'value': {'type': 'logStatement'}, 
                     'args': [{'type': 'str', 'value': '1 is true'}]
                     }], 
                 'orelse': [{
                     'type': 'if', 
                     'body': [
                         {
-                        'type': 'logStatement', 
+                        'type': 'funcCall',
+                        'value': {'type': 'logStatement'}, 
                         'args': [{'type': 'str', 'value': '2 is true'}]
                         },
                         {
-                        'type': 'logStatement', 
+                        'type': 'funcCall',
+                        'value': {'type': 'logStatement'}, 
                         'args': [{'type': 'str', 'value': 'second line'}]
                         }
                     ], 

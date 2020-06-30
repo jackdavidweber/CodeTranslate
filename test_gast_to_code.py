@@ -216,7 +216,8 @@ class TestGastToCode(unittest2.TestCase):
             'body': [{
                 'type': 'if',
                  'body': [{
-                     'type': 'logStatement',
+                     'type': 'funcCall',
+                     'value': {'type': 'logStatement'},
                      'args': [{'type': 'str', 'value': 'This is true'}]
                     }],
                 'orelse': [],
