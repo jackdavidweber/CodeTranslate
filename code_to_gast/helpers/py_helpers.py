@@ -59,12 +59,18 @@ def array(node):
 converts python ast operations to common string representation
 """
 def pyop_to_str(op):
-    m = {
-            ast.Add: "+", ast.Mult: "*", ast.Div: "/", ast.Sub: "-",
-            ast.BitAnd: "&", ast.BitOr: "|", ast.And: "&&", ast.Or: "||",
-            ast.Not: "!"
-        }
-    return m[type(op)]
+    op_to_str_map = {
+        ast.Add: "+", 
+        ast.Mult: "*", 
+        ast.Div: "/", 
+        ast.Sub: "-",
+        ast.BitAnd: "&", 
+        ast.BitOr: "|", 
+        ast.And: "&&", 
+        ast.Or: "||",
+        ast.Not: "!"
+    }
+    return op_to_str_map[type(op)]
 
 
 """
