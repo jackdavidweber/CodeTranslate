@@ -26,6 +26,7 @@ def gast_to_js_varAssign(gast):
     varValue = gast_to_node_router(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
+
 # expression helpers
 def gast_to_py_functions(gast):
     return gast_to_node_router(gast["value"], "py") + "(" + gast_to_node_router(gast["args"], "py") + ")"
@@ -53,14 +54,12 @@ def gast_to_node_binOp_helper(gast, out_lang):
     op = " " + str(gast["op"]) + " "
     left = gast_to_node_router(gast["left"], out_lang)
     right = gast_to_node_router(gast["right"], out_lang)
-
     return left + op + right
 
 def gast_to_py_boolOp(gast):
     op = " and " if gast["op"] == "&&" else " or "
     left = gast_to_node_router(gast["left"], "py")
     right = gast_to_node_router(gast["right"], "py")
-
     return left + op + right
 
 def gast_to_js_boolOp(gast):
@@ -71,6 +70,7 @@ def gast_to_py_unaryOp(gast):
 
 def gast_to_js_unaryOp(gast):
     return "!" + gast_to_node_router(gast["arg"], "js")
+
 
 # Boolean helpers
 def gast_to_py_bool(gast):
@@ -84,6 +84,7 @@ def gast_to_js_bool(gast):
         return "true"
     else:
         return "false"
+
 
 # Conditional helpers
 def gast_to_py_if(gast):
