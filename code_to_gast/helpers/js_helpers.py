@@ -96,4 +96,4 @@ def js_block_statement(node):
 
 
 def unary_to_gast(node):
-    return {"type": "unaryOp", "op": node.operator, "value": js_router.node_to_gast(node.argument)}
+    return {"type": "unaryOp", "op": node.operator, "arg": js_router.node_to_gast(node.argument)}

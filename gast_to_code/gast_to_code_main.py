@@ -115,6 +115,12 @@ def js_if(gast):
 def js_boolOp(gast):
     return binOp_helper(gast, "js")
 
+def py_unaryOp(gast):
+    return "not " + gast_router(gast["arg"], "py")
+
+def js_unaryOp(gast):
+    return "!" + gast_router(gast["arg"], "js")
+
 out = {
     "logStatement": {
         "py": "print",
@@ -147,6 +153,10 @@ out = {
     "none": {
         "py": "None",
         "js": "null" # TODO look at undefined in JS 
+    },
+    "unaryOp": {
+        "py": py_unaryOp,
+        "js": js_unaryOp
     }
 }
 
@@ -195,3 +205,5 @@ def gast_router(gast, out_lang):
         return binOp_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
+    elif gast["type"] == "unaryOp":
+        return out["unaryOp"][out_lang](gast)

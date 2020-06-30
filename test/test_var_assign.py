@@ -19,7 +19,7 @@ class TestVarAssign(unittest2.TestCase):
         self.assertEqual('let nest = [[1, 9], [2, 8]]', main.main('nest = [[1,9],[2,8]]', 'py', 'js'))
     
     def test_boolean_assign(self):
-        self.assertEqual('boo = True', main.main('const boo=true', 'js', 'py'))
+        self.assertEqual('boo = not True', main.main('const boo=!true', 'js', 'py'))
         self.assertEqual('let lean = false', main.main('lean = False', 'py', 'js'))
     
     def test_none_assign(self):
