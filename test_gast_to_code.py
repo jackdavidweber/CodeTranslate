@@ -34,17 +34,30 @@ gast_arr = {
 		]
 }
 
+gast_binOp_add = {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}
+
+gast_binOp_bitwise = {'type': 'binOp', 'op': '&', 'left': {'type': 'num', 'value': 1}, 'right': {'type': 'num', 'value': 3}}
+
+gast_binOp_add_sub_mult_div = {'type': 'binOp', 'op': '-', 'left': {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 1}, 'right': {'type': 'num', 'value': 2}}, 'right': {'type': 'binOp', 'op': '/', 'left': {'type': 'binOp', 'op': '*', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}, 'right': {'type': 'num', 'value': 5}}}
+
+gast_boolOp_and = {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
+
+gast_boolOp_or_and = {'type': 'boolOp', 'op': '||', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 0}, 'right': {'type': 'num', 'value': 4}}}
+
 gast_logStatement_bool = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "bool",
                             "value": 0
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -53,7 +66,7 @@ gast_logStatement = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "str",
@@ -63,7 +76,10 @@ gast_logStatement = {
                             "type": "num",
                             "value": 5
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -74,7 +90,10 @@ gast_varAssign_let = {
 		{
 			"type": "varAssign",
 			"kind": "let",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -90,7 +109,10 @@ gast_varAssign_const = {
 		{
 			"type": "varAssign",
 			"kind": "const",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -103,8 +125,8 @@ gast_varAssign_const = {
 gast_multi_body = {
     "type": "root",
     "body": [
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
     ]
 }
 
@@ -136,6 +158,29 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('["hello", [1, 2]]', gtc.gast_router(gast_arr, "py"))
         self.assertEqual('["hello", [1, 2]]', gtc.gast_router(gast_arr, "js"))
 
+    def test_binOp_add (self):
+        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "py"))
+        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "js"))
+
+    def test_binOp_bitwise (self):
+        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "py"))
+        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "js"))
+
+    def test_binOp_add_sub_mult_div (self):
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "js"))
+
+    def test_boolOp_and_py (self):
+        self.assertEqual('True and False', gtc.gast_router(gast_boolOp_and, "py"))
+
+    def test_boolOp_and_js (self):
+        self.assertEqual('true && false', gtc.gast_router(gast_boolOp_and, "js"))
+
+    def test_boolOp_or_and_py (self):
+        self.assertEqual('True or False and 4', gtc.gast_router(gast_boolOp_or_and, "py"))
+
+    def test_boolOp_or_and_js (self):
+        self.assertEqual('true || false && 4', gtc.gast_router(gast_boolOp_or_and, "js"))
 
     # test logStatement
     def test_js_logStatement_bool (self):

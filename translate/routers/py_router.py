@@ -15,7 +15,7 @@ def node_to_gast(node):
     elif type(node) == ast.Num:
         return helpers.num(node)
     elif type(node) == ast.NameConstant:
-        return helpers.boolean(node)
+        return helpers.name_constant(node)
 
     # Helpers
     elif type(node) == ast.Module:
@@ -28,14 +28,16 @@ def node_to_gast(node):
         return helpers.array(node)
     elif type(node) == list:
         return helpers.node_list(node)
+    elif type(node) == ast.Name:
+        return helpers.name(node)
 
     # Expressions
-    elif type(node) == ast.Name:
-        return expression.name(node)
     elif type(node) == ast.Expr:
         return expression.expr(node)
     elif type(node) == ast.Call:
         return expression.call(node)
+    elif type(node) == ast.Attribute:
+        return expression.attribute(node)
 
     # Assigns
     elif type(node) == ast.Assign:

@@ -21,5 +21,9 @@ class TestLogStatement(unittest2.TestCase):
         self.assertEqual('print(True)', main.main('console.log(true)', 'js', 'py'))
         self.assertEqual('console.log(false)', main.main('print(False)', 'py', 'js'))
 
+    def test_none(self):
+        self.assertEqual('console.log(null)', main.main('print(None)', 'py', 'js'))
+        self.assertEqual('print(None)', main.main('console.log(null)', 'js', 'py'))
+
 if __name__ == '__main__':
     unittest2.main()

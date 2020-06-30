@@ -25,11 +25,13 @@ def node_to_gast(node):
             return {"type": "num", "value": node.value}
         elif isinstance(node.value, str):
             return {"type": "str", "value": node.value}
+        elif node.raw == "null":
+            return {"type": "none"}
         else:
             return "Unsupported prim"
     elif node.type == "Identifier":
         # identifier has quotes around name
-        return node.name
+        return {"type": "name", "value": node.name}
     elif node.type == "BinaryExpression":
         return js_helpers.binOp(node)
     elif node.type == "LogicalExpression":
@@ -42,7 +44,7 @@ def node_to_gast(node):
     elif node.type == "CallExpression":
         return js_expression.call_expression_to_gast(node)
     elif node.type == "MemberExpression":
-        return js_helpers.memExp_to_str(node)
+        return js_helpers.memExp_to_gast(node)
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":

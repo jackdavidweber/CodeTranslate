@@ -10,7 +10,6 @@ sys.path.append('translate/routers')
 
 import js_main
 import py_main
-import gast_to_py
 import gast_to_code as gtc
 
 """

@@ -23,14 +23,22 @@ def string(node):
 
 
 """
-handles primitive boolean base cases
+handles primitive boolean and None base cases
 example: True
     exampleIn: NameConstant(value=True)
     exampleOut: {'type': 'bool', 'value': 1}
+example: None
+    exampleIn: NameConstant(value=None)
+    exampleOut: {'type': 'none'}
 """
-def boolean(node):
+def name_constant(node):
     gast =  {"type": "bool"} 
-    gast["value"] = 1 if node.value == True else 0
+    if node.value == True:
+        gast["value"] = 1
+    elif node.value == False:
+        gast["value"] = 0
+    else:
+        gast["type"] = "none"
     return gast
 
 
@@ -89,7 +97,7 @@ takes ast node of type module and returns
 a generic ast for that node
 example print("hello"):
     node (input): Module(body=[Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
-    gast (output): {'type': 'root', 'body': [{'type': 'logStatement', 'args': [{'type': 'str', 'value': 'hello'}]}]}
+    gast (output): {'type': 'root', 'body': [{'type': 'funcCall', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}]}
 """
 def module(node):
     gast = {"type": "root"}
@@ -102,7 +110,7 @@ takes a node that represents a list of nodes.
 returns a list of gast
 example print("hello"):
     node (input): [Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))]
-    gast (output): [{'type': 'logStatement', 'args': [{'type': 'str', 'value': 'hello'}]}]
+    gast (output): [{'type': 'funcCall', 'value': {'type': 'logStatement'}, args': [{'type': 'str', 'value': 'hello'}]}]
 example array of strings:
     input: [Str(s='hello'), Str(s='world')]
     output:[{'type': 'str', 'value': 'hello'}, {'type': 'str', 'value': 'world'}]
@@ -113,3 +121,12 @@ def node_list(node):
         gast_list.append(pr.node_to_gast(node[i]))
 
     return gast_list
+
+"""
+takes ast.name node from python ast and converts to string 
+represenation for the generic ast
+"""
+def name(node):
+    if node.id == "print":
+        return {"type": "logStatement"}
+    return {"type": "name", "value": node.id}   

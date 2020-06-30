@@ -1,7 +1,7 @@
 import unittest2
 import main
 
-class TestLogStatement(unittest2.TestCase):
+class TestVarAssign(unittest2.TestCase):
     def test_string_assign(self):
         self.assertEqual('x = "hi"', main.main('let x = "hi"', 'js', 'py'))
         self.assertEqual('let test = "working"', main.main('test = "working"', 'py', 'js'))
@@ -17,6 +17,10 @@ class TestLogStatement(unittest2.TestCase):
     def test_boolean_assign(self):
         self.assertEqual('boo = True', main.main('const boo=true', 'js', 'py'))
         self.assertEqual('let lean = false', main.main('lean = False', 'py', 'js'))
+    
+    def test_none_assign(self):
+        self.assertEqual('no = None', main.main('let no =null', 'js', 'py'))
+        self.assertEqual('let help = null', main.main('help = None', 'py', 'js'))
 
 if __name__ == '__main__':
     unittest2.main()
