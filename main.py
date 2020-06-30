@@ -19,20 +19,22 @@ output_lang: string representing output language of code
 return: string representing output code or error message
 """
 def main(input_code, input_lang, output_lang):
-    # TODO: eventually replace this with 400 error
+
     if input_lang == None and output_lang == None:
         abort(400, "Error: must specify input and output languages")
-        input_lang = "js"
-        output_lang = "py"
 
-    #TODO: also do error checking on the output language
     if input_lang == "js":
         gast = js_main.js_to_gast(input_code)
     elif input_lang == "py":
         gast = py_main.py_to_gast(input_code)
     else:
         #TODO: figure out hwo to do error messages
-        return "Error must specify language. For example, js for javascript and py for python"
+        return "Error must specify input language. For example, js for javascript and py for python"
+
+    output_langs = ["js", "py"]
+    if output_lang not in output_langs:
+        # TODO: send 400 client error
+        return "Error must specify output language. For example, js for javascript and py for python"
 
 
     if (type(gast) == str) :
