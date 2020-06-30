@@ -38,7 +38,7 @@ gast_logStatement_bool = {
             "type": "root",
             "body": [
                 {
-                    "type": "func",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "bool",
@@ -56,7 +56,7 @@ gast_logStatement = {
             "type": "root",
             "body": [
                 {
-                    "type": "func",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "str",

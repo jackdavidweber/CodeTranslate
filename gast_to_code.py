@@ -62,7 +62,7 @@ out = {
         "py": py_bool,
         "js": js_bool,
     },
-    "func": {
+    "funcCall": {
         "py": py_functions,
         "js": js_functions
     },
@@ -104,8 +104,8 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
     
-    elif gast["type"] == "func":
-        return out["func"][out_lang](gast)
+    elif gast["type"] == "funcCall":
+        return out["funcCall"][out_lang](gast)
     elif gast["type"] == "name":
         return gast["value"]
     elif gast["type"] == "attribute":

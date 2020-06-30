@@ -11,11 +11,11 @@ def convert_expression(node):
 takes python ast call node and converts to generic ast format
 example print('hello'):
     exampleIn Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[])
-    exampleOut {'type': 'func', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}
+    exampleOut {'type': 'funcCall', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}
 """
 def call_expression(node):
     gast = {}
-    gast["type"] = "func"
+    gast["type"] = "funcCall"
     gast["value"] = js_router.node_to_gast(node.callee)
     gast["args"] = js_router.node_to_gast(node.arguments)
     return gast
