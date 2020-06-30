@@ -30,6 +30,8 @@ def node_to_gast(node):
         return helpers.node_list(node)
     elif type(node) == ast.Name:
         return helpers.name(node)
+    elif type(node) == ast.UnaryOp:
+        return helpers.unaryOp(node)
 
     # Expressions
     elif type(node) == ast.Expr:

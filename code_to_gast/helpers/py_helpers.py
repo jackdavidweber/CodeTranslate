@@ -59,11 +59,18 @@ def array(node):
 converts python ast operations to common string representation
 """
 def pyop_to_str(op):
-    m = {
-            ast.Add: "+", ast.Mult: "*", ast.Div: "/", ast.Sub: "-",
-            ast.BitAnd: "&", ast.BitOr: "|", ast.And: "&&", ast.Or: "||"
-        }
-    return m[type(op)]
+    op_to_str_map = {
+        ast.Add: "+", 
+        ast.Mult: "*", 
+        ast.Div: "/", 
+        ast.Sub: "-",
+        ast.BitAnd: "&", 
+        ast.BitOr: "|", 
+        ast.And: "&&", 
+        ast.Or: "||",
+        ast.Not: "!"
+    }
+    return op_to_str_map[type(op)]
 
 
 """
@@ -123,10 +130,15 @@ def node_list(node):
     return gast_list
 
 """
-takes ast.name node from python ast and converts to string 
-represenation for the generic ast
+takes ast.name node from python ast and converts to string represenation for the generic ast
 """
 def name(node):
     if node.id == "print":
         return {"type": "logStatement"}
     return {"type": "name", "value": node.id}   
+
+"""
+takes node of type unaryOp and converts it to our generic ast represenations
+"""
+def unaryOp(node):
+    return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}

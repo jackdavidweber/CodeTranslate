@@ -36,6 +36,8 @@ def node_to_gast(node):
         return js_helpers.binOp(node)
     elif node.type == "LogicalExpression":
         return js_helpers.boolOp(node)
+    elif node.type == "UnaryExpression":
+        return js_helpers.unary_to_gast(node)
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.jsassign_to_gast(node)
