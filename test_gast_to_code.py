@@ -1,5 +1,5 @@
 import unittest2
-import gast_to_code.gast_to_code as gtc
+import gast_to_code.gast_to_code_main as gtc
 
 gast_str = { "type": "str", "value": "hello world" }
 

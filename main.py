@@ -10,7 +10,7 @@ sys.path.append('code_to_gast/routers')
 
 import js_main
 import py_main
-import gast_to_code.gast_to_code as gtc
+import gast_to_code.gast_to_code_main as gtc
 
 """
 input_code: string representing input code
