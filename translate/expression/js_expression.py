@@ -4,7 +4,7 @@ import js_router
 """
 parses through top level expression 
 """
-def convert_expression(node):
+def convert_expression_to_gast(node):
     return js_router.node_to_gast(node.expression)
 
 """
@@ -13,7 +13,7 @@ example print('hello'):
     exampleIn Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[])
     exampleOut {'type': 'funcCall', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}
 """
-def call_expression(node):
+def call_expression_to_gast(node):
     gast = {}
     gast["type"] = "funcCall"
     gast["value"] = js_router.node_to_gast(node.callee)

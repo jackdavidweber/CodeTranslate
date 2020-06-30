@@ -62,7 +62,7 @@ def boolOp(node):
 Converts Member Expression and converts to readable string recursively
 Used for functions called on objects and std funcs like console.log
 """
-def memExp(node):
+def memExp_to_gast(node):
   if node.property.name == "log":
     return {"type": "logStatement"}
 
