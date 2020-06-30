@@ -15,7 +15,7 @@ takes ast node of type program and returns
 a generic ast for that node
 example print("hello"):
     node (input): Program(body=[ExpressionStatement(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
-    gast (output): {'type': 'root', 'body': [{'type': 'logStatement', 'args': ['hello']}]}
+    gast (output): {'type': 'root', 'body': [{'type': 'func', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}]}
 """
 def program_to_gast(node):
     gast = {"type": "root"}
@@ -75,10 +75,10 @@ takes a node that represents a list of nodes.
 returns a list of gast
 example console.log("hello"):
     node (input):
-    gast (output): [{'type': 'logStatement', 'args': ['hello']}]
+    gast (output): [{'type': 'func', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}]
 example array of strings:
     input: [Str(s='hello'), Str(s='world')]
-    output:['hello', 'world']
+    output:[{'type': 'str', 'value': 'hello'}, {'type': 'str', 'value': 'world'}]
 """
 def node_list(node):
     gast_list = []
