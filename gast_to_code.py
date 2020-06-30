@@ -82,6 +82,7 @@ out = {
     "boolOp": {
         "py": py_boolOp,
         "js": js_boolOp
+    },
     "none": {
         "py": "None",
         "js": "null" # TODO look at undefined in JS 
