@@ -56,8 +56,7 @@ def node_to_gast(node):
         return js_conditional.if_statement(node)
     else:
         # not supported
-        print(node.type)
-        return "No match"
+        return {"type": "error", "value": "unsupported"}
 
 
 

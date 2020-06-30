@@ -195,6 +195,11 @@ def gast_router(gast, out_lang):
         return binOp_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
+    elif gast["type"] == "error":
+        if gast["value"] == "unsupported":
+            # Error string
+            return "Feature not supported"
+        return "Error"
 
 
 
