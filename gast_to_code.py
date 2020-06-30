@@ -15,6 +15,9 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
         
+def py_varAssign(gast):
+    value = gast_router(gast["varValue"], "py")
+    return gast_router(gast["varId"], "py") + " = " + value
 
 def binOp_helper(gast, out_lang):
     op = " " + str(gast["op"]) + " "
@@ -27,10 +30,6 @@ def binOp_helper(gast, out_lang):
 def py_logStatement(gast):
     arg_string = gast_router(gast["args"],"py")
     return "print(" + arg_string + ")"
-
-def py_varAssign(gast):
-    value = gast_router(gast["varValue"], "py")
-    return gast["varId"] + " = " + value
 
 def py_bool(gast):
     if gast["value"] == 1:
@@ -52,10 +51,27 @@ def js_logStatement(gast):
 
 def js_varAssign(gast):
     kind = gast["kind"]
-    varId = gast["varId"]
+    varId = gast_router(gast["varId"], "js")
     varValue = gast_router(gast["varValue"], "js")
-    
     return kind + " " + varId + " = " + varValue
+
+def py_functions(gast):
+    return gast_router(gast["value"], "py") + "(" + gast_router(gast["args"], "py") + ")"
+
+def js_functions(gast):
+    return gast_router(gast["value"], "js") + "(" + gast_router(gast["args"], "js") + ")"
+
+def py_attribute(gast):
+    return gast_router(gast["value"], "py") + "." + gast["id"] 
+
+def js_attribute(gast):
+    return gast_router(gast["value"], "js") + "." + gast["id"] 
+
+def py_bool(gast):
+    if gast["value"] == 1:
+        return "True"
+    else:
+        return "False"
 
 def js_bool(gast):
     if gast["value"] == 1:
@@ -68,8 +84,8 @@ def js_boolOp(gast):
 
 out = {
     "logStatement": {
-        "py": py_logStatement,
-        "js": js_logStatement
+        "py": "print",
+        "js": "console.log"
     },
     "varAssign": {
         "py": py_varAssign,
@@ -78,6 +94,14 @@ out = {
     "bool": {
         "py": py_bool,
         "js": js_bool,
+    },
+    "funcCall": {
+        "py": py_functions,
+        "js": js_functions
+    },
+    "attribute": {
+        "py": py_attribute,
+        "js": js_attribute
     },
     "boolOp": {
         "py": py_boolOp,
@@ -117,9 +141,17 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
-        return out["logStatement"][out_lang](gast)
+        return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    
+    elif gast["type"] == "funcCall":
+        return out["funcCall"][out_lang](gast)
+    elif gast["type"] == "name":
+        return gast["value"]
+    elif gast["type"] == "attribute":
+        return out["attribute"][out_lang](gast)
+
     elif gast["type"] == "binOp":
         return binOp_helper(gast, out_lang)
     elif gast["type"] == "boolOp":

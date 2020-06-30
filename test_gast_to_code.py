@@ -48,13 +48,16 @@ gast_logStatement_bool = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "bool",
                             "value": 0
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -63,7 +66,7 @@ gast_logStatement = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "str",
@@ -73,7 +76,10 @@ gast_logStatement = {
                             "type": "num",
                             "value": 5
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -84,7 +90,10 @@ gast_varAssign_let = {
 		{
 			"type": "varAssign",
 			"kind": "let",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -100,7 +109,10 @@ gast_varAssign_const = {
 		{
 			"type": "varAssign",
 			"kind": "const",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -113,8 +125,8 @@ gast_varAssign_const = {
 gast_multi_body = {
     "type": "root",
     "body": [
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
     ]
 }
 

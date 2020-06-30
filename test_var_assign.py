@@ -1,7 +1,7 @@
 import unittest2
 import main
 
-class TestLogStatement(unittest2.TestCase):
+class TestVarAssign(unittest2.TestCase):
     def test_string_assign(self):
         self.assertEqual('x = "hi"', main.main('let x = "hi"', 'js', 'py'))
         self.assertEqual('let test = "working"', main.main('test = "working"', 'py', 'js'))
