@@ -164,6 +164,7 @@ class TestGastToCode(unittest2.TestCase):
     def test_multi_body (self):
         self.assertEqual('x = 5\nx = 5', gtc.gast_router(gast_multi_body, "py"))
 
+    # TODO: add elif and else if tests once new way of doing logstatements are merged
     def test_if (self):
         input_gast = {
             'type': 'root',
