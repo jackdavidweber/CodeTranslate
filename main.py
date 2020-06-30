@@ -31,7 +31,9 @@ def main(input_code, input_lang, output_lang):
         #TODO: figure out hwo to do error messages
         return "Error must specify input language. For example, js for javascript and py for python"
 
-    if output_lang != "js" and output_lang != "py":
+    output_langs = ["js", "py"]
+    if output_lang not in output_langs:
+        # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
 
 
