@@ -17,6 +17,10 @@ class TestVarAssign(unittest2.TestCase):
     def test_boolean_assign(self):
         self.assertEqual('boo = True', main.main('const boo=true', 'js', 'py'))
         self.assertEqual('let lean = false', main.main('lean = False', 'py', 'js'))
+    
+    def test_none_assign(self):
+        self.assertEqual('no = None', main.main('let no =null', 'js', 'py'))
+        self.assertEqual('let help = null', main.main('help = None', 'py', 'js'))
 
 if __name__ == '__main__':
     unittest2.main()

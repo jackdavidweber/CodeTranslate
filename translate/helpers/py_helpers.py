@@ -23,14 +23,22 @@ def string(node):
 
 
 """
-handles primitive boolean base cases
+handles primitive boolean and None base cases
 example: True
     exampleIn: NameConstant(value=True)
     exampleOut: {'type': 'bool', 'value': 1}
+example: None
+    exampleIn: NameConstant(value=None)
+    exampleOut: {'type': 'none'}
 """
-def boolean(node):
+def name_constant(node):
     gast =  {"type": "bool"} 
-    gast["value"] = 1 if node.value == True else 0
+    if node.value == True:
+        gast["value"] = 1
+    elif node.value == False:
+        gast["value"] = 0
+    else:
+        gast["type"] = "none"
     return gast
 
 

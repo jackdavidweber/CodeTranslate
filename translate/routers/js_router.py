@@ -24,6 +24,8 @@ def node_to_gast(node):
             return {"type": "num", "value": node.value}
         elif isinstance(node.value, str):
             return {"type": "str", "value": node.value}
+        elif node.raw == "null":
+            return {"type": "none"}
         else:
             return "Unsupported prim"
     elif node.type == "Identifier":

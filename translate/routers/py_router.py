@@ -14,7 +14,7 @@ def node_to_gast(node):
     elif type(node) == ast.Num:
         return helpers.num(node)
     elif type(node) == ast.NameConstant:
-        return helpers.boolean(node)
+        return helpers.name_constant(node)
 
     # Helpers
     elif type(node) == ast.Module:

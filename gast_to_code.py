@@ -19,6 +19,36 @@ def py_varAssign(gast):
     value = gast_router(gast["varValue"], "py")
     return gast_router(gast["varId"], "py") + " = " + value
 
+def binOp_helper(gast, out_lang):
+    op = " " + str(gast["op"]) + " "
+    left = gast_router(gast["left"], out_lang)
+    right = gast_router(gast["right"], out_lang)
+
+    return left + op + right
+
+# py_specific_helpers
+def py_logStatement(gast):
+    arg_string = gast_router(gast["args"],"py")
+    return "print(" + arg_string + ")"
+
+def py_bool(gast):
+    if gast["value"] == 1:
+        return "True"
+    else:
+        return "False"
+
+def py_boolOp(gast):
+    op = " and " if gast["op"] == "&&" else " or "
+    left = gast_router(gast["left"], "py")
+    right = gast_router(gast["right"], "py")
+
+    return left + op + right
+
+# js_specific_helpers
+def js_logStatement(gast):
+    arg_string = gast_router(gast["args"],"js")
+    return "console.log(" + arg_string + ")"
+
 def js_varAssign(gast):
     kind = gast["kind"]
     varId = gast_router(gast["varId"], "js")
@@ -49,6 +79,9 @@ def js_bool(gast):
     else:
         return "false"
 
+def js_boolOp(gast):
+    return binOp_helper(gast, "js")
+
 out = {
     "logStatement": {
         "py": "print",
@@ -69,6 +102,14 @@ out = {
     "attribute": {
         "py": py_attribute,
         "js": js_attribute
+    },
+    "boolOp": {
+        "py": py_boolOp,
+        "js": js_boolOp
+    },
+    "none": {
+        "py": "None",
+        "js": "null" # TODO look at undefined in JS 
     }
 }
 
@@ -93,8 +134,8 @@ def gast_router(gast, out_lang):
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
-
-    # commonly used
+    elif gast["type"] == "none":
+        return out["none"][out_lang]
 
     #Other
     elif gast["type"] == "root":
@@ -110,5 +151,9 @@ def gast_router(gast, out_lang):
         return gast["value"]
     elif gast["type"] == "attribute":
         return out["attribute"][out_lang](gast)
-    
+
+    elif gast["type"] == "binOp":
+        return binOp_helper(gast, out_lang)
+    elif gast["type"] == "boolOp":
+        return out["boolOp"][out_lang](gast)
 
