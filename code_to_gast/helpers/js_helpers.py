@@ -41,7 +41,7 @@ def boolOp_to_gast(node):
     return gast
 
 """
-Converts Member Expression and converts to readable string recursively
+Converts Member Expression to our generic AST recursively
 Used for functions called on objects and std funcs like console.log
 """
 def memExp_to_gast(node):

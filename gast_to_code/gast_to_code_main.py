@@ -15,11 +15,11 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
         
-def py_varAssign(gast):
+def gast_to_py_varAssign(gast):
     value = gast_to_node_router(gast["varValue"], "py")
     return gast_to_node_router(gast["varId"], "py") + " = " + value
 
-def binOp_helper(gast, out_lang):
+def gast_to_node_binOp_helper(gast, out_lang):
     op = " " + str(gast["op"]) + " "
     left = gast_to_node_router(gast["left"], out_lang)
     right = gast_to_node_router(gast["right"], out_lang)
@@ -27,17 +27,17 @@ def binOp_helper(gast, out_lang):
     return left + op + right
 
 # py_specific_helpers
-def py_logStatement(gast):
+def gast_to_py_logStatement(gast):
     arg_string = gast_to_node_router(gast["args"],"py")
     return "print(" + arg_string + ")"
 
-def py_bool(gast):
+def gast_to_py_bool(gast):
     if gast["value"] == 1:
         return "True"
     else:
         return "False"
 
-def py_boolOp(gast):
+def gast_to_py_boolOp(gast):
     op = " and " if gast["op"] == "&&" else " or "
     left = gast_to_node_router(gast["left"], "py")
     right = gast_to_node_router(gast["right"], "py")
@@ -45,41 +45,41 @@ def py_boolOp(gast):
     return left + op + right
 
 # js_specific_helpers
-def js_logStatement(gast):
+def gast_to_js_logStatement(gast):
     arg_string = gast_to_node_router(gast["args"],"js")
     return "console.log(" + arg_string + ")"
 
-def js_varAssign(gast):
+def gast_to_js_varAssign(gast):
     kind = gast["kind"]
     varId = gast_to_node_router(gast["varId"], "js")
     varValue = gast_to_node_router(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
-def py_functions(gast):
+def gast_to_py_functions(gast):
     return gast_to_node_router(gast["value"], "py") + "(" + gast_to_node_router(gast["args"], "py") + ")"
 
-def js_functions(gast):
+def gast_to_js_functions(gast):
     return gast_to_node_router(gast["value"], "js") + "(" + gast_to_node_router(gast["args"], "js") + ")"
 
-def py_attribute(gast):
+def gast_to_py_attribute(gast):
     return gast_to_node_router(gast["value"], "py") + "." + gast["id"] 
 
-def js_attribute(gast):
+def gast_to_js_attribute(gast):
     return gast_to_node_router(gast["value"], "js") + "." + gast["id"] 
 
-def py_bool(gast):
+def gast_to_py_bool(gast):
     if gast["value"] == 1:
         return "True"
     else:
         return "False"
 
-def js_bool(gast):
+def gast_to_js_bool(gast):
     if gast["value"] == 1:
         return "true"
     else:
         return "false"
 
-def py_if(gast):
+def gast_to_py_if(gast):
     test = gast_to_node_router(gast["test"], "py")
     body = list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
 
@@ -95,7 +95,7 @@ def py_if(gast):
 
     return out
 
-def js_if(gast):
+def gast_to_js_if(gast):
     test = gast_to_node_router(gast["test"], "js")
     body = list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
 
@@ -112,13 +112,13 @@ def js_if(gast):
     return out
 
   
-def js_boolOp(gast):
+def gast_to_js_boolOp(gast):
     return binOp_helper(gast, "js")
 
-def py_unaryOp(gast):
+def gast_to_py_unaryOp(gast):
     return "not " + gast_to_node_router(gast["arg"], "py")
 
-def js_unaryOp(gast):
+def gast_to_js_unaryOp(gast):
     return "!" + gast_to_node_router(gast["arg"], "js")
 
 out = {
@@ -127,36 +127,36 @@ out = {
         "js": "console.log"
     },
     "varAssign": {
-        "py": py_varAssign,
-        "js": js_varAssign,
+        "py": gast_to_py_varAssign,
+        "js": gast_to_js_varAssign,
     },
     "bool": {
-        "py": py_bool,
-        "js": js_bool,
+        "py": gast_to_py_bool,
+        "js": gast_to_js_bool,
     },
     "if": {
-        "py": py_if,
-        "js": js_if
+        "py": gast_to_py_if,
+        "js": gast_to_js_if
     },
     "funcCall": {
-        "py": py_functions,
-        "js": js_functions
+        "py": gast_to_py_functions,
+        "js": gast_to_js_functions
     },
     "attribute": {
-        "py": py_attribute,
-        "js": js_attribute
+        "py": gast_to_py_attribute,
+        "js": gast_to_js_attribute
     },
     "boolOp": {
-        "py": py_boolOp,
-        "js": js_boolOp
+        "py": gast_to_py_boolOp,
+        "js": gast_to_js_boolOp
     },
     "none": {
         "py": "None",
         "js": "null" # TODO look at undefined in JS 
     },
     "unaryOp": {
-        "py": py_unaryOp,
-        "js": js_unaryOp
+        "py": gast_to_py_unaryOp,
+        "js": gast_to_js_unaryOp
     }
 }
 
@@ -202,7 +202,7 @@ def gast_to_node_router(gast, out_lang):
         return out["attribute"][out_lang](gast)
 
     elif gast["type"] == "binOp":
-        return binOp_helper(gast, out_lang)
+        return gast_to_node_binOp_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
     elif gast["type"] == "unaryOp":
