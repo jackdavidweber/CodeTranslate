@@ -1,5 +1,5 @@
-import unittest2
 import sys
+import unittest2
 
 sys.path.append('code_to_gast')
 sys.path.append('code_to_gast/assign')

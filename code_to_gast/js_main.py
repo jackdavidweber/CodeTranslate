@@ -4,6 +4,7 @@ import sys
 # add path so imports possible in other files without sys
 sys.path.append('assign')
 sys.path.append('expression')
+sys.path.append('conditional')
 sys.path.append('helpers')
 sys.path.append('routers')
 
