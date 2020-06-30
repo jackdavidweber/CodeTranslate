@@ -67,14 +67,17 @@ def py_if(gast):
 def js_if(gast):
     test = gast_router(gast["test"], "js")
     body = list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
-    orelse = list_helper(gast["orelse"], "js", "\n")
 
-    out = 'if (' + test + '){\n\t' + body + "\n}"
+    out = 'if (' + test + ') {\n\t' + body + "\n}"
 
-    # if gast["orelse"][0]["type"] == "if"
+    # orelse can either be empty, or be an elif or be an else
+    if len(gast["orelse"]) == 0:
+        pass
+    elif gast["orelse"][0]["type"] == "if":
+        out += " else " + gast_router(gast["orelse"], "js")
+    else:
+        out += " else {\n\t" + list_helper(gast["orelse"], "js", "\n\t") + "\n}"
 
-    out += orelse
-    
     return out
 
 
@@ -191,4 +194,5 @@ elif_gast = {
         }]
     }     
 
-print(gast_router(elif_gast,"py"))
+# print(gast_router(else_gast,"js"))
+# print(gast_router(elif_gast,"js"))
