@@ -1,5 +1,6 @@
 import js_assign
 import js_expression
+import js_conditional
 import js_helpers
 import esprima
 
@@ -30,7 +31,7 @@ def node_to_gast(node):
             return "Unsupported prim"
     elif node.type == "Identifier":
         # identifier has quotes around name
-        return node.name
+        return {"type": "name", "value": node.name}
     elif node.type == "BinaryExpression":
         return js_helpers.binOp(node)
     elif node.type == "LogicalExpression":
@@ -43,11 +44,16 @@ def node_to_gast(node):
     elif node.type == "CallExpression":
         return js_expression.call_expression_to_gast(node)
     elif node.type == "MemberExpression":
-        return js_helpers.memExp_to_str(node)
+        return js_helpers.memExp_to_gast(node)
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
         return js_helpers.js_array_expression(node)
+    elif node.type == "BlockStatement":
+        return js_helpers.js_block_statement(node)
+    # Conditionals
+    elif node.type == "IfStatement":
+        return js_conditional.if_statement(node)
     else:
         # not supported
         print(node.type)

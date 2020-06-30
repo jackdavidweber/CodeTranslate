@@ -48,13 +48,16 @@ gast_logStatement_bool = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "bool",
                             "value": 0
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -63,7 +66,7 @@ gast_logStatement = {
             "type": "root",
             "body": [
                 {
-                    "type": "logStatement",
+                    "type": "funcCall",
                     "args": [
                         {
                             "type": "str",
@@ -73,7 +76,10 @@ gast_logStatement = {
                             "type": "num",
                             "value": 5
                         }
-                    ]
+                    ],
+                    "value": {
+                        "type": "logStatement"
+                    }
                 }
             ]
         }
@@ -84,7 +90,10 @@ gast_varAssign_let = {
 		{
 			"type": "varAssign",
 			"kind": "let",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -100,7 +109,10 @@ gast_varAssign_const = {
 		{
 			"type": "varAssign",
 			"kind": "const",
-			"varId": "x",
+			"varId": {
+                "type": "name",
+                "value": "x"
+            },
             "varValue": 
                 {
                     "type": "num",
@@ -113,8 +125,8 @@ gast_varAssign_const = {
 gast_multi_body = {
     "type": "root",
     "body": [
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
-        { "type": "varAssign", "kind": "const", "varId": "x", "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
+        { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
     ]
 }
 
@@ -196,6 +208,27 @@ class TestGastToCode(unittest2.TestCase):
     # test multiple items in body
     def test_multi_body (self):
         self.assertEqual('x = 5\nx = 5', gtc.gast_router(gast_multi_body, "py"))
+
+    # TODO: add elif and else if tests once new way of doing logstatements are merged
+    def test_if (self):
+        input_gast = {
+            'type': 'root',
+            'body': [{
+                'type': 'if',
+                 'body': [{
+                     'type': 'funcCall',
+                     'value': {'type': 'logStatement'},
+                     'args': [{'type': 'str', 'value': 'This is true'}]
+                    }],
+                'orelse': [],
+                'test': {'type': 'bool', 'value': 1}
+                }]
+            }
+        expected_js = 'if (true) {\n\tconsole.log("This is true")\n}'
+        # self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+
+        expected_py = 'if (True):\n\tprint("This is true")'
+        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
 
 
 if __name__ == '__main__':

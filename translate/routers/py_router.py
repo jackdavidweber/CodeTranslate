@@ -3,6 +3,7 @@ import ast
 import helpers.py_helpers as helpers
 import py_expression as expression
 import py_assign as assign
+import py_conditional as conditional
 
 """
 router that all nodes in the python AST are passed through recursively
@@ -27,18 +28,25 @@ def node_to_gast(node):
         return helpers.array(node)
     elif type(node) == list:
         return helpers.node_list(node)
+    elif type(node) == ast.Name:
+        return helpers.name(node)
 
     # Expressions
-    elif type(node) == ast.Name:
-        return expression.name(node)
     elif type(node) == ast.Expr:
         return expression.expr(node)
     elif type(node) == ast.Call:
         return expression.call(node)
+    elif type(node) == ast.Attribute:
+        return expression.attribute(node)
 
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign(node)
+
+    # Conditionals
+    elif type(node) == ast.If:
+        return conditional.if_statement(node)
+
 
     else:
         print("nothing hit")
