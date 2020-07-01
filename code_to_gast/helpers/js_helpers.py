@@ -3,7 +3,7 @@ import js_router
 """
 handles arrays and recursively calls node_to_gast on all its elements
 """
-def js_array_expression_to_gast(node):
+def array_expression_to_gast(node):
     gast = {"type" : "arr"}
     gast["elts"] = []
     for elm in node.elements:
@@ -25,7 +25,7 @@ def program_to_gast(node):
 """
 converts a python ast BinOp and converts it to a gast node
 """
-def binOp_to_gast(bop):
+def bin_op_to_gast(bop):
   gast = {"type" : "binOp"}
   gast["left"] = js_router.node_to_gast(bop.left)
   gast["op"] = bop.operator
@@ -33,7 +33,7 @@ def binOp_to_gast(bop):
   return gast
 
 
-def boolOp_to_gast(node):
+def bool_op_to_gast(node):
     gast = {"type": "boolOp"}
     gast["left"] = js_router.node_to_gast(node.left)
     gast["op"] = node.operator
@@ -44,7 +44,7 @@ def boolOp_to_gast(node):
 Converts Member Expression to our generic AST recursively
 Used for functions called on objects and std funcs like console.log
 """
-def memExp_to_gast(node):
+def member_expression_to_gast(node):
   if node.property.name == "log":
     return {"type": "logStatement"}
 
@@ -73,7 +73,7 @@ Seems like this block statement type is called
 whenever there are curly braces. Probably will need 
 to end up making this function more robust.
 """
-def js_block_statement_to_gast(node):
+def block_statement_to_gast(node):
   return js_router.node_to_gast(node.body)
 
 

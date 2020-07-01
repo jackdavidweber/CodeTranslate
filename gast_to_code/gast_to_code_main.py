@@ -16,11 +16,11 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     return out
 
 # assign helpers
-def gast_to_py_varAssign(gast):
+def gast_to_py_var_assign(gast):
     value = gast_to_node_router(gast["varValue"], "py")
     return gast_to_node_router(gast["varId"], "py") + " = " + value
 
-def gast_to_js_varAssign(gast):
+def gast_to_js_var_assign(gast):
     kind = gast["kind"]
     varId = gast_to_node_router(gast["varId"], "js")
     varValue = gast_to_node_router(gast["varValue"], "js")
@@ -40,35 +40,27 @@ def gast_to_py_attribute(gast):
 def gast_to_js_attribute(gast):
     return gast_to_node_router(gast["value"], "js") + "." + gast["id"] 
 
-def gast_to_py_logStatement(gast):
-    arg_string = gast_to_node_router(gast["args"],"py")
-    return "print(" + arg_string + ")"
-
-def gast_to_js_logStatement(gast):
-    arg_string = gast_to_node_router(gast["args"],"js")
-    return "console.log(" + arg_string + ")"
-
 
 # Operation helpers
-def gast_to_node_binOp_helper(gast, out_lang):
+def gast_to_node_bin_op_helper(gast, out_lang):
     op = " " + str(gast["op"]) + " "
     left = gast_to_node_router(gast["left"], out_lang)
     right = gast_to_node_router(gast["right"], out_lang)
     return left + op + right
 
-def gast_to_py_boolOp(gast):
+def gast_to_py_bool_op(gast):
     op = " and " if gast["op"] == "&&" else " or "
     left = gast_to_node_router(gast["left"], "py")
     right = gast_to_node_router(gast["right"], "py")
     return left + op + right
 
-def gast_to_js_boolOp(gast):
+def gast_to_js_bool_op(gast):
     return binOp_helper(gast, "js")
 
-def gast_to_py_unaryOp(gast):
+def gast_to_py_unary_op(gast):
     return "not " + gast_to_node_router(gast["arg"], "py")
 
-def gast_to_js_unaryOp(gast):
+def gast_to_js_unary_op(gast):
     return "!" + gast_to_node_router(gast["arg"], "js")
 
 
@@ -126,8 +118,8 @@ out = {
         "js": "console.log"
     },
     "varAssign": {
-        "py": gast_to_py_varAssign,
-        "js": gast_to_js_varAssign,
+        "py": gast_to_py_var_assign,
+        "js": gast_to_js_var_assign,
     },
     "bool": {
         "py": gast_to_py_bool,
@@ -146,16 +138,16 @@ out = {
         "js": gast_to_js_attribute
     },
     "boolOp": {
-        "py": gast_to_py_boolOp,
-        "js": gast_to_js_boolOp
+        "py": gast_to_py_bool_op,
+        "js": gast_to_js_bool_op
     },
     "none": {
         "py": "None",
         "js": "null" # TODO look at undefined in JS 
     },
     "unaryOp": {
-        "py": gast_to_py_unaryOp,
-        "js": gast_to_js_unaryOp
+        "py": gast_to_py_unary_op,
+        "js": gast_to_js_unary_op
     }
 }
 
@@ -201,7 +193,7 @@ def gast_to_node_router(gast, out_lang):
         return out["attribute"][out_lang](gast)
 
     elif gast["type"] == "binOp":
-        return gast_to_node_binOp_helper(gast, out_lang)
+        return gast_to_node_bin_op_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
     elif gast["type"] == "unaryOp":
