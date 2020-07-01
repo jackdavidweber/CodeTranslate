@@ -11,45 +11,44 @@ router that all nodes in the python AST are passed through recursively
 def node_to_gast(node):
     # Base Cases
     if type(node) == ast.Str:
-        return helpers.string(node)
+        return helpers.string_to_gast(node)
     elif type(node) == ast.Num:
-        return helpers.num(node)
+        return helpers.num_to_gast(node)
     elif type(node) == ast.NameConstant:
-        return helpers.name_constant(node)
+        return helpers.name_constant_to_gast(node)
 
     # Helpers
     elif type(node) == ast.Module:
-        return helpers.module(node)
+        return helpers.module_to_gast(node)
     elif type(node) == ast.BinOp:
-        return helpers.binOp(node)
+        return helpers.bin_op_to_gast(node)
     elif type(node) == ast.BoolOp:
-        return helpers.boolOp(node)
+        return helpers.bool_op_to_gast(node)
     elif type(node) == ast.List:
-        return helpers.array(node)
+        return helpers.array_to_gast(node)
     elif type(node) == list:
-        return helpers.node_list(node)
+        return helpers.node_list_to_gast(node)
     elif type(node) == ast.Name:
-        return helpers.name(node)
+        return helpers.name_to_gast(node)
     elif type(node) == ast.UnaryOp:
-        return helpers.unaryOp(node)
+        return helpers.unary_op_to_gast(node)
 
     # Expressions
     elif type(node) == ast.Expr:
-        return expression.expr(node)
+        return expression.expr_to_gast(node)
     elif type(node) == ast.Call:
-        return expression.call(node)
+        return expression.call_to_gast(node)
     elif type(node) == ast.Attribute:
-        return expression.attribute(node)
+        return expression.attribute_to_gast(node)
 
     # Assigns
     elif type(node) == ast.Assign:
-        return assign.assign(node)
+        return assign.assign_to_gast(node)
 
     # Conditionals
     elif type(node) == ast.If:
-        return conditional.if_statement(node)
+        return conditional.if_statement_to_gast(node)
 
 
     else:
-        print("nothing hit")
-        return "nothing hit"
+        return {"type": "error", "value": "unsupported"}

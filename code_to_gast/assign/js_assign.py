@@ -4,7 +4,7 @@ import js_router
 """
 Handles js var declarations to generic AST node
 """
-def jsassign_to_gast(node):
+def assign_to_gast(node):
   gast = {}
   gast["type"] = "varAssign"
   # only works with single assignment

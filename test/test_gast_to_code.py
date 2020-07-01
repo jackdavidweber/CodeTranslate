@@ -229,10 +229,72 @@ class TestGastToCode(unittest2.TestCase):
                 }]
             }
         expected_js = 'if (true) {\n\tconsole.log("This is true")\n}'
-        # self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
 
         expected_py = 'if (True):\n\tprint("This is true")'
         self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+
+    def test_else (self):
+        input_gast = {
+            'type': 'root', 
+            'body': [{
+                'type': 'if',
+                'body': [{
+                     'type': 'funcCall',
+                     'value': {'type': 'logStatement'}, 
+                     'args': [{'type': 'str', 'value': '1 is true'}]
+                     }], 
+                'orelse': [{
+                         'type': 'funcCall',
+                         'value': {'type': 'logStatement'},
+                         'args': [{'type': 'str', 'value': '1 is NOT true'}]
+                         }], 
+                'test': {'type': 'num', 'value': 1}
+                }]
+            }
+        
+        expected_js = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}' # TODO: consider adding ; after console.log()
+        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+
+        expected_py = 'if (1):\n\tprint("1 is true")\nelse:\n\tprint("1 is NOT true")'
+        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+
+    def test_elif (self):
+        input_gast = {
+            'type': 'root', 
+            'body': [{
+                'type': 'if', 
+                'body': [{
+                    'type': 'funcCall',
+                    'value': {'type': 'logStatement'}, 
+                    'args': [{'type': 'str', 'value': '1 is true'}]
+                    }], 
+                'orelse': [{
+                    'type': 'if', 
+                    'body': [
+                        {
+                        'type': 'funcCall',
+                        'value': {'type': 'logStatement'}, 
+                        'args': [{'type': 'str', 'value': '2 is true'}]
+                        },
+                        {
+                        'type': 'funcCall',
+                        'value': {'type': 'logStatement'}, 
+                        'args': [{'type': 'str', 'value': 'second line'}]
+                        }
+                    ], 
+                    'orelse': [], 
+                    'test': {'type': 'num', 'value': 2}
+                    }], 
+                'test': {'type': 'num', 'value': 1}
+                }]
+            }     
+            
+        expected_py = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\n\tprint("second line")'
+        expected_js = 'if (1) {\n\tconsole.log("1 is true")\n} else if (2) {\n\tconsole.log("2 is true")\n\tconsole.log("second line")\n}'
+
+        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
 
 
 if __name__ == '__main__':
