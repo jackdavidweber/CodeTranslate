@@ -80,31 +80,22 @@ example: True and False
     exampleOut: {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
 """
 def boolOp(node):
-    gast = {"type": "boolOp", "op": pyop_to_str(node.op)}
-    if len(node.values) > 2:
-        node.values.reverse()
-        return boolOpHelper(node.values, pyop_to_str(node.op))
+    op = pyop_to_str(node.op)
+    return boolOpHelper(node.values, op)
+
+def boolOpHelper(node_list, op_str):
+    gast = {}
+    gast["type"] = "boolOp"
+    gast["left"] = pr.node_to_gast(node_list[0])
+    gast["op"] = op_str
+
+    if len(node_list[1:]) > 1:
+        gast["right"] = boolOpHelper(node_list[1:], op_str)
     else:
-        gast["left"] = pr.node_to_gast(node.values[0])
-        gast["right"] = pr.node_to_gast(node.values[1])
+        gast["right"] = pr.node_to_gast(node_list[1])
+    
     return gast
 
-def boolOpHelper(node_list, op):
-    #BC 0 -> return, 1 -> ?, 2 -> left = node[0], right = node[1]
-    gast = {"type": "boolOp"}
-    if len(node_list) == 0:
-        return gast
-    if len(node_list) == 1:
-        gast["left"] = pr.node_to_gast(node_list[0])
-        gast["op"] = op 
-    if len(node_list) == 2:
-        gast["right"] = pr.node_to_gast(node_list[0])
-        gast["op"] = op
-        gast["left"] = pr.node_to_gast(node_list[1])
-    gast["right"] = pr.node_to_gast(node_list[0])
-    gast["op"] = op
-    gast["left"] = boolOpHelper(node_list[1:len(node_list) - 1], op)
-    return gast
 
 """
 converts a python ast BinOp and to a readable string recursively 

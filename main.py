@@ -36,7 +36,6 @@ def main(input_code, input_lang, output_lang):
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
 
-    print(gast)
     if (type(gast) == str) :
         # return error if gast not built
         return "Error: did not compile"
