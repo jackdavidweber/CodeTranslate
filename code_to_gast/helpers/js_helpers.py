@@ -36,9 +36,9 @@ def binOp(bop):
       gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   if bop.right.type == "BinaryExpression":
-      gast["left"] = binOp(bop.left)
+      gast["left"] = js_router.node_to_gast(bop.left)
       gast["op"] = bop.operator
-      gast["right"] = js_router.node_to_gast(bop.right)
+      gast["right"] = binOp(bop.right)
   return gast
 
 # TODO: address gharel comment https://github.com/jackdavidweber/cjs_capstone/pull/32#discussion_r446407392
