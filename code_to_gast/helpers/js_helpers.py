@@ -27,9 +27,18 @@ converts a python ast BinOp and converts it to a gast node
 """
 def bin_op_to_gast(bop):
   gast = {"type" : "binOp"}
-  gast["left"] = js_router.node_to_gast(bop.left)
-  gast["op"] = bop.operator
-  gast["right"] = js_router.node_to_gast(bop.right)
+  if bop.left.type != "BinaryExpression" and bop.right.type != "BinaryExpression":
+      gast["left"] = js_router.node_to_gast(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  if bop.left.type == "BinaryExpression":
+      gast["left"] = bin_op_to_gast(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = js_router.node_to_gast(bop.right)
+  if bop.right.type == "BinaryExpression":
+      gast["left"] = js_router.node_to_gast(bop.left)
+      gast["op"] = bop.operator
+      gast["right"] = bin_op_to_gast(bop.right)
   return gast
 
 

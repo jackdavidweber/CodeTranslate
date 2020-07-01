@@ -14,8 +14,9 @@ import js_router
 takes js string and converts it to a generic AST
 """
 def js_to_gast(js_input):
+    input_ast = ''
     try:
         input_ast = esprima.parseScript(js_input, {"tokens": False})
-        return js_router.node_to_gast(input_ast)
     except:
         return "Error: code could not compile"
+    return js_router.node_to_gast(input_ast)
