@@ -51,5 +51,4 @@ def node_to_gast(node):
 
 
     else:
-        print("nothing hit")
-        return "nothing hit"
+        return {"type": "error", "value": "unsupported"}
