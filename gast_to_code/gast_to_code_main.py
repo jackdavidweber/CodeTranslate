@@ -8,79 +8,79 @@ Can specify different btwn string with third parameter
 def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     out = ""
     for i in range (0, len(gast_list)):
-        out += gast_router(gast_list[i], out_lang)
+        out += gast_to_code(gast_list[i], out_lang)
 
         if i< len(gast_list) - 1 : # don't add delimiter for last item
             out += csv_delimiter
     
     return out
-        
-def py_varAssign(gast):
-    value = gast_router(gast["varValue"], "py")
-    return gast_router(gast["varId"], "py") + " = " + value
 
-def binOp_helper(gast, out_lang):
-    op = " " + str(gast["op"]) + " "
-    left = gast_router(gast["left"], out_lang)
-    right = gast_router(gast["right"], out_lang)
+# assign helpers
+def gast_to_py_var_assign(gast):
+    value = gast_to_code(gast["varValue"], "py")
+    return gast_to_code(gast["varId"], "py") + " = " + value
 
-    return left + op + right
-
-# py_specific_helpers
-def py_logStatement(gast):
-    arg_string = gast_router(gast["args"],"py")
-    return "print(" + arg_string + ")"
-
-def py_bool(gast):
-    if gast["value"] == 1:
-        return "True"
-    else:
-        return "False"
-
-def py_boolOp(gast):
-    op = " and " if gast["op"] == "&&" else " or "
-    left = gast_router(gast["left"], "py")
-    right = gast_router(gast["right"], "py")
-
-    return left + op + right
-
-# js_specific_helpers
-def js_logStatement(gast):
-    arg_string = gast_router(gast["args"],"js")
-    return "console.log(" + arg_string + ")"
-
-def js_varAssign(gast):
+def gast_to_js_var_assign(gast):
     kind = gast["kind"]
-    varId = gast_router(gast["varId"], "js")
-    varValue = gast_router(gast["varValue"], "js")
+    varId = gast_to_code(gast["varId"], "js")
+    varValue = gast_to_code(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
-def py_functions(gast):
-    return gast_router(gast["value"], "py") + "(" + gast_router(gast["args"], "py") + ")"
 
-def js_functions(gast):
-    return gast_router(gast["value"], "js") + "(" + gast_router(gast["args"], "js") + ")"
+# expression helpers
+def gast_to_py_functions(gast):
+    return gast_to_code(gast["value"], "py") + "(" + gast_to_code(gast["args"], "py") + ")"
 
-def py_attribute(gast):
-    return gast_router(gast["value"], "py") + "." + gast["id"] 
+def gast_to_js_functions(gast):
+    return gast_to_code(gast["value"], "js") + "(" + gast_to_code(gast["args"], "js") + ")"
 
-def js_attribute(gast):
-    return gast_router(gast["value"], "js") + "." + gast["id"] 
+def gast_to_py_attribute(gast):
+    return gast_to_code(gast["value"], "py") + "." + gast["id"] 
 
-def py_bool(gast):
+def gast_to_js_attribute(gast):
+    return gast_to_code(gast["value"], "js") + "." + gast["id"] 
+
+
+# Operation helpers
+def gast_to_node_bin_op_helper(gast, out_lang):
+    op = " " + str(gast["op"]) + " "
+    left = gast_to_code(gast["left"], out_lang)
+    right = gast_to_code(gast["right"], out_lang)
+    return left + op + right
+
+def gast_to_py_bool_op(gast):
+    op = " and " if gast["op"] == "&&" else " or "
+    left = gast_to_code(gast["left"], "py")
+    right = gast_to_code(gast["right"], "py")
+    return left + op + right
+
+def gast_to_js_bool_op(gast):
+    return binOp_helper(gast, "js")
+
+def gast_to_py_unary_op(gast):
+    return "not " + gast_to_code(gast["arg"], "py")
+
+def gast_to_js_unary_op(gast):
+    return "!" + gast_to_code(gast["arg"], "js")
+
+
+# Boolean helpers
+def gast_to_py_bool(gast):
     if gast["value"] == 1:
         return "True"
     else:
         return "False"
 
-def js_bool(gast):
+def gast_to_js_bool(gast):
     if gast["value"] == 1:
         return "true"
     else:
         return "false"
 
-def py_if(gast):
-    test = gast_router(gast["test"], "py")
+
+# Conditional helpers
+def gast_to_py_if(gast):
+    test = gast_to_code(gast["test"], "py")
     body = list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
 
     out = 'if (' + test + '):\n\t' + body
@@ -89,14 +89,14 @@ def py_if(gast):
     if len(gast["orelse"]) == 0:
         pass
     elif gast["orelse"][0]["type"] == "if":
-        out += "\nel" + gast_router(gast["orelse"], "py")
+        out += "\nel" + gast_to_code(gast["orelse"], "py")
     else:
         out += "\nelse:\n\t" + list_helper(gast["orelse"], "py", "\n\t")
 
     return out
 
-def js_if(gast):
-    test = gast_router(gast["test"], "js")
+def gast_to_js_if(gast):
+    test = gast_to_code(gast["test"], "js")
     body = list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
 
     out = 'if (' + test + ') {\n\t' + body + "\n}"
@@ -105,21 +105,12 @@ def js_if(gast):
     if len(gast["orelse"]) == 0:
         pass
     elif gast["orelse"][0]["type"] == "if":
-        out += " else " + gast_router(gast["orelse"], "js")
+        out += " else " + gast_to_code(gast["orelse"], "js")
     else:
         out += " else {\n\t" + list_helper(gast["orelse"], "js", "\n\t") + "\n}"
 
     return out
 
-  
-def js_boolOp(gast):
-    return binOp_helper(gast, "js")
-
-def py_unaryOp(gast):
-    return "not " + gast_router(gast["arg"], "py")
-
-def js_unaryOp(gast):
-    return "!" + gast_router(gast["arg"], "js")
 
 out = {
     "logStatement": {
@@ -127,36 +118,36 @@ out = {
         "js": "console.log"
     },
     "varAssign": {
-        "py": py_varAssign,
-        "js": js_varAssign,
+        "py": gast_to_py_var_assign,
+        "js": gast_to_js_var_assign,
     },
     "bool": {
-        "py": py_bool,
-        "js": js_bool,
+        "py": gast_to_py_bool,
+        "js": gast_to_js_bool,
     },
     "if": {
-        "py": py_if,
-        "js": js_if
+        "py": gast_to_py_if,
+        "js": gast_to_js_if
     },
     "funcCall": {
-        "py": py_functions,
-        "js": js_functions
+        "py": gast_to_py_functions,
+        "js": gast_to_js_functions
     },
     "attribute": {
-        "py": py_attribute,
-        "js": js_attribute
+        "py": gast_to_py_attribute,
+        "js": gast_to_js_attribute
     },
     "boolOp": {
-        "py": py_boolOp,
-        "js": js_boolOp
+        "py": gast_to_py_bool_op,
+        "js": gast_to_js_bool_op
     },
     "none": {
         "py": "None",
         "js": "null" # TODO look at undefined in JS 
     },
     "unaryOp": {
-        "py": py_unaryOp,
-        "js": js_unaryOp
+        "py": gast_to_py_unary_op,
+        "js": gast_to_js_unary_op
     }
 }
 
@@ -168,7 +159,7 @@ out_lang correspond to the language codes defined in datastructure:
 javascript: js
 python: py
 """
-def gast_router(gast, out_lang):
+def gast_to_code(gast, out_lang):
     if type(gast) == list:
         return list_helper(gast, out_lang)
 
@@ -176,7 +167,7 @@ def gast_router(gast, out_lang):
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_router(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
+        return "[" + gast_to_code(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
@@ -202,7 +193,7 @@ def gast_router(gast, out_lang):
         return out["attribute"][out_lang](gast)
 
     elif gast["type"] == "binOp":
-        return binOp_helper(gast, out_lang)
+        return gast_to_node_bin_op_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
         return out["boolOp"][out_lang](gast)
     elif gast["type"] == "unaryOp":

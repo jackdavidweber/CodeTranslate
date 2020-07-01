@@ -33,29 +33,29 @@ def node_to_gast(node):
         # identifier has quotes around name
         return {"type": "name", "value": node.name}
     elif node.type == "BinaryExpression":
-        return js_helpers.binOp(node)
+        return js_helpers.bin_op_to_gast(node)
     elif node.type == "LogicalExpression":
-        return js_helpers.boolOp(node)
+        return js_helpers.bool_op_to_gast(node)
     elif node.type == "UnaryExpression":
         return js_helpers.unary_to_gast(node)
     #statements
     elif node.type == "VariableDeclaration":
-        return js_assign.jsassign_to_gast(node)
+        return js_assign.assign_to_gast(node)
     elif node.type == "ExpressionStatement":
         return js_expression.convert_expression_to_gast(node)
     elif node.type == "CallExpression":
         return js_expression.call_expression_to_gast(node)
     elif node.type == "MemberExpression":
-        return js_helpers.memExp_to_gast(node)
+        return js_helpers.member_expression_to_gast(node)
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
-        return js_helpers.js_array_expression(node)
+        return js_helpers.array_expression_to_gast(node)
     elif node.type == "BlockStatement":
-        return js_helpers.js_block_statement(node)
+        return js_helpers.block_statement_to_gast(node)
     # Conditionals
     elif node.type == "IfStatement":
-        return js_conditional.if_statement(node)
+        return js_conditional.if_statement_to_gast(node)
     else:
         # not supported
         print(node.type)

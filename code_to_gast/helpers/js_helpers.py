@@ -3,7 +3,7 @@ import js_router
 """
 handles arrays and recursively calls node_to_gast on all its elements
 """
-def js_array_expression(node):
+def array_expression_to_gast(node):
     gast = {"type" : "arr"}
     gast["elts"] = []
     for elm in node.elements:
@@ -25,44 +25,26 @@ def program_to_gast(node):
 """
 converts a python ast BinOp and converts it to a gast node
 """
-def binOp(bop):
+def bin_op_to_gast(bop):
   gast = {"type" : "binOp"}
-  if bop.left.type != "BinaryExpression" and bop.right.type != "BinaryExpression":
-      gast["left"] = js_router.node_to_gast(bop.left)
-      gast["op"] = bop.operator
-      gast["right"] = js_router.node_to_gast(bop.right)
-  if bop.left.type == "BinaryExpression":
-      gast["left"] = binOp(bop.left)
-      gast["op"] = bop.operator
-      gast["right"] = js_router.node_to_gast(bop.right)
-  if bop.right.type == "BinaryExpression":
-      gast["left"] = binOp(bop.left)
-      gast["op"] = bop.operator
-      gast["right"] = js_router.node_to_gast(bop.right)
+  gast["left"] = js_router.node_to_gast(bop.left)
+  gast["op"] = bop.operator
+  gast["right"] = js_router.node_to_gast(bop.right)
   return gast
 
-# TODO: address gharel comment https://github.com/jackdavidweber/cjs_capstone/pull/32#discussion_r446407392
-def boolOp(node):
+
+def bool_op_to_gast(node):
     gast = {"type": "boolOp"}
-    if node.left.type != "LogicalExpression" and node.right.type != "LogicalExpression":
-        gast["left"] = js_router.node_to_gast(node.left)
-        gast["op"] = node.operator
-        gast["right"] = js_router.node_to_gast(node.right)
-    elif node.left.type == "LogicalExpression":
-        gast["left"] = boolOp(node.left)
-        gast["op"] = node.operator
-        gast["right"] = js_router.node_to_gast(node.right)
-    elif node.right.type == "LogicalExpression":
-        gast["left"] = js_router.node_to_gast(node.left)
-        gast["op"] = node.operator
-        gast["right"] = boolOp(node.right)
+    gast["left"] = js_router.node_to_gast(node.left)
+    gast["op"] = node.operator
+    gast["right"] = js_router.node_to_gast(node.right)
     return gast
 
 """
-Converts Member Expression and converts to readable string recursively
+Converts Member Expression to our generic AST recursively
 Used for functions called on objects and std funcs like console.log
 """
-def memExp_to_gast(node):
+def member_expression_to_gast(node):
   if node.property.name == "log":
     return {"type": "logStatement"}
 
@@ -91,9 +73,12 @@ Seems like this block statement type is called
 whenever there are curly braces. Probably will need 
 to end up making this function more robust.
 """
-def js_block_statement(node):
+def block_statement_to_gast(node):
   return js_router.node_to_gast(node.body)
 
 
+"""
+Takes unary operation such as ! and converts it to generic AST
+"""
 def unary_to_gast(node):
     return {"type": "unaryOp", "op": node.operator, "arg": js_router.node_to_gast(node.argument)}
