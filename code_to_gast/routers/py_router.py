@@ -21,9 +21,9 @@ def node_to_gast(node):
     elif type(node) == ast.Module:
         return helpers.module_to_gast(node)
     elif type(node) == ast.BinOp:
-        return helpers.binOp_to_gast(node)
+        return helpers.bin_op_to_gast(node)
     elif type(node) == ast.BoolOp:
-        return helpers.boolOp_to_gast(node)
+        return helpers.bool_op_to_gast(node)
     elif type(node) == ast.List:
         return helpers.array_to_gast(node)
     elif type(node) == list:
@@ -31,7 +31,7 @@ def node_to_gast(node):
     elif type(node) == ast.Name:
         return helpers.name_to_gast(node)
     elif type(node) == ast.UnaryOp:
-        return helpers.unaryOp_to_gast(node)
+        return helpers.unary_op_to_gast(node)
 
     # Expressions
     elif type(node) == ast.Expr:

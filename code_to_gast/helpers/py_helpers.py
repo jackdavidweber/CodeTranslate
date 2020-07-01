@@ -79,7 +79,7 @@ example: True and False
     exampleIn: BoolOp(op=And(), values=[NameConstant(value=True), NameConstant(value=False)])
     exampleOut: {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
 """
-def boolOp_to_gast(node):
+def bool_op_to_gast(node):
     gast = {"type": "boolOp", "op": pyop_to_str(node.op)}
     gast["left"] = pr.node_to_gast(node.values[0])
     gast["right"] = pr.node_to_gast(node.values[1])
@@ -92,7 +92,7 @@ example 3+4:
     exampleIn BinOp(left=Num(n=3), op=Add, right=Num(n=4))
     exampleOut {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}
 """
-def binOp_to_gast(node):
+def bin_op_to_gast(node):
     gast = {"type": "binOp", "op": pyop_to_str(node.op)}
     gast["left"] = pr.node_to_gast(node.left)
     gast["right"] = pr.node_to_gast(node.right)
@@ -140,5 +140,5 @@ def name_to_gast(node):
 """
 takes node of type unaryOp and converts it to our generic ast represenations
 """
-def unaryOp_to_gast(node):
+def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
