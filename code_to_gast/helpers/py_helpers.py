@@ -79,18 +79,18 @@ example: True and False
     exampleIn: BoolOp(op=And(), values=[NameConstant(value=True), NameConstant(value=False)])
     exampleOut: {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
 """
-def boolOp(node):
+def bool_op_to_gast(node):
     op = pyop_to_str(node.op)
-    return boolOpHelper(node.values, op)
+    return bool_op_helper(node.values, op)
 
-def boolOpHelper(node_list, op_str):
+def bool_op_helper(node_list, op_str):
     gast = {}
     gast["type"] = "boolOp"
     gast["left"] = pr.node_to_gast(node_list[0])
     gast["op"] = op_str
 
     if len(node_list[1:]) > 1:
-        gast["right"] = boolOpHelper(node_list[1:], op_str)
+        gast["right"] = bool_op_helper(node_list[1:], op_str)
     else:
         gast["right"] = pr.node_to_gast(node_list[1])
     return gast

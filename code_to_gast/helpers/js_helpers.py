@@ -32,13 +32,13 @@ def bin_op_to_gast(bop):
       gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   if bop.left.type == "BinaryExpression":
-      gast["left"] = binOp(bop.left)
+      gast["left"] = bin_op_to_gast(bop.left)
       gast["op"] = bop.operator
       gast["right"] = js_router.node_to_gast(bop.right)
   if bop.right.type == "BinaryExpression":
       gast["left"] = js_router.node_to_gast(bop.left)
       gast["op"] = bop.operator
-      gast["right"] = binOp(bop.right)
+      gast["right"] = bin_op_to_gast(bop.right)
   return gast
 
 

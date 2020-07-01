@@ -55,7 +55,7 @@ def gast_to_py_bool_op(gast):
     return left + op + right
 
 def gast_to_js_bool_op(gast):
-    return binOp_helper(gast, "js")
+    return gast_to_node_bin_op_helper(gast, "js")
 
 def gast_to_py_unary_op(gast):
     return "not " + gast_to_code(gast["arg"], "py")
