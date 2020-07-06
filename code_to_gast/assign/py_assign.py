@@ -1,4 +1,5 @@
 import py_router as pr
+import py_helpers as helper
 
 """
 takes python ast assigns and converts them to generic ast format
@@ -16,3 +17,18 @@ def assign_to_gast(node):
     gast["varValue"] = pr.node_to_gast(node.value)
 
     return gast
+
+"""
+takes python ast and converts augmented assignment into generic AST
+example:
+    exampleIn: AugAssign(target=Name(id='x', ctx=Store()), op=Add(), value=Num(n=1))
+    exampleOut: {'type': 'augAssign', 'left': {'type': 'name', 'value': 'x'}, 'op': '+=', 'right': {'type': 'num', 'value': 1}}
+"""
+def aug_assign_to_gast(node):
+    gast = {"type": "augAssign"}
+    gast["left"] = pr.node_to_gast(node.target)
+    gast["op"] = helper.pyop_to_str(node.op) + "="
+    gast["right"] = pr.node_to_gast(node.value)
+    return gast
+
+
