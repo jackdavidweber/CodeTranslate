@@ -197,7 +197,7 @@ def gast_to_code(gast, out_lang):
 
     # Loops
     elif gast["type"] == "whileStatement":
-        return out["whileStatement"](out_lang)
+        return out["whileStatement"][out_lang](gast)
 
     # Other
     elif gast["type"] == "root":
