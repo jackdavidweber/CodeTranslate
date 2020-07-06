@@ -10,6 +10,17 @@ def array_expression_to_gast(node):
         gast["elts"].append(js_router.node_to_gast(elm))
     return gast
 
+def dictionary_to_gast(node):
+    gast = {"type": "dict"}
+    gast["elts"] = js_router.node_to_gast(node.properties)
+    return gast
+
+def property_to_gast(node):
+    gast = {"type": "property"}
+    gast["key"] = js_router.node_to_gast(node.key)
+    gast["value"] = js_router.node_to_gast(node.value)
+    return gast
+
 """
 takes ast node of type program and returns
 a generic ast for that node
