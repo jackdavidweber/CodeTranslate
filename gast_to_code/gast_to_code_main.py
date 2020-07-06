@@ -111,11 +111,20 @@ def gast_to_js_if(gast):
 
     return out
 
+# FIXME: may be a way to write helper functions that can be used btwn while and if
 def gast_to_py_while(gast):
-    pass
+    test = gast_to_code(gast["test"], "py")
+    body = list_helper(gast["body"], "py", "\n\t")
+
+    out = 'while (' + test + '):\n\t' + body
+    return out
 
 def gast_to_js_while(gast):
-    pass
+    test = gast_to_code(gast["test"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+    
+    out = 'while (' + test + ') {\n\t' + body + "\n}"
+    return out
 
 out = {
     "logStatement": {
