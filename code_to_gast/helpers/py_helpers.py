@@ -54,6 +54,16 @@ def array_to_gast(node):
     gast["elts"] = list_elem
     return gast
 
+def dictionary_to_gast(node):
+    gast = {"type": "dict", "elts": []}
+
+    for i in range(len(node.keys)):
+        prop = {"type": "property"}
+        prop["key"] = pr.node_to_gast(node.keys[i])
+        prop["value"] = pr.node_to_gast(node.values[i])
+        gast["elts"].append(prop)
+    return gast
+
 
 """
 converts python ast operations to common string representation
