@@ -36,7 +36,7 @@ class TestGastToCode(unittest2.TestCase):
     def test_nested_arr(self):
         gast_arr = {
             "type": "arr",
-            "elts": 
+            "elements": 
                 [
                     {
                         "type": "str",
@@ -44,7 +44,7 @@ class TestGastToCode(unittest2.TestCase):
                     },
                     {
                         "type": "arr",
-                        "elts":
+                        "elements":
                             [
                                 {
                                     "type": "num",
@@ -137,7 +137,6 @@ class TestGastToCode(unittest2.TestCase):
                 }
             ]
         }
-
         self.assertEqual('print("hello world", 5)', gtc.gast_to_code(gast_logStatement, "py"))
         self.assertEqual('console.log("hello world", 5)', gtc.gast_to_code(gast_logStatement, "js"))
 
@@ -197,7 +196,6 @@ class TestGastToCode(unittest2.TestCase):
                 { "type": "varAssign", "kind": "const", "varId": {"type": "name", "value": "x"}, "varValue": { "type": "num", "value": 5 } },
             ]
         }
-
         self.assertEqual('x = 5\nx = 5', gtc.gast_to_code(gast_multi_body, "py"))
 
     def test_if (self):
