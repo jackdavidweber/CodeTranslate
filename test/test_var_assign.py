@@ -25,6 +25,10 @@ class TestVarAssign(unittest2.TestCase):
     def test_none_assign(self):
         self.assertEqual('no = None', main.main('let no =null', 'js', 'py'))
         self.assertEqual('let help = null', main.main('help = None', 'py', 'js'))
+    
+    def test_aug_assign(self):
+        self.assertEqual('x -= 1', main.main('x -= 1', 'js', 'py'))
+        self.assertEqual('y /= 3', main.main('y/=3', 'py', 'js'))
 
 if __name__ == '__main__':
     unittest2.main()
