@@ -29,6 +29,10 @@ def node_to_gast(node):
             return {"type": "none"}
         else:
             return "Unsupported prim"
+    elif node.type == "BreakStatement":
+        return {"type": "break"}
+    elif node.type == "ContinueStatement":
+        return {"type": "continue"}
     elif node.type == "Identifier":
         # identifier has quotes around name
         return {"type": "name", "value": node.name}
