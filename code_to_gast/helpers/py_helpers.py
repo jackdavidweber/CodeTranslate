@@ -162,6 +162,9 @@ def unary_op_to_gast(node):
 
 """
 takes node of type Compare and converts it to our generic ast representation
+example:
+    Example In: Compare(left=Num(n=1), ops=[Gt()], comparators=[Num(n=1), Num(n=2)])
+    Example Out: {'type': 'binOp', 'left': {'type': 'num', 'value': 1}, 'op': '>', 'right': {'type': 'num', 'value': 2}}
 """
 def compare_to_gast(node):
     # create list of comparators. (1>2>=3 would create list [1,2,3])
