@@ -111,6 +111,29 @@ def gast_to_js_if(gast):
 
     return out
 
+def gast_to_js_func_declarations(gast):
+    name = gast_to_code(gast["id"], "js")
+    args = gast_to_code(gast["params"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+    out = "function " + name
+    out += "(" + args + ") {\n\t"
+
+    out += body
+
+    out += "\n}"
+    return out
+
+def gast_to_py_func_declarations(gast):
+    name = gast_to_code(gast["id"], "py")
+    args = gast_to_code(gast["params"], "py")
+    body = list_helper(gast["body"], "py", "\n\t")
+    out = "def " + name
+    out += "(" + args + "):\n\t"
+
+    out += body
+
+    return out
+
 
 out = {
     "logStatement": {
@@ -148,6 +171,10 @@ out = {
     "unaryOp": {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
+    },
+    "functionDeclaration": {
+        "py": gast_to_py_func_declarations,
+        "js": gast_to_js_func_declarations
     }
 }
 
@@ -198,6 +225,8 @@ def gast_to_code(gast, out_lang):
         return out["boolOp"][out_lang](gast)
     elif gast["type"] == "unaryOp":
         return out["unaryOp"][out_lang](gast)
+    elif gast["type"] == "functionDeclaration":
+        return out["functionDeclaration"][out_lang](gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string

@@ -1,5 +1,6 @@
 import esprima
 import sys
+import json
 
 # add path so imports possible in other files without sys
 sys.path.append('assign')
@@ -20,3 +21,7 @@ def js_to_gast(js_input):
     except:
         return "Error: code could not compile"
     return js_router.node_to_gast(input_ast)
+
+#unformatted = (js_to_gast("function add(x, y){x + y}"))
+#json_formatted_str = json.dumps(unformatted, indent=2)
+#print(json_formatted_str)

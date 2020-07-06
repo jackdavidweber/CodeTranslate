@@ -152,3 +152,9 @@ takes node of type unaryOp and converts it to our generic ast represenations
 """
 def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
+
+"""
+takes argument from function declaration and makes into gast node
+"""
+def arg_to_gast(node):
+    return {"type": "name", "value": node.arg}
