@@ -5,13 +5,6 @@ sys.path.append('../cjs_capstone')
 import unittest2
 import gast_to_code.gast_to_code_main as gtc
 
-gast_str = { "type": "str", "value": "hello world" }
-
-gast_num = { "type": "num", "value": 47.47 }
-
-gast_true = {"type": "bool", "value": 1}
-
-gast_false = {"type": "bool", "value": 0}
 
 gast_arr = {
 	"type": "arr",
@@ -137,23 +130,27 @@ gast_multi_body = {
 class TestGastToCode(unittest2.TestCase):
     # test primitives
     def test_primitive_str(self):
+        gast_str = { "type": "str", "value": "hello world" }
+
         self.assertEqual('"hello world"', gtc.gast_to_code(gast_str, "py"))
         self.assertEqual('"hello world"', gtc.gast_to_code(gast_str, "js"))
 
     def test_primitive_num(self):
+        gast_num = { "type": "num", "value": 47.47 }
+
         self.assertEqual('47.47', gtc.gast_to_code(gast_num,"py"))
         self.assertEqual('47.47', gtc.gast_to_code(gast_num,"js"))
 
-    def test_primitive_true_js (self):
+    def test_primitive_true (self):
+        gast_true = {"type": "bool", "value": 1}
+
+        self.assertEqual('True', gtc.gast_to_code(gast_true, "py"))
         self.assertEqual('true', gtc.gast_to_code(gast_true, "js"))
 
-    def test_primitive_false_js (self):
+    def test_primitive_false (self):
+        gast_false = {"type": "bool", "value": 0}
+
         self.assertEqual('false', gtc.gast_to_code(gast_false, "js"))
-
-    def test_primitive_true_py (self):
-        self.assertEqual('True', gtc.gast_to_code(gast_true, "py"))
-
-    def test_primitive_false_py (self):
         self.assertEqual('False', gtc.gast_to_code(gast_false, "py"))
 
 
