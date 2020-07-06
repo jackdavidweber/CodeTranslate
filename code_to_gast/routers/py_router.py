@@ -46,6 +46,8 @@ def node_to_gast(node):
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign_to_gast(node)
+    elif type(node) == ast.AugAssign:
+        return assign.aug_assign_to_gast(node)
 
     # Conditionals
     elif type(node) == ast.If:
