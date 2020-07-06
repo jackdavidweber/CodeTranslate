@@ -180,6 +180,10 @@ def gast_to_code(gast, out_lang):
     #Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
+    elif gast["type"] == "break":
+        return "break"
+    elif gast["type"] == "continue":
+        return "continue"
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
