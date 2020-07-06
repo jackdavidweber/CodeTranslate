@@ -10,11 +10,17 @@ def array_expression_to_gast(node):
         gast["elts"].append(js_router.node_to_gast(elm))
     return gast
 
+"""
+handles dictionaries conversion to generic AST with list of properties
+"""
 def dictionary_to_gast(node):
     gast = {"type": "dict"}
     gast["elts"] = js_router.node_to_gast(node.properties)
     return gast
 
+"""
+takes each property of a dictionary and turns it into a property type
+"""
 def property_to_gast(node):
     gast = {"type": "property"}
     gast["key"] = js_router.node_to_gast(node.key)
@@ -52,7 +58,9 @@ def bin_op_to_gast(bop):
       gast["right"] = bin_op_to_gast(bop.right)
   return gast
 
-
+"""
+takes a type boolean operator and turns it into our generic AST
+"""
 def bool_op_to_gast(node):
     gast = {"type": "boolOp"}
     gast["left"] = js_router.node_to_gast(node.left)

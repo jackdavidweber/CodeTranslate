@@ -54,6 +54,9 @@ def array_to_gast(node):
     gast["elts"] = list_elem
     return gast
 
+"""
+takes a dictionary converts it for the generic AST 
+"""
 def dictionary_to_gast(node):
     gast = {"type": "dict", "elts": []}
 
@@ -93,6 +96,9 @@ def bool_op_to_gast(node):
     op = pyop_to_str(node.op)
     return bool_op_helper(node.values, op)
 
+"""
+Recursively handles case where Python creates a list of literals
+"""
 def bool_op_helper(node_list, op_str):
     gast = {}
     gast["type"] = "boolOp"
