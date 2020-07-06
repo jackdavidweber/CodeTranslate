@@ -111,6 +111,11 @@ def gast_to_js_if(gast):
 
     return out
 
+def gast_to_py_while(gast):
+    pass
+
+def gast_to_js_while(gast):
+    pass
 
 out = {
     "logStatement": {
@@ -149,6 +154,10 @@ out = {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
     }
+    "whileStatement": {
+        "py": gast_to_py_while,
+        "js": gast_to_js_while
+    }
 }
 
 """
@@ -177,7 +186,11 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
-    #Other
+    # Loops
+    elif gast["type"] == "whileStatement":
+        return out["whileStatement"](out_lang)
+
+    # Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "logStatement":
