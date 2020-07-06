@@ -36,7 +36,7 @@ class TestGastToCode(unittest2.TestCase):
     def test_nested_arr(self):
         gast_arr = {
             "type": "arr",
-            "elts": 
+            "elements": 
                 [
                     {
                         "type": "str",
@@ -44,7 +44,7 @@ class TestGastToCode(unittest2.TestCase):
                     },
                     {
                         "type": "arr",
-                        "elts":
+                        "elements":
                             [
                                 {
                                     "type": "num",
