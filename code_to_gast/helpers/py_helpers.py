@@ -68,12 +68,19 @@ def pyop_to_str(op):
         ast.BitOr: "|", 
         ast.And: "&&", 
         ast.Or: "||",
-        ast.Not: "!"
+        ast.Not: "!",
+        ast.Gt: ">",
+        ast.GtE: ">=",
+        ast.Lt: "<",
+        ast.LtE: "<=",
+        ast.Eq: "=="
+
     }
     return op_to_str_map[type(op)]
 
 
 """
+TODO: fix this docstring
 converts a python ast BoolOp into a readable string recursively
 example: True and False
     exampleIn: BoolOp(op=And(), values=[NameConstant(value=True), NameConstant(value=False)])
@@ -152,3 +159,29 @@ takes node of type unaryOp and converts it to our generic ast represenations
 """
 def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
+
+"""
+takes node of type Compare and converts it to our generic ast representation
+"""
+def compare_to_gast(node):
+    # create list of comparators. (1>2>=3 would create list [1,2,3])
+    comparator_list = node.comparators
+    comparator_list.insert(0, node.left) # this is necessary since pyAST stores leftmost comparator seperately
+
+    # create list of operators. (1>2>=3 would create list [>, >=]
+    op_list = node.ops
+
+    return compare_helper(comparator_list, op_list)
+
+def compare_helper(node_list, op_list):
+    gast = {}
+    gast["type"] = "binOp"
+    gast["left"] = pr.node_to_gast(node_list[0])
+    gast["op"] = pyop_to_str(op_list[0])
+
+    if len(node_list[1:]) > 1:
+        gast["right"] = compare_helper(node_list[1:], op_list[1:])
+    else:
+        gast["right"] = pr.node_to_gast(node_list[1])
+
+    return gast
