@@ -53,6 +53,10 @@ def node_to_gast(node):
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
         return js_helpers.array_expression_to_gast(node)
+    elif node.type == "ObjectExpression":
+        return js_helpers.dictionary_to_gast(node)
+    elif node.type == "Property":
+        return js_helpers.property_to_gast(node)
     elif node.type == "BlockStatement":
         return js_helpers.block_statement_to_gast(node)
     # Conditionals

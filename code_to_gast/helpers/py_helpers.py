@@ -51,7 +51,20 @@ def array_to_gast(node):
     for elem in ast.iter_child_nodes(node):
         if type(elem) != ast.Load:
             list_elem.append(pr.node_to_gast(elem))
-    gast["elts"] = list_elem
+    gast["elements"] = list_elem
+    return gast
+
+"""
+takes a dictionary converts it for the generic AST 
+"""
+def dictionary_to_gast(node):
+    gast = {"type": "dict", "elements": []}
+
+    for i in range(len(node.keys)):
+        prop = {"type": "property"}
+        prop["key"] = pr.node_to_gast(node.keys[i])
+        prop["value"] = pr.node_to_gast(node.values[i])
+        gast["elements"].append(prop)
     return gast
 
 
@@ -83,6 +96,9 @@ def bool_op_to_gast(node):
     op = pyop_to_str(node.op)
     return bool_op_helper(node.values, op)
 
+"""
+Recursively handles case where Python creates a list of literals
+"""
 def bool_op_helper(node_list, op_str):
     gast = {}
     gast["type"] = "boolOp"

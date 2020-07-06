@@ -15,6 +15,18 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
 
+def gast_to_py_dict(gast):
+    return "{" + gast_to_code(gast["elements"], "py") + "}"
+
+def gast_to_js_dict(gast):
+    return "{" + gast_to_code(gast["elements"], "js") + "}"
+
+def gast_to_py_property(gast):
+    return gast_to_code(gast["key"], "py") + ": " + gast_to_code(gast["value"], "py")
+
+def gast_to_js_property(gast):
+    return gast_to_code(gast["key"], "js") + ": " + gast_to_code(gast["value"], "js")
+
 # assign helpers
 def gast_to_py_var_assign(gast):
     value = gast_to_code(gast["varValue"], "py")
@@ -157,6 +169,14 @@ out = {
     "unaryOp": {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
+    },
+    "dict": {
+        "py": gast_to_py_dict,
+        "js": gast_to_js_dict
+    },
+    "property": {
+        "py": gast_to_py_property,
+        "js": gast_to_js_property
     }
 }
 
@@ -176,7 +196,7 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_to_code(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
+        return "[" + gast_to_code(gast["elements"], out_lang) + "]"
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
@@ -202,6 +222,11 @@ def gast_to_code(gast, out_lang):
         return gast["value"]
     elif gast["type"] == "attribute":
         return out["attribute"][out_lang](gast)
+
+    elif gast["type"] == "dict":
+        return out["dict"][out_lang](gast)
+    elif gast["type"] == "property":
+        return out["property"][out_lang](gast)
 
     elif gast["type"] == "binOp":
         return gast_to_node_bin_op_helper(gast, out_lang)
