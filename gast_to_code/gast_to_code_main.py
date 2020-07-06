@@ -26,6 +26,11 @@ def gast_to_js_var_assign(gast):
     varValue = gast_to_code(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
+def gast_to_py_aug_assign(gast):
+    return gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + gast_to_code(gast["right"], "py")
+
+def gast_to_js_aug_assign(gast):
+    return gast_to_code(gast["left"], "js") + " " + gast["op"] + " " + gast_to_code(gast["right"], "js")
 
 # expression helpers
 def gast_to_py_functions(gast):
@@ -121,6 +126,10 @@ out = {
         "py": gast_to_py_var_assign,
         "js": gast_to_js_var_assign,
     },
+    "augAssign": {
+        "py": gast_to_py_aug_assign,
+        "js": gast_to_js_aug_assign
+    },
     "bool": {
         "py": gast_to_py_bool,
         "js": gast_to_js_bool,
@@ -184,6 +193,8 @@ def gast_to_code(gast, out_lang):
         return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    elif gast["type"] == "augAssign":
+        return out["augAssign"][out_lang](gast)
     
     elif gast["type"] == "funcCall":
         return out["funcCall"][out_lang](gast)
