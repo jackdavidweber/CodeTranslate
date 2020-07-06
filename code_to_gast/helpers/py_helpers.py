@@ -173,6 +173,7 @@ def compare_to_gast(node):
 
     return compare_helper(comparator_list, op_list)
 
+# TODO: combine logic in bool_op_helper and compare_helper into single function
 def compare_helper(node_list, op_list):
     gast = {}
     gast["type"] = "binOp"
