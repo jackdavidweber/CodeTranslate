@@ -41,6 +41,8 @@ def node_to_gast(node):
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.assign_to_gast(node)
+    elif node.type == "AssignmentExpression":
+        return js_assign.aug_assign_to_gast(node)
     elif node.type == "ExpressionStatement":
         return js_expression.convert_expression_to_gast(node)
     elif node.type == "CallExpression":
