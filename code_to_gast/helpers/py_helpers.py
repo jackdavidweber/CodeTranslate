@@ -152,3 +152,16 @@ takes node of type unaryOp and converts it to our generic ast represenations
 """
 def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
+
+
+"""
+break statement to gast
+"""
+def break_to_gast(node):
+    return {"type": "break"}
+
+"""
+continue statement to gast
+"""
+def continue_to_gast(node):
+    return {"type": "continue"}

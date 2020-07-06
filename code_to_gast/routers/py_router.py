@@ -16,6 +16,10 @@ def node_to_gast(node):
         return helpers.num_to_gast(node)
     elif type(node) == ast.NameConstant:
         return helpers.name_constant_to_gast(node)
+    elif type(node) == ast.Break:
+        return helpers.break_to_gast(node)
+    elif type(node) == ast.Continue:
+        return helpers.continue_to_gast(node)
 
     # Helpers
     elif type(node) == ast.Module:
