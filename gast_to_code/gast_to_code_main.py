@@ -162,7 +162,7 @@ out = {
     "unaryOp": {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
-    }
+    },
     "whileStatement": {
         "py": gast_to_py_while,
         "js": gast_to_js_while
