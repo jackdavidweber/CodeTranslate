@@ -38,6 +38,8 @@ def node_to_gast(node):
         return helpers.name_to_gast(node)
     elif type(node) == ast.UnaryOp:
         return helpers.unary_op_to_gast(node)
+    elif type(node) == ast.Compare:
+        return helpers.compare_to_gast(node)
 
     # Expressions
     elif type(node) == ast.Expr:
