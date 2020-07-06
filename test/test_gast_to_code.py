@@ -115,7 +115,6 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual('print(False)', gtc.gast_to_code(gast_logStatement_bool, "py"))
         self.assertEqual('console.log(false)', gtc.gast_to_code(gast_logStatement_bool, "js"))
 
-
     def test_js_logStatement_two_arguments(self):
         gast_logStatement = {
             "type": "root",
@@ -201,7 +200,6 @@ class TestGastToCode(unittest2.TestCase):
 
         self.assertEqual('x = 5\nx = 5', gtc.gast_to_code(gast_multi_body, "py"))
 
-    # TODO: add elif and else if tests once new way of doing logstatements are merged
     def test_if (self):
         input_gast = {
             'type': 'root',
