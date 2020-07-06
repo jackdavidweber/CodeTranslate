@@ -16,10 +16,10 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     return out
 
 def gast_to_py_dict(gast):
-    return "{" + gast_to_code(gast["elts"], "py") + "}"
+    return "{" + gast_to_code(gast["elements"], "py") + "}"
 
 def gast_to_js_dict(gast):
-    return "{" + gast_to_code(gast["elts"], "js") + "}"
+    return "{" + gast_to_code(gast["elements"], "js") + "}"
 
 def gast_to_py_property(gast):
     return gast_to_code(gast["key"], "py") + ": " + gast_to_code(gast["value"], "py")
@@ -187,7 +187,7 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_to_code(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
+        return "[" + gast_to_code(gast["elements"], out_lang) + "]"
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":

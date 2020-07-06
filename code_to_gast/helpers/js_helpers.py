@@ -5,9 +5,9 @@ handles arrays and recursively calls node_to_gast on all its elements
 """
 def array_expression_to_gast(node):
     gast = {"type" : "arr"}
-    gast["elts"] = []
+    gast["elements"] = []
     for elm in node.elements:
-        gast["elts"].append(js_router.node_to_gast(elm))
+        gast["elements"].append(js_router.node_to_gast(elm))
     return gast
 
 """
@@ -15,7 +15,7 @@ handles dictionaries conversion to generic AST with list of properties
 """
 def dictionary_to_gast(node):
     gast = {"type": "dict"}
-    gast["elts"] = js_router.node_to_gast(node.properties)
+    gast["elements"] = js_router.node_to_gast(node.properties)
     return gast
 
 """
