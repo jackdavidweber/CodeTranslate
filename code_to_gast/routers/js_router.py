@@ -1,10 +1,12 @@
 import js_assign
 import js_expression
 import js_conditional
+import js_loop
 import js_helpers
 import esprima
 
 """
+# TODO: add whitespace
 Takes js and converts to generic ast node
 """
 
@@ -56,6 +58,9 @@ def node_to_gast(node):
     # Conditionals
     elif node.type == "IfStatement":
         return js_conditional.if_statement_to_gast(node)
+    # Loops
+    elif node.type == "WhileStatement":
+        return js_loop.while_statement_to_gast(node)
     else:
         # not supported
         return {"type": "error", "value": "unsupported"}
