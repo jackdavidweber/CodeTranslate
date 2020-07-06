@@ -137,81 +137,81 @@ gast_multi_body = {
 class TestGastToCode(unittest2.TestCase):
     # test primitives
     def test_primitive_str(self):
-        self.assertEqual('"hello world"', gtc.gast_router(gast_str, "py"))
-        self.assertEqual('"hello world"', gtc.gast_router(gast_str, "js"))
+        self.assertEqual('"hello world"', gtc.gast_to_code(gast_str, "py"))
+        self.assertEqual('"hello world"', gtc.gast_to_code(gast_str, "js"))
 
     def test_primitive_num(self):
-        self.assertEqual('47.47', gtc.gast_router(gast_num,"py"))
-        self.assertEqual('47.47', gtc.gast_router(gast_num,"js"))
+        self.assertEqual('47.47', gtc.gast_to_code(gast_num,"py"))
+        self.assertEqual('47.47', gtc.gast_to_code(gast_num,"js"))
 
     def test_primitive_true_js (self):
-        self.assertEqual('true', gtc.gast_router(gast_true, "js"))
+        self.assertEqual('true', gtc.gast_to_code(gast_true, "js"))
 
     def test_primitive_false_js (self):
-        self.assertEqual('false', gtc.gast_router(gast_false, "js"))
+        self.assertEqual('false', gtc.gast_to_code(gast_false, "js"))
 
     def test_primitive_true_py (self):
-        self.assertEqual('True', gtc.gast_router(gast_true, "py"))
+        self.assertEqual('True', gtc.gast_to_code(gast_true, "py"))
 
     def test_primitive_false_py (self):
-        self.assertEqual('False', gtc.gast_router(gast_false, "py"))
+        self.assertEqual('False', gtc.gast_to_code(gast_false, "py"))
 
 
     # test other types
     def test_nested_arr(self):
-        self.assertEqual('["hello", [1, 2]]', gtc.gast_router(gast_arr, "py"))
-        self.assertEqual('["hello", [1, 2]]', gtc.gast_router(gast_arr, "js"))
+        self.assertEqual('["hello", [1, 2]]', gtc.gast_to_code(gast_arr, "py"))
+        self.assertEqual('["hello", [1, 2]]', gtc.gast_to_code(gast_arr, "js"))
 
     def test_binOp_add (self):
-        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "py"))
-        self.assertEqual('3 + 4', gtc.gast_router(gast_binOp_add, "js"))
+        self.assertEqual('3 + 4', gtc.gast_to_code(gast_binOp_add, "py"))
+        self.assertEqual('3 + 4', gtc.gast_to_code(gast_binOp_add, "js"))
 
     def test_binOp_bitwise (self):
-        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "py"))
-        self.assertEqual('1 & 3', gtc.gast_router(gast_binOp_bitwise, "js"))
+        self.assertEqual('1 & 3', gtc.gast_to_code(gast_binOp_bitwise, "py"))
+        self.assertEqual('1 & 3', gtc.gast_to_code(gast_binOp_bitwise, "js"))
 
     def test_binOp_add_sub_mult_div (self):
-        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "py"))
-        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_router(gast_binOp_add_sub_mult_div, "js"))
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_to_code(gast_binOp_add_sub_mult_div, "py"))
+        self.assertEqual('1 + 2 - 3 * 4 / 5', gtc.gast_to_code(gast_binOp_add_sub_mult_div, "js"))
 
     def test_boolOp_and_py (self):
-        self.assertEqual('True and False', gtc.gast_router(gast_boolOp_and, "py"))
+        self.assertEqual('True and False', gtc.gast_to_code(gast_boolOp_and, "py"))
 
     def test_boolOp_and_js (self):
-        self.assertEqual('true && false', gtc.gast_router(gast_boolOp_and, "js"))
+        self.assertEqual('true && false', gtc.gast_to_code(gast_boolOp_and, "js"))
 
     def test_boolOp_or_and_py (self):
-        self.assertEqual('True or False and 4', gtc.gast_router(gast_boolOp_or_and, "py"))
+        self.assertEqual('True or False and 4', gtc.gast_to_code(gast_boolOp_or_and, "py"))
 
     def test_boolOp_or_and_js (self):
-        self.assertEqual('true || false && 4', gtc.gast_router(gast_boolOp_or_and, "js"))
+        self.assertEqual('true || false && 4', gtc.gast_to_code(gast_boolOp_or_and, "js"))
 
     # test logStatement
     def test_js_logStatement_bool (self):
-        self.assertEqual('console.log(false)', gtc.gast_router(gast_logStatement_bool, "js"))
+        self.assertEqual('console.log(false)', gtc.gast_to_code(gast_logStatement_bool, "js"))
 
     def test_js_logStatement_two_arguments(self):
-        self.assertEqual('console.log("hello world", 5)', gtc.gast_router(gast_logStatement, "js"))
+        self.assertEqual('console.log("hello world", 5)', gtc.gast_to_code(gast_logStatement, "js"))
 
     def test_py_logStatement_two_arguments(self):
-        self.assertEqual('print("hello world", 5)', gtc.gast_router(gast_logStatement, "py"))
+        self.assertEqual('print("hello world", 5)', gtc.gast_to_code(gast_logStatement, "py"))
 
     # test varAssign
     def test_js_varAssign_let(self):
-        self.assertEqual('let x = 5', gtc.gast_router(gast_varAssign_let, "js"))
+        self.assertEqual('let x = 5', gtc.gast_to_code(gast_varAssign_let, "js"))
    
     def test_py_varAssign_let (self):
-        self.assertEqual('x = 5', gtc.gast_router(gast_varAssign_let, "py"))
+        self.assertEqual('x = 5', gtc.gast_to_code(gast_varAssign_let, "py"))
 
     def test_js_varAssign_const(self):
-        self.assertEqual('const x = 5', gtc.gast_router(gast_varAssign_const, "js"))
+        self.assertEqual('const x = 5', gtc.gast_to_code(gast_varAssign_const, "js"))
    
     def test_py_varAssign_const (self):
-        self.assertEqual('x = 5', gtc.gast_router(gast_varAssign_const, "py"))
+        self.assertEqual('x = 5', gtc.gast_to_code(gast_varAssign_const, "py"))
 
     # test multiple items in body
     def test_multi_body (self):
-        self.assertEqual('x = 5\nx = 5', gtc.gast_router(gast_multi_body, "py"))
+        self.assertEqual('x = 5\nx = 5', gtc.gast_to_code(gast_multi_body, "py"))
 
     # TODO: add elif and else if tests once new way of doing logstatements are merged
     def test_if (self):
@@ -229,10 +229,10 @@ class TestGastToCode(unittest2.TestCase):
                 }]
             }
         expected_js = 'if (true) {\n\tconsole.log("This is true")\n}'
-        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
 
         expected_py = 'if (True):\n\tprint("This is true")'
-        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
 
     def test_else (self):
         input_gast = {
@@ -254,10 +254,10 @@ class TestGastToCode(unittest2.TestCase):
             }
         
         expected_js = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}' # TODO: consider adding ; after console.log()
-        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
 
         expected_py = 'if (1):\n\tprint("1 is true")\nelse:\n\tprint("1 is NOT true")'
-        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
 
     def test_elif (self):
         input_gast = {
@@ -293,8 +293,8 @@ class TestGastToCode(unittest2.TestCase):
         expected_py = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\n\tprint("second line")'
         expected_js = 'if (1) {\n\tconsole.log("1 is true")\n} else if (2) {\n\tconsole.log("2 is true")\n\tconsole.log("second line")\n}'
 
-        self.assertEqual(expected_py, gtc.gast_router(input_gast, "py"))
-        self.assertEqual(expected_js, gtc.gast_router(input_gast, "js"))
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
 
 
 if __name__ == '__main__':
