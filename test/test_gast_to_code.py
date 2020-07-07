@@ -305,7 +305,7 @@ class TestGastToCode(unittest2.TestCase):
                 "left": 
                 {
                     "type": "name",
-                    "value": i
+                    "value": "i"
                 },
                 "op": "<",
                 "right": 
@@ -336,10 +336,14 @@ class TestGastToCode(unittest2.TestCase):
                     "value": 5
                 }
             ]
-
-
-
         }
+
+        expected_js = 'for (let i = 0; i < 10; i += 2) {\n\t5\n}'
+        expected_py = 'for i in range (0,10,2):\n\t5'
+
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
+ 
 
 
 if __name__ == '__main__':
