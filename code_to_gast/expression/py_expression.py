@@ -28,6 +28,15 @@ def call_to_gast(node):
 handles attributes for python expressions
 """
 def attribute_to_gast(node):
-    gast = {"type": "attribute", "id": node.attr}
-    gast["value"] = pr.node_to_gast(node.value)
+    gast = {"value": pr.node_to_gast(node.value)} 
+
+    if node.attr == "append":
+        gast["type"] = "builtInAttribute"
+        gast["id"] = "appendStatement"
+    elif node.attr == "pop":
+        gast["type"] = "buildInAttribute"
+        gast["id"] = "popStatement"
+    else:
+        gast["type"] = "attribute"
+        gast["id"] = node.attr
     return gast
