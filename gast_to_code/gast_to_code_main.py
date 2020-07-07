@@ -128,6 +128,41 @@ def gast_to_js_if(gast):
 
     return out
 
+def gast_to_js_func_declarations(gast):
+    name = gast_to_code(gast["id"], "js")
+    args = gast_to_code(gast["params"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+    out = "function " + name
+    out += "(" + args + ") {\n\t"
+
+    out += body
+
+    out += "\n}"
+    return out
+
+def gast_to_py_func_declarations(gast):
+    name = gast_to_code(gast["id"], "py")
+    args = gast_to_code(gast["params"], "py")
+    body = list_helper(gast["body"], "py", "\n\t")
+    out = "def " + name
+    out += "(" + args + "):\n\t"
+
+    out += body
+
+    return out
+
+def gast_to_py_return_statement(gast):
+    return "return " + gast_to_code(gast["value"], "py")
+
+def gast_to_js_return_statement(gast):
+    return "return " + gast_to_code(gast["value"], "js")
+
+def gast_to_py_assign_pattern(gast):
+    return gast_to_code(gast["left"], "py") + " = " + gast_to_code(gast["right"], "py")
+
+def gast_to_js_assign_pattern(gast):
+    return gast_to_code(gast["left"], "js") + " = " + gast_to_code(gast["right"], "js")
+
 # FIXME: may be a way to write helper functions that can be used btwn while and if
 def gast_to_py_while(gast):
     test = gast_to_code(gast["test"], "py")
@@ -142,6 +177,7 @@ def gast_to_js_while(gast):
     
     out = 'while (' + test + ') {\n\t' + body + "\n}"
     return out
+
 
 out = {
     "logStatement": {
@@ -183,6 +219,18 @@ out = {
     "unaryOp": {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
+    },
+    "functionDeclaration": {
+        "py": gast_to_py_func_declarations,
+        "js": gast_to_js_func_declarations
+    },
+    "returnStatement": {
+        "py": gast_to_py_return_statement,
+        "js": gast_to_js_return_statement
+    },
+    "assignPattern": {
+        "py": gast_to_py_assign_pattern,
+        "js": gast_to_js_assign_pattern
     },
     "whileStatement": {
         "py": gast_to_py_while,
@@ -260,6 +308,12 @@ def gast_to_code(gast, out_lang):
         return out["boolOp"][out_lang](gast)
     elif gast["type"] == "unaryOp":
         return out["unaryOp"][out_lang](gast)
+    elif gast["type"] == "functionDeclaration":
+        return out["functionDeclaration"][out_lang](gast)
+    elif gast["type"] == "returnStatement":
+        return out["returnStatement"][out_lang](gast)
+    elif gast["type"] == "assignPattern":
+        return out["assignPattern"][out_lang](gast) 
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string

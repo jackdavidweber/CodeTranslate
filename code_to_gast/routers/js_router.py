@@ -68,6 +68,13 @@ def node_to_gast(node):
     # Conditionals
     elif node.type == "IfStatement":
         return js_conditional.if_statement_to_gast(node)
+    # functions
+    elif node.type == "FunctionDeclaration":
+        return js_expression.func_declarations_to_gast(node)
+    elif node.type == "ReturnStatement":
+        return js_helpers.return_statement_to_gast(node)
+    elif node.type == "AssignmentPattern":
+        return js_helpers.assign_pattern_to_gast(node)
     # Loops
     elif node.type == "WhileStatement":
         return js_loop.while_statement_to_gast(node)

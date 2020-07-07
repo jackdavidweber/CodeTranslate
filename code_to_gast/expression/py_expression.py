@@ -31,3 +31,10 @@ def attribute_to_gast(node):
     gast = {"type": "attribute", "id": node.attr}
     gast["value"] = pr.node_to_gast(node.value)
     return gast
+
+def function_def_to_gast(node):
+    gast = {"type": "functionDeclaration"}
+    gast["id"] = pr.node_to_gast(node.name)
+    gast["params"] = pr.node_to_gast(node.args)
+    gast["body"] = pr.node_to_gast(node.body)
+    return gast
