@@ -183,9 +183,8 @@ def arg_to_gast(node):
     return pr.node_to_gast(node.arg)
 
 """
-Takes native string class from python and creates gast node
-This node is used to store function names and arguments which
-is why the node type is name for identifier
+Python native string class is the type of function names and arguments. String literals are handled by str_to_gast()
+This function takes the name of an identifer and turns it into a gast node 
 """
 def str_to_gast(node):
     return {"type": "name", "value": node}
