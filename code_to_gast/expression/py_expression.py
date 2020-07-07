@@ -48,3 +48,6 @@ def function_def_to_gast(node):
     gast["params"] = pr.node_to_gast(node.args)
     gast["body"] = pr.node_to_gast(node.body)
     return gast
+
+def subscript_to_gast(node):
+    return {"type": "subscript", "index": pr.node_to_gast(node.slice.value)} # TODO expand to cover slices of a list

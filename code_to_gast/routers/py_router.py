@@ -56,6 +56,8 @@ def node_to_gast(node):
         return expression.attribute_to_gast(node)
     elif type(node) == ast.FunctionDef:
         return expression.function_def_to_gast(node)
+    elif type(node) == ast.Subscript:
+        return expression.subscript_to_gast(node)
     elif type(node) == ast.arguments:
         return helpers.function_args_to_gast(node)
     # Assigns
