@@ -15,6 +15,18 @@ def list_helper(gast_list, out_lang, csv_delimiter = ", "):
     
     return out
 
+def gast_to_py_dict(gast):
+    return "{" + gast_to_code(gast["elements"], "py") + "}"
+
+def gast_to_js_dict(gast):
+    return "{" + gast_to_code(gast["elements"], "js") + "}"
+
+def gast_to_py_property(gast):
+    return gast_to_code(gast["key"], "py") + ": " + gast_to_code(gast["value"], "py")
+
+def gast_to_js_property(gast):
+    return gast_to_code(gast["key"], "js") + ": " + gast_to_code(gast["value"], "js")
+
 # assign helpers
 def gast_to_py_var_assign(gast):
     value = gast_to_code(gast["varValue"], "py")
@@ -26,6 +38,11 @@ def gast_to_js_var_assign(gast):
     varValue = gast_to_code(gast["varValue"], "js")
     return kind + " " + varId + " = " + varValue
 
+def gast_to_py_aug_assign(gast):
+    return gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + gast_to_code(gast["right"], "py")
+
+def gast_to_js_aug_assign(gast):
+    return gast_to_code(gast["left"], "js") + " " + gast["op"] + " " + gast_to_code(gast["right"], "js")
 
 # expression helpers
 def gast_to_py_functions(gast):
@@ -146,6 +163,22 @@ def gast_to_py_assign_pattern(gast):
 def gast_to_js_assign_pattern(gast):
     return gast_to_code(gast["left"], "js") + " = " + gast_to_code(gast["right"], "js")
 
+# FIXME: may be a way to write helper functions that can be used btwn while and if
+def gast_to_py_while(gast):
+    test = gast_to_code(gast["test"], "py")
+    body = list_helper(gast["body"], "py", "\n\t")
+
+    out = 'while (' + test + '):\n\t' + body
+    return out
+
+def gast_to_js_while(gast):
+    test = gast_to_code(gast["test"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+    
+    out = 'while (' + test + ') {\n\t' + body + "\n}"
+    return out
+
+
 out = {
     "logStatement": {
         "py": "print",
@@ -154,6 +187,10 @@ out = {
     "varAssign": {
         "py": gast_to_py_var_assign,
         "js": gast_to_js_var_assign,
+    },
+    "augAssign": {
+        "py": gast_to_py_aug_assign,
+        "js": gast_to_js_aug_assign
     },
     "bool": {
         "py": gast_to_py_bool,
@@ -194,6 +231,17 @@ out = {
     "assignPattern": {
         "py": gast_to_py_assign_pattern,
         "js": gast_to_js_assign_pattern
+    "whileStatement": {
+        "py": gast_to_py_while,
+        "js": gast_to_js_while
+    },
+    "dict": {
+        "py": gast_to_py_dict,
+        "js": gast_to_js_dict
+    },
+    "property": {
+        "py": gast_to_py_property,
+        "js": gast_to_js_property
     }
 }
 
@@ -213,7 +261,7 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_to_code(gast["elts"], out_lang) + "]" # TODO: replace acronym elts with elements
+        return "[" + gast_to_code(gast["elements"], out_lang) + "]"
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
@@ -223,13 +271,23 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
-    #Other
+    # Loops
+    elif gast["type"] == "whileStatement":
+        return out["whileStatement"][out_lang](gast)
+
+    # Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
+    elif gast["type"] == "break":
+        return "break"
+    elif gast["type"] == "continue":
+        return "continue"
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
         return out["varAssign"][out_lang](gast)
+    elif gast["type"] == "augAssign":
+        return out["augAssign"][out_lang](gast)
     
     elif gast["type"] == "funcCall":
         return out["funcCall"][out_lang](gast)
@@ -237,6 +295,11 @@ def gast_to_code(gast, out_lang):
         return gast["value"]
     elif gast["type"] == "attribute":
         return out["attribute"][out_lang](gast)
+
+    elif gast["type"] == "dict":
+        return out["dict"][out_lang](gast)
+    elif gast["type"] == "property":
+        return out["property"][out_lang](gast)
 
     elif gast["type"] == "binOp":
         return gast_to_node_bin_op_helper(gast, out_lang)

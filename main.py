@@ -5,6 +5,7 @@ sys.path.append('code_to_gast')
 sys.path.append('code_to_gast/assign')
 sys.path.append('code_to_gast/expression')
 sys.path.append('code_to_gast/conditional')
+sys.path.append('code_to_gast/loop')
 sys.path.append('code_to_gast/helpers')
 sys.path.append('code_to_gast/routers')
 

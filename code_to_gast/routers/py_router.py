@@ -4,6 +4,8 @@ import helpers.py_helpers as helpers
 import py_expression as expression
 import py_assign as assign
 import py_conditional as conditional
+import py_loop as loop
+
 
 """
 router that all nodes in the python AST are passed through recursively
@@ -20,6 +22,11 @@ def node_to_gast(node):
         return helpers.arg_to_gast(node)
     elif type(node) == str:
         return helpers.str_to_gast(node)
+    elif type(node) == ast.Break:
+        return helpers.break_to_gast(node)
+    elif type(node) == ast.Continue:
+        return helpers.continue_to_gast(node)
+      
     # Helpers
     elif type(node) == ast.Module:
         return helpers.module_to_gast(node)
@@ -29,12 +36,16 @@ def node_to_gast(node):
         return helpers.bool_op_to_gast(node)
     elif type(node) == ast.List:
         return helpers.array_to_gast(node)
+    elif type(node) == ast.Dict:
+        return helpers.dictionary_to_gast(node)
     elif type(node) == list:
         return helpers.node_list_to_gast(node)
     elif type(node) == ast.Name:
         return helpers.name_to_gast(node)
     elif type(node) == ast.UnaryOp:
         return helpers.unary_op_to_gast(node)
+    elif type(node) == ast.Compare:
+        return helpers.compare_to_gast(node)
 
     # Expressions
     elif type(node) == ast.Expr:
@@ -50,6 +61,8 @@ def node_to_gast(node):
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign_to_gast(node)
+    elif type(node) == ast.AugAssign:
+        return assign.aug_assign_to_gast(node)
 
     # Conditionals
     elif type(node) == ast.If:
@@ -57,6 +70,10 @@ def node_to_gast(node):
 
     elif type(node) == ast.Return:
         return helpers.return_statement_to_gast(node)
+    # Loops
+    elif type(node) == ast.While:
+        return loop.while_statement_to_gast(node)
+
 
     else:
         return {"type": "error", "value": "unsupported"}
