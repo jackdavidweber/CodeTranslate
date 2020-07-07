@@ -231,6 +231,7 @@ out = {
     "assignPattern": {
         "py": gast_to_py_assign_pattern,
         "js": gast_to_js_assign_pattern
+    },
     "whileStatement": {
         "py": gast_to_py_while,
         "js": gast_to_js_while
