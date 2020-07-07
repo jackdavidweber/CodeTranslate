@@ -34,7 +34,7 @@ def attribute_to_gast(node):
         gast["type"] = "builtInAttribute"
         gast["id"] = "appendStatement"
     elif node.attr == "pop":
-        gast["type"] = "buildInAttribute"
+        gast["type"] = "builtInAttribute"
         gast["id"] = "popStatement"
     else:
         gast["type"] = "attribute"

@@ -57,6 +57,20 @@ def gast_to_py_attribute(gast):
 def gast_to_js_attribute(gast):
     return gast_to_code(gast["value"], "js") + "." + gast["id"] 
 
+def gast_to_py_built_in_attribute(gast):
+    built_in_py_functions = {
+        "appendStatement": "append",
+        "popStatement": "pop"
+    }
+    return gast_to_code(gast["value"], "py") + "." + built_in_py_functions[gast["id"]]
+
+def gast_to_js_built_in_attribute(gast):
+    built_in_js_functions = {
+        "appendStatement": "push",
+        "popStatement": "pop"
+    }
+    return gast_to_code(gast["value"], "js") + "." + built_in_js_functions[gast["id"]]
+
 
 # Operation helpers
 def gast_to_node_bin_op_helper(gast, out_lang):
@@ -158,6 +172,10 @@ out = {
         "py": gast_to_py_attribute,
         "js": gast_to_js_attribute
     },
+    "builtInAttribute": {
+        "py": gast_to_py_built_in_attribute,
+        "js": gast_to_js_built_in_attribute
+    },
     "boolOp": {
         "py": gast_to_py_bool_op,
         "js": gast_to_js_bool_op
@@ -226,6 +244,8 @@ def gast_to_code(gast, out_lang):
         return gast["value"]
     elif gast["type"] == "attribute":
         return out["attribute"][out_lang](gast)
+    elif gast["type"] == "builtInAttribute":
+        return out["builtInAttribute"][out_lang](gast)
 
     elif gast["type"] == "dict":
         return out["dict"][out_lang](gast)
