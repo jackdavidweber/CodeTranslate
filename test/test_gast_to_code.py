@@ -280,6 +280,67 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
         self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
 
+    def test_basic_range_for(self):
+        input_gast = {
+            "type": "forStatement",
+            "init": 
+            {
+                "type": "varAssign",
+                "kind": "let",
+                "varId":
+                {
+                    "type": "name",
+                    "value": "i"
+                },
+                "varValue":
+                {
+                    "type": "num",
+                    "value": 0
+                }
+
+            },
+            "test": 
+            {
+                "type": "binOp",
+                "left": 
+                {
+                    "type": "name",
+                    "value": i
+                },
+                "op": "<",
+                "right": 
+                {
+                    "type": "num",
+                    "value": 10
+                }
+            },
+            "update": 
+            {
+                "type": "augAssign",
+                "left":
+                {
+                    "type": "name",
+                    "value": "i"
+                },
+                "op": "+=",
+                "right": 
+                {
+                    "type": "num",
+                    "value": 2
+                }
+            },
+            "body": 
+            [
+                {
+                    "type": "num",
+                    "value": 5
+                }
+            ]
+
+
+
+        }
+
 
 if __name__ == '__main__':
     unittest2.main()
