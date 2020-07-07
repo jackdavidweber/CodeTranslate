@@ -5,6 +5,7 @@ sys.path.append('code_to_gast')
 sys.path.append('code_to_gast/assign')
 sys.path.append('code_to_gast/expression')
 sys.path.append('code_to_gast/conditional')
+sys.path.append('code_to_gast/loop')
 sys.path.append('code_to_gast/helpers')
 sys.path.append('code_to_gast/routers')
 
@@ -35,10 +36,12 @@ def main(input_code, input_lang, output_lang):
     if output_lang not in output_langs:
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
-
+   
     if (type(gast) == str) :
         # return error if gast not built
         return "Error: did not compile"
+    
     output_code = gtc.gast_to_code(gast, output_lang)
 
     return output_code
+

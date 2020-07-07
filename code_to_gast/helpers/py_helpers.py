@@ -177,6 +177,46 @@ def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
 
 """
+takes argument from function declaration and makes into gast node
+"""
+def arg_to_gast(node):
+    return pr.node_to_gast(node.arg)
+
+"""
+Python native string class is the type of function names and arguments. String literals are handled by str_to_gast()
+This function takes the name of an identifer and turns it into a gast node 
+"""
+def str_to_gast(node):
+    return {"type": "name", "value": node}
+
+"""
+Turns return statement into gast
+"""
+def return_statement_to_gast(node):
+    return {"type": "returnStatement", "value": pr.node_to_gast(node.value)}
+
+"""
+Handles args of function declarations with default values
+"""
+def function_args_to_gast(node):
+    return arg_helper(node.args, node.defaults, [])
+
+def arg_helper(arg_list, default_list, param_list): 
+    # if arg_list empty return
+    if not arg_list:
+        return param_list
+    # if default list empty arg not assigned
+    if not default_list:
+        param_list.insert(0, pr.node_to_gast(arg_list.pop()))
+        return arg_helper(arg_list, default_list, param_list)
+    else:
+        gast = {"type": "assignPattern"}
+        gast["left"] = pr.node_to_gast(arg_list.pop())
+        gast["right"] = pr.node_to_gast(default_list.pop())
+        param_list.insert(0, gast)
+        return arg_helper(arg_list, default_list, param_list)
+
+"""
 takes node of type Compare and converts it to our generic ast representation
 example:
     Example In: Compare(left=Num(n=1), ops=[Gt()], comparators=[Num(n=1), Num(n=2)])
@@ -217,3 +257,4 @@ continue statement to gast
 """
 def continue_to_gast(node):
     return {"type": "continue"}
+

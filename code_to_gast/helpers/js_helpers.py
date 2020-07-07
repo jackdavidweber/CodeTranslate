@@ -120,3 +120,15 @@ Takes unary operation such as ! and converts it to generic AST
 """
 def unary_to_gast(node):
     return {"type": "unaryOp", "op": node.operator, "arg": js_router.node_to_gast(node.argument)}
+
+def return_statement_to_gast(node):
+    return {"type": "returnStatement", "value": js_router.node_to_gast(node.argument)}
+
+"""
+Handles assignment patterns ie x = 3, used to set default values in functions
+"""
+def assign_pattern_to_gast(node):
+    gast = {"type": "assignPattern"}
+    gast["left"] = js_router.node_to_gast(node.left)
+    gast["right"] = js_router.node_to_gast(node.right)
+    return gast
