@@ -82,14 +82,13 @@ def member_expression_to_gast(node):
     gast["type"] = "builtInAttribute"
     gast["id"] = "appendStatement"
     return gast
-  elif func_name == "pop":
+  if func_name == "pop":
     gast["type"] = "builtInAttribute"
     gast["id"] = "popStatement"
     return gast
-  else:
-    gast["type"] = "attribute"
-    gast["id"] = node.property.name
-    return gast
+  gast["type"] = "attribute"
+  gast["id"] = node.property.name
+  return gast
 
 """
 takes a node that represents a list of nodes.
