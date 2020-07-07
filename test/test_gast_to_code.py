@@ -282,7 +282,7 @@ class TestGastToCode(unittest2.TestCase):
 
     def test_basic_range_for(self):
         input_gast = {
-            "type": "forStatement",
+            "type": "forRangeStatement",
             "init": 
             {
                 "type": "varAssign",
@@ -339,7 +339,7 @@ class TestGastToCode(unittest2.TestCase):
         }
 
         expected_js = 'for (let i = 0; i < 10; i += 2) {\n\t5\n}'
-        expected_py = 'for i in range (0,10,2):\n\t5'
+        expected_py = 'for i in range (0, 10, 2):\n\t5'
 
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
         self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
