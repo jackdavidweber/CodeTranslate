@@ -157,4 +157,18 @@ def unary_op_to_gast(node):
 takes argument from function declaration and makes into gast node
 """
 def arg_to_gast(node):
-    return {"type": "name", "value": node.arg}
+    return pr.node_to_gast(node.arg)
+
+"""
+Takes native string class from python and creates gast node
+This node is used to store function names and arguments which
+is why the node type is name for identifier
+"""
+def str_to_gast(node):
+    return {"type": "name", "value": node}
+
+"""
+Turns return statement into gast
+"""
+def return_statement_to_gast(node):
+    return {"type": "returnStatement", "value": pr.node_to_gast(node.value)}

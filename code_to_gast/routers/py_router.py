@@ -1,6 +1,5 @@
 import sys
 import ast
-import astor
 import helpers.py_helpers as helpers
 import py_expression as expression
 import py_assign as assign
@@ -19,6 +18,8 @@ def node_to_gast(node):
         return helpers.name_constant_to_gast(node)
     elif type(node) == ast.arg:
         return helpers.arg_to_gast(node)
+    elif type(node) == str:
+        return helpers.str_to_gast(node)
     # Helpers
     elif type(node) == ast.Module:
         return helpers.module_to_gast(node)
@@ -54,7 +55,8 @@ def node_to_gast(node):
     elif type(node) == ast.If:
         return conditional.if_statement_to_gast(node)
 
+    elif type(node) == ast.Return:
+        return helpers.return_statement_to_gast(node)
 
     else:
-        print(astor.dump(node))
         return {"type": "error", "value": "unsupported"}

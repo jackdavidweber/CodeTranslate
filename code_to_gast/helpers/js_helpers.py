@@ -91,3 +91,7 @@ Takes unary operation such as ! and converts it to generic AST
 """
 def unary_to_gast(node):
     return {"type": "unaryOp", "op": node.operator, "arg": js_router.node_to_gast(node.argument)}
+
+def return_statement_to_gast(node):
+    return {"type": "returnStatement", "value": js_router.node_to_gast(node.argument)}
+

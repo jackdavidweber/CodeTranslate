@@ -20,7 +20,7 @@ def call_expression_to_gast(node):
     gast["args"] = js_router.node_to_gast(node.arguments)
     return gast
 
-def func_declarations(node):
+def func_declarations_to_gast(node):
     gast = {}
     gast["type"] = "functionDeclaration"
     gast["id"] = js_router.node_to_gast(node.id)

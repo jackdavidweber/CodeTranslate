@@ -58,7 +58,9 @@ def node_to_gast(node):
         return js_conditional.if_statement_to_gast(node)
     # functions
     elif node.type == "FunctionDeclaration":
-        return js_expression.func_declarations(node)
+        return js_expression.func_declarations_to_gast(node)
+    elif node.type == "ReturnStatement":
+        return js_helpers.return_statement_to_gast(node)
     else:
         # not supported
         return {"type": "error", "value": "unsupported"}

@@ -43,10 +43,4 @@ def main(input_code, input_lang, output_lang):
     output_code = gtc.gast_to_code(gast, output_lang)
 
     return output_code
-
-string = ''' 
-def add(x, y):
-    print(x + y)
-'''
-
-print(main(string, "py", "js"))
+    

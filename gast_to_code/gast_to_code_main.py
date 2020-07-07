@@ -134,6 +134,12 @@ def gast_to_py_func_declarations(gast):
 
     return out
 
+def gast_to_py_return_statement(gast):
+    return "return " + gast_to_code(gast["value"], "py")
+
+def gast_to_js_return_statement(gast):
+    return "return " + gast_to_code(gast["value"], "js")
+
 
 out = {
     "logStatement": {
@@ -175,6 +181,10 @@ out = {
     "functionDeclaration": {
         "py": gast_to_py_func_declarations,
         "js": gast_to_js_func_declarations
+    },
+    "returnStatement": {
+        "py": gast_to_py_return_statement,
+        "js": gast_to_js_return_statement
     }
 }
 
@@ -227,6 +237,8 @@ def gast_to_code(gast, out_lang):
         return out["unaryOp"][out_lang](gast)
     elif gast["type"] == "functionDeclaration":
         return out["functionDeclaration"][out_lang](gast)
+    elif gast["type"] == "returnStatement":
+        return out["returnStatement"][out_lang](gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string
