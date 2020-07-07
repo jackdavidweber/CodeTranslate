@@ -79,10 +79,10 @@ def member_expression_to_gast(node):
   gast = {"value": js_router.node_to_gast(node.object)}
   func_name = node.property.name
   if func_name == "push":
-    gast["type"] == "builtInAttribute"
+    gast["type"] = "builtInAttribute"
     gast["id"] = "appendStatement"
   elif func_name == "pop":
-    gast["type"] == "builtInAttribute"
+    gast["type"] = "builtInAttribute"
     gast["id"] = "popStatement"
   else:
     gast["type"] = "attribute"
