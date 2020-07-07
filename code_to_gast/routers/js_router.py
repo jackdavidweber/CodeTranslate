@@ -31,6 +31,10 @@ def node_to_gast(node):
             return {"type": "none"}
         else:
             return "Unsupported prim"
+    elif node.type == "BreakStatement":
+        return {"type": "break"}
+    elif node.type == "ContinueStatement":
+        return {"type": "continue"}
     elif node.type == "Identifier":
         # identifier has quotes around name
         return {"type": "name", "value": node.name}
@@ -43,6 +47,8 @@ def node_to_gast(node):
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.assign_to_gast(node)
+    elif node.type == "AssignmentExpression":
+        return js_assign.aug_assign_to_gast(node)
     elif node.type == "ExpressionStatement":
         return js_expression.convert_expression_to_gast(node)
     elif node.type == "CallExpression":
@@ -53,6 +59,10 @@ def node_to_gast(node):
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
         return js_helpers.array_expression_to_gast(node)
+    elif node.type == "ObjectExpression":
+        return js_helpers.dictionary_to_gast(node)
+    elif node.type == "Property":
+        return js_helpers.property_to_gast(node)
     elif node.type == "BlockStatement":
         return js_helpers.block_statement_to_gast(node)
     # Conditionals

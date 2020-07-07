@@ -18,6 +18,10 @@ def node_to_gast(node):
         return helpers.num_to_gast(node)
     elif type(node) == ast.NameConstant:
         return helpers.name_constant_to_gast(node)
+    elif type(node) == ast.Break:
+        return helpers.break_to_gast(node)
+    elif type(node) == ast.Continue:
+        return helpers.continue_to_gast(node)
 
     # Helpers
     elif type(node) == ast.Module:
@@ -28,6 +32,8 @@ def node_to_gast(node):
         return helpers.bool_op_to_gast(node)
     elif type(node) == ast.List:
         return helpers.array_to_gast(node)
+    elif type(node) == ast.Dict:
+        return helpers.dictionary_to_gast(node)
     elif type(node) == list:
         return helpers.node_list_to_gast(node)
     elif type(node) == ast.Name:
@@ -48,6 +54,8 @@ def node_to_gast(node):
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign_to_gast(node)
+    elif type(node) == ast.AugAssign:
+        return assign.aug_assign_to_gast(node)
 
     # Conditionals
     elif type(node) == ast.If:

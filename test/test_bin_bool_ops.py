@@ -92,5 +92,17 @@ class TestBinBoolOps(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
 
+    def test_comparemulti_all_ops (self):
+        js_code = '1 < 2 <= 3 == 4 >= 5 > 6'
+        py_code = '1 < 2 <= 3 == 4 >= 5 > 6'
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
+    def test_comparemulti_strs (self):
+        js_code = 'a > b >= c == C'
+        py_code = 'a > b >= c == C'
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
 if __name__ == '__main__':
     unittest2.main()
