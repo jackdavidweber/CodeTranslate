@@ -73,11 +73,21 @@ Converts Member Expression to our generic AST recursively
 Used for functions called on objects and std funcs like console.log
 """
 def member_expression_to_gast(node):
-  if node.property.name == "log":
+  if node.object.name == "console" and node.property.name == "log":
     return {"type": "logStatement"}
-
-  gast = {"type": "attribute", "id": node.property.name}
-  gast["value"] = js_router.node_to_gast(node.object)
+  
+  gast = {"value": js_router.node_to_gast(node.object)}
+  func_name = node.property.name
+  if func_name == "push":
+    gast["type"] == "builtInAttribute"
+    gast["id"] = "appendStatement"
+  elif func_name == "pop":
+    gast["type"] == "builtInAttribute"
+    gast["id"] = "popStatement"
+  else:
+    gast["type"] = "attribute"
+    gast["id"] = node.property.name
+  
   return gast
 
 """
