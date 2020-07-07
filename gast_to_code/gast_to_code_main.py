@@ -128,6 +128,20 @@ def gast_to_js_if(gast):
 
     return out
 
+# FIXME: may be a way to write helper functions that can be used btwn while and if
+def gast_to_py_while(gast):
+    test = gast_to_code(gast["test"], "py")
+    body = list_helper(gast["body"], "py", "\n\t")
+
+    out = 'while (' + test + '):\n\t' + body
+    return out
+
+def gast_to_js_while(gast):
+    test = gast_to_code(gast["test"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+    
+    out = 'while (' + test + ') {\n\t' + body + "\n}"
+    return out
 
 out = {
     "logStatement": {
@@ -170,6 +184,10 @@ out = {
         "py": gast_to_py_unary_op,
         "js": gast_to_js_unary_op
     },
+    "whileStatement": {
+        "py": gast_to_py_while,
+        "js": gast_to_js_while
+    },
     "dict": {
         "py": gast_to_py_dict,
         "js": gast_to_js_dict
@@ -206,7 +224,11 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
-    #Other
+    # Loops
+    elif gast["type"] == "whileStatement":
+        return out["whileStatement"][out_lang](gast)
+
+    # Other
     elif gast["type"] == "root":
         return list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "break":
