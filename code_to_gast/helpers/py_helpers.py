@@ -172,3 +172,24 @@ Turns return statement into gast
 """
 def return_statement_to_gast(node):
     return {"type": "returnStatement", "value": pr.node_to_gast(node.value)}
+
+"""
+Handles args of function declarations with default values
+"""
+def function_args_to_gast(node):
+    return arg_helper(node.args, node.defaults, [])
+
+def arg_helper(arg_list, default_list, param_list): 
+    # if arg_list empty return
+    if not arg_list:
+        return param_list
+    # if default list empty arg not assigned
+    if not default_list:
+        param_list.insert(0, pr.node_to_gast(arg_list.pop()))
+        return arg_helper(arg_list, default_list, param_list)
+    else:
+        gast = {"type": "assignPattern"}
+        gast["left"] = pr.node_to_gast(arg_list.pop())
+        gast["right"] = pr.node_to_gast(default_list.pop())
+        param_list.insert(0, gast)
+        return arg_helper(arg_list, default_list, param_list)

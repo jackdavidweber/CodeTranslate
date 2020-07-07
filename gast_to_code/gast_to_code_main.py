@@ -140,6 +140,11 @@ def gast_to_py_return_statement(gast):
 def gast_to_js_return_statement(gast):
     return "return " + gast_to_code(gast["value"], "js")
 
+def gast_to_py_assign_pattern(gast):
+    return gast_to_code(gast["left"], "py") + " = " + gast_to_code(gast["right"], "py")
+
+def gast_to_js_assign_pattern(gast):
+    return gast_to_code(gast["left"], "js") + " = " + gast_to_code(gast["right"], "js")
 
 out = {
     "logStatement": {
@@ -185,6 +190,10 @@ out = {
     "returnStatement": {
         "py": gast_to_py_return_statement,
         "js": gast_to_js_return_statement
+    },
+    "assignPattern": {
+        "py": gast_to_py_assign_pattern,
+        "js": gast_to_js_assign_pattern
     }
 }
 
@@ -239,6 +248,8 @@ def gast_to_code(gast, out_lang):
         return out["functionDeclaration"][out_lang](gast)
     elif gast["type"] == "returnStatement":
         return out["returnStatement"][out_lang](gast)
+    elif gast["type"] == "assignPattern":
+        return out["assignPattern"][out_lang](gast) 
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string

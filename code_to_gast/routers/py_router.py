@@ -46,7 +46,7 @@ def node_to_gast(node):
     elif type(node) == ast.FunctionDef:
         return expression.function_def_to_gast(node)
     elif type(node) == ast.arguments:
-        return node_to_gast(node.args)
+        return helpers.function_args_to_gast(node)
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign_to_gast(node)

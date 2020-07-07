@@ -38,7 +38,16 @@ class TestFunctionDeclarations(unittest2.TestCase):
         py_code += '\n\treturn x + y + z'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
-        
+    def test_default_vals(self):
+        js_code = 'function test(x = 1) {\n\tconsole.log(x)\n}'
+        py_code = 'def test(x = 1):\n\tprint(x)'
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+    def test_multiple_default_vals(self):
+        js_code = 'function test(x, y = 2, z = 4, a = 1) {\n\treturn y\n}'
+        py_code = 'def test(x, y = 2, z = 4, a = 1):\n\treturn y'
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))   
     
 
 if __name__ == '__main__':
