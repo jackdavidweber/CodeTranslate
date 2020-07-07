@@ -280,7 +280,7 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
         self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
 
-    def test_basic_range_for(self):
+    def test_forRange(self):
         input_gast = {
             "type": "forRangeStatement",
             "init": 
@@ -344,6 +344,46 @@ class TestGastToCode(unittest2.TestCase):
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
         self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
  
+    def test_forOf(self):
+        input_gast = {
+            "type": "forOfStatement",
+            "init":  
+            {
+                "type": "name",
+                "value": "elem"
+            },
+            "iter": 
+            {
+                "type": "arr",
+                "elements":
+                [ 
+                    {
+                        "type": "num",
+                        "value": 1
+                    },
+                    {
+                        "type": "num",
+                        "value": 2
+                    }
+                ]
+            },
+            "body": 
+            [
+                {
+                    "type": "num",
+                    "value": 5
+                }
+            ]
+        }
+
+        expected_js = 'for (elem of [1, 2]) {\n\t5\n}'
+        expected_py = 'for elem in [1, 2]:\n\t5'
+
+
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
+
+
 
 
 if __name__ == '__main__':

@@ -203,23 +203,12 @@ def gast_to_py_forRange(gast):
     end = str(end_value)
 
     range_str = "range (" + start + ", " + end + ", " + incrementor + ")"
-
-    return gast_to_py_for_helper(gast, range_str)
-
-def gast_to_py_forOf(gast):
-    arr_str = gast_to_code(gast["iter"], "py")
-    
-    return gast_to_py_for_helper(gast, arr_str)
-
-
-def gast_to_py_for_helper(gast, in_str):
     var_name = gast["init"]["varId"]["value"]
     body = list_helper(gast["body"], "py", "\n\t")
 
-    out = "for " + var_name + " in " + in_str + ":\n\t" + body
+    out = "for " + var_name + " in " + range_str + ":\n\t" + body
 
     return out
-
 
 def gast_to_js_forRange(gast):
     loop_init = gast_to_code(gast["init"], "js")
@@ -229,6 +218,23 @@ def gast_to_js_forRange(gast):
 
     return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {\n\t" + body + "\n}"
 
+def gast_to_py_forOf(gast):
+    arr_str = gast_to_code(gast["iter"], "py")
+    var_name = gast["init"]["value"]
+    body = list_helper(gast["body"], "py", "\n\t")
+
+    out = "for " + var_name + " in " + arr_str + ":\n\t" + body
+    
+    return out
+
+def gast_to_js_forOf(gast):
+    arr_str = gast_to_code(gast["iter"], "js")
+    var_name = gast["init"]["value"]
+    body = list_helper(gast["body"], "js", "\n\t")
+
+    out = "for (" + var_name + " of " + arr_str + ") {\n\t" + body + "\n}"
+    
+    return out
 
 out = {
     "logStatement": {
@@ -291,6 +297,10 @@ out = {
         "py": gast_to_py_forRange,
         "js": gast_to_js_forRange
     },
+    "forOfStatement": {
+        "py": gast_to_py_forOf,
+        "js": gast_to_js_forOf
+    },
     "dict": {
         "py": gast_to_py_dict,
         "js": gast_to_js_dict
@@ -332,6 +342,8 @@ def gast_to_code(gast, out_lang):
         return out["whileStatement"][out_lang](gast)
     elif gast["type"] == "forRangeStatement":
         return out["forRangeStatement"][out_lang](gast)
+    elif gast["type"] == "forOfStatement":
+        return out["forOfStatement"][out_lang](gast)
 
     # Other
     elif gast["type"] == "root":
@@ -379,52 +391,26 @@ def gast_to_code(gast, out_lang):
 
 
 input_gast = {
-    "type": "forRangeStatement",
-    "init": 
+    "type": "forOfStatement",
+    "init":  
     {
-        "type": "varAssign",
-        "kind": "let",
-        "varId":
-        {
-            "type": "name",
-            "value": "i"
-        },
-        "varValue":
-        {
-            "type": "num",
-            "value": 0
-        }
-
+        "type": "name",
+        "value": "elem"
     },
-    "test": 
+    "iter": 
     {
-        "type": "binOp",
-        "left": 
-        {
-            "type": "name",
-            "value": "i"
-        },
-        "op": "<",
-        "right": 
-        {
-            "type": "num",
-            "value": 10
-        }
-    },
-    "update": 
-    {
-        "type": "augAssign",
-        "left":
-        {
-            "type": "name",
-            "value": "i"
-        },
-        "op": "+=",
-        "right": 
-        {
-            "type": "num",
-            "value": 2
-        }
+        "type": "arr",
+        "elements":
+        [ 
+            {
+                "type": "num",
+                "value": 1
+            },
+            {
+                "type": "num",
+                "value": 2
+            }
+        ]
     },
     "body": 
     [
