@@ -1,4 +1,5 @@
 import py_router as pr
+import py_built_in_functions as built_in
 
 """
 Takes python ast.expr node and converts them to the generic
@@ -29,19 +30,17 @@ handles attributes for python expressions
 """
 def attribute_to_gast(node):
     gast = {"value": pr.node_to_gast(node.value)}
-     
+
     # The tool only currently supports the built in functions below 
     # TODO add other built in function translations
-    if node.attr == "append":
+    attribute = node.attr
+    if attribute in {func.name for func in built_in.py_built_in_functions}:
         gast["type"] = "builtInAttribute"
-        gast["id"] = "appendStatement"
+        gast["id"] = built_in.py_built_in_functions[attribute].value
         return gast
-    if node.attr == "pop":
-        gast["type"] = "builtInAttribute"
-        gast["id"] = "popStatement"
-        return gast
+
     gast["type"] = "attribute"
-    gast["id"] = node.attr
+    gast["id"] = attribute
     return gast
 
 def function_def_to_gast(node):
