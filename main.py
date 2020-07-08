@@ -12,6 +12,7 @@ sys.path.append('code_to_gast/routers')
 import js_main
 import py_main
 import gast_to_code.gast_to_code_main as gtc
+import pyrebase
 
 """
 input_code: string representing input code
@@ -42,6 +43,18 @@ def main(input_code, input_lang, output_lang):
         return "Error: did not compile"
     
     output_code = gtc.gast_to_code(gast, output_lang)
+
+    config = {
+    "apiKey": "AIzaSyBxiDkAmD5JmbQKT3RZqDgD2GdogoDViPU",
+    "authDomain": "codetranslate-feedback.firebaseapp.com",
+    "databaseURL": "https://codetranslate-feedback.firebaseio.com",
+    "storageBucket": "codetranslate-feedback.appspot.com"
+    }
+    firebase = pyrebase.initialize_app(config)
+
+    db = firebase.database()
+    data = {'input': input_code, 'output': output_code, 'input-lang': input_lang, 'output-lang': output_lang}
+    db.child("user-data").push(data)
 
     return output_code
 
