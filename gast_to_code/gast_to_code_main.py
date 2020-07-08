@@ -39,6 +39,9 @@ def gast_to_js_var_assign(gast):
     kind = gast["kind"]
     varId = gast_to_code(gast["varId"], "js")
     varValue = gast_to_code(gast["varValue"], "js")
+
+    if gast["varId"]["type"] == "subscript":
+        return varId + " = " + varValue
     return kind + " " + varId + " = " + varValue
 
 def gast_to_py_aug_assign(gast):
@@ -187,6 +190,12 @@ def gast_to_js_while(gast):
     out = 'while (' + test + ') {\n\t' + body + "\n}"
     return out
 
+def gast_to_py_subscript(gast):
+    return gast_to_code(gast["value"], "py") + "[" + gast_to_code(gast["index"], "py") + "]"
+
+def gast_to_js_subscript(gast):
+    return gast_to_code(gast["value"], "js") + "[" + gast_to_code(gast["index"], "js") + "]"
+
 
 out = {
     "logStatement": {
@@ -256,6 +265,10 @@ out = {
     "property": {
         "py": gast_to_py_property,
         "js": gast_to_js_property
+    },
+    "subscript": {
+        "py": gast_to_py_subscript,
+        "js": gast_to_js_subscript
     }
 }
 
@@ -305,6 +318,8 @@ def gast_to_code(gast, out_lang):
     
     elif gast["type"] == "funcCall":
         return out["funcCall"][out_lang](gast)
+    elif gast["type"] == "subscript":
+        return out["subscript"][out_lang](gast)
     elif gast["type"] == "name":
         return gast["value"]
     elif gast["type"] == "attribute":
