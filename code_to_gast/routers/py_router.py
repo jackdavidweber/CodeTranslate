@@ -38,7 +38,7 @@ def node_to_gast(node):
         return helpers.array_to_gast(node)
     elif type(node) == ast.Dict:
         return helpers.dictionary_to_gast(node)
-    elif type(node) == list:
+    elif type(node) == list: # TODO: set this apart from others
         return helpers.node_list_to_gast(node)
     elif type(node) == ast.Name:
         return helpers.name_to_gast(node)
@@ -73,6 +73,8 @@ def node_to_gast(node):
     # Loops
     elif type(node) == ast.While:
         return loop.while_statement_to_gast(node)
+    elif type(node) == ast.For:
+        return loop.for_statement_to_gast(node)
 
 
     else:
