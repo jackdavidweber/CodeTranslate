@@ -13,7 +13,7 @@ import py_main
 import js_main
 
 class test_code_to_gast_loops(unittest2.TestCase):
-    maxDiff = None
+
     def test_forRange(self):
         js_input = 'for (let i = 0; i < 10; i += 2) {\n\t5\n}'
         py_input = 'for i in range (0, 10, 2):\n\t5'

@@ -28,7 +28,6 @@ def for_of_statement_to_gast(node):
     gast["body"] = pr.node_to_gast(node.body)
     return gast
 
-
 def for_range_statement_to_gast(node):
     gast = {}
     gast["type"] = "forRangeStatement"
@@ -65,7 +64,10 @@ def for_range_statement_to_gast(node):
 
 """
 Takes a node representing start of loop and the variable node.
-returns a dict representing value for the init key in forRangeStatements
+returns a gast node representing value for the init key in forRangeStatement gast
+Example: ast.parse("for i in range(0,10,2)")
+    input: var_node = ast.Name(i), start_node = ast.Num(0),
+    output: {'type': 'varAssign', 'kind': 'let', 'varId': {'type': 'name', 'value': 'i'}, 'varValue': {'type': 'num', 'value': 0}}
 """
 def for_range_statement_init_helper(var_node, start_node):
     gast = {}
@@ -75,6 +77,13 @@ def for_range_statement_init_helper(var_node, start_node):
     gast["varValue"] = pr.node_to_gast(start_node)
     return gast
 
+"""
+Takes a variable node, start node and end node. Returns gast node
+representing value for the test key in forRangeStatement gast
+Example: ast.parse("for i in range(0,10,2)")
+    input: var_node = ast.Name(i), start_node = ast.Num(0), end_node = ast.Num(10)
+    output: {'type': 'binOp', 'left': {'type': 'name', 'value': 'i'}, 'op': '<', 'right': {'type': 'num', 'value': 10}}
+"""
 def for_range_statement_test_helper(var_node, start_node, end_node):
     # first need to figure out whether test expr is < or >
     start_val = start_node.n
@@ -91,6 +100,13 @@ def for_range_statement_test_helper(var_node, start_node, end_node):
     gast["right"] = pr.node_to_gast(end_node)
     return gast
 
+"""
+takes a variable node and an integer that represents the step. Returns
+a gast node representing value for the update key in forRangeStatement gast
+Example: ast.parse("for i in range(0,10,2)")
+    input: var_node = ast.Name(i), step_num = 2
+    output: {'type': 'augAssign', 'left': {'type': 'name', 'value': 'i'}, 'op': '+=', 'right': {'type': 'num', 'value': 2}}
+"""
 def for_range_statement_update_helper(var_node, step_num):
     if step_num < 0:
         op_str = "-="
