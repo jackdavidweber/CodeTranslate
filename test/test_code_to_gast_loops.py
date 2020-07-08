@@ -12,7 +12,6 @@ sys.path.append('code_to_gast/routers')
 import py_main
 import js_main
 
-
 class test_code_to_gast_loops(unittest2.TestCase):
     maxDiff = None
     def test_forRange(self):
@@ -20,61 +19,66 @@ class test_code_to_gast_loops(unittest2.TestCase):
         py_input = 'for i in range (0, 10, 2):\n\t5'
         
         expected_gast = {
-            "type": "forRangeStatement",
-            "init": 
-            {
-                "type": "varAssign",
-                "kind": "let",
-                "varId":
+            'type': 'root',
+            'body': [
                 {
-                    "type": "name",
-                    "value": "i"
-                },
-                "varValue":
-                {
-                    "type": "num",
-                    "value": 0
-                }
+                    "type": "forRangeStatement",
+                    "init": 
+                    {
+                        "type": "varAssign",
+                        "kind": "let",
+                        "varId":
+                        {
+                            "type": "name",
+                            "value": "i"
+                        },
+                        "varValue":
+                        {
+                            "type": "num",
+                            "value": 0
+                        }
 
-            },
-            "test": 
-            {
-                "type": "binOp",
-                "left": 
-                {
-                    "type": "name",
-                    "value": "i"
-                },
-                "op": "<",
-                "right": 
-                {
-                    "type": "num",
-                    "value": 10
-                }
-            },
-            "update": 
-            {
-                "type": "augAssign",
-                "left":
-                {
-                    "type": "name",
-                    "value": "i"
-                },
-                "op": "+=",
-                "right": 
-                {
-                    "type": "num",
-                    "value": 2
-                }
-            },
-            "body": 
-            [
-                {
-                    "type": "num",
-                    "value": 5
-                }
+                    },
+                    "test": 
+                    {
+                        "type": "binOp",
+                        "left": 
+                        {
+                            "type": "name",
+                            "value": "i"
+                        },
+                        "op": "<",
+                        "right": 
+                        {
+                            "type": "num",
+                            "value": 10
+                        }
+                    },
+                    "update": 
+                    {
+                        "type": "augAssign",
+                        "left":
+                        {
+                            "type": "name",
+                            "value": "i"
+                        },
+                        "op": "+=",
+                        "right": 
+                        {
+                            "type": "num",
+                            "value": 2
+                        }
+                    },
+                    "body": 
+                    [
+                        {
+                            "type": "num",
+                            "value": 5
+                        }
+                    ]
+                }  
             ]
-        }
+        }   
 
         self.assertEqual(expected_gast, py_main.py_to_gast(py_input))
         self.assertEqual(expected_gast, js_main.js_to_gast(js_input))
@@ -84,36 +88,41 @@ class test_code_to_gast_loops(unittest2.TestCase):
         py_input = 'for elem in [1, 2]:\n\t5'
         
         expected_gast = {
-            "type": "forOfStatement",
-            "init":  
-            {
-                "type": "name",
-                "value": "elem"
-            },
-            "iter": 
-            {
-                "type": "arr",
-                "elements":
-                [ 
-                    {
-                        "type": "num",
-                        "value": 1
-                    },
-                    {
-                        "type": "num",
-                        "value": 2
-                    }
-                ]
-            },
-            "body": 
-            [
+            'type': 'root',
+            'body': [
                 {
-                    "type": "num",
-                    "value": 5
+                    "type": "forOfStatement",
+                    "init":  
+                    {
+                        "type": "name",
+                        "value": "elem"
+                    },
+                    "iter": 
+                    {
+                        "type": "arr",
+                        "elements":
+                        [ 
+                            {
+                                "type": "num",
+                                "value": 1
+                            },
+                            {
+                                "type": "num",
+                                "value": 2
+                            }
+                        ]
+                    },
+                    "body": 
+                    [
+                        {
+                            "type": "num",
+                            "value": 5
+                        }
+                    ]
                 }
             ]
         }
-
+       
         self.assertEqual(expected_gast, py_main.py_to_gast(py_input))
         self.assertEqual(expected_gast, js_main.js_to_gast(js_input))
 
