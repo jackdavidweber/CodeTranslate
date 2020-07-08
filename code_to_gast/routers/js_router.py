@@ -78,6 +78,10 @@ def node_to_gast(node):
     # Loops
     elif node.type == "WhileStatement":
         return js_loop.while_statement_to_gast(node)
+    elif node.type == "ForStatement":
+        return js_loop.for_range_statement_to_gast(node)
+    elif node.type == "ForOfStatement":
+        return js_loop.for_of_statement_to_gast(node)
     else:
         # not supported
         return {"type": "error", "value": "unsupported"}
