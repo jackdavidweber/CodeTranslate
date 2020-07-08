@@ -78,6 +78,8 @@ def member_expression_to_gast(node):
   
   gast = {"value": js_router.node_to_gast(node.object)}
   func_name = node.property.name
+  # The tool only currently supports the built in functions below 
+  # TODO add other built in function translations
   if func_name == "push":
     gast["type"] = "builtInAttribute"
     gast["id"] = "appendStatement"

@@ -28,8 +28,10 @@ def call_to_gast(node):
 handles attributes for python expressions
 """
 def attribute_to_gast(node):
-    gast = {"value": pr.node_to_gast(node.value)} 
-
+    gast = {"value": pr.node_to_gast(node.value)}
+     
+    # The tool only currently supports the built in functions below 
+    # TODO add other built in function translations
     if node.attr == "append":
         gast["type"] = "builtInAttribute"
         gast["id"] = "appendStatement"
