@@ -68,27 +68,6 @@ def bool_op_to_gast(node):
     gast["right"] = js_router.node_to_gast(node.right)
     return gast
 
-"""
-Converts Member Expression to our generic AST recursively
-Used for functions called on objects and std funcs like console.log
-"""
-def member_expression_to_gast(node):
-  if node.object.name == "console" and node.property.name == "log":
-    return {"type": "logStatement"}
-  
-  gast = {"value": js_router.node_to_gast(node.object)}
-  func_name = node.property.name
-  if func_name == "push":
-    gast["type"] = "builtInAttribute"
-    gast["id"] = "appendStatement"
-    return gast
-  if func_name == "pop":
-    gast["type"] = "builtInAttribute"
-    gast["id"] = "popStatement"
-    return gast
-  gast["type"] = "attribute"
-  gast["id"] = node.property.name
-  return gast
 
 """
 takes a node that represents a list of nodes.

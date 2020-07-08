@@ -1,3 +1,6 @@
+import js_built_in_functions
+import py_built_in_functions
+
 """
 Helper for lists of gast
 Default is to put comma and space btwn each stringified gast
@@ -58,18 +61,10 @@ def gast_to_js_attribute(gast):
     return gast_to_code(gast["value"], "js") + "." + gast["id"] 
 
 def gast_to_py_built_in_attribute(gast):
-    built_in_py_functions = {
-        "appendStatement": "append",
-        "popStatement": "pop"
-    }
-    return gast_to_code(gast["value"], "py") + "." + built_in_py_functions[gast["id"]]
+    return gast_to_code(gast["value"], "py") + "." + py_built_in_functions.py_built_in_functions(gast["id"]).name
 
 def gast_to_js_built_in_attribute(gast):
-    built_in_js_functions = {
-        "appendStatement": "push",
-        "popStatement": "pop"
-    }
-    return gast_to_code(gast["value"], "js") + "." + built_in_js_functions[gast["id"]]
+    return gast_to_code(gast["value"], "js") + "." + js_built_in_functions.js_built_in_functions(gast["id"]).name
 
 
 # Operation helpers
