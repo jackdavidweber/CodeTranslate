@@ -48,7 +48,7 @@ def for_range_statement_to_gast(node):
         else:
             step_num = step_node.n
 
-    # if there is no third argument, the step defaults to 1.
+    # if there are only 2 arguments
     else:
         step_num = 1
 
@@ -85,7 +85,7 @@ Example: ast.parse("for i in range(0,10,2)")
     output: {'type': 'binOp', 'left': {'type': 'name', 'value': 'i'}, 'op': '<', 'right': {'type': 'num', 'value': 10}}
 """
 def for_range_statement_test_helper(var_node, start_node, end_node):
-    # first need to figure out whether test expr is < or >
+    # first need to figure out whether to use "<" or ">"
     start_val = start_node.n
     end_val = end_node.n
     if start_val <= end_val:
