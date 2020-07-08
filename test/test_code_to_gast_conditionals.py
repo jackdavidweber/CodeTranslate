@@ -1,6 +1,7 @@
 import unittest2
 import sys
- 
+
+sys.path.append('../cjs_capstone') 
 sys.path.append('code_to_gast')
 sys.path.append('code_to_gast/assign')
 sys.path.append('code_to_gast/expression')
