@@ -8,8 +8,13 @@ def while_statement_to_gast(node):
     gast["test"] = pr.node_to_gast(node.test)
     return gast
 
+"""
+Converts python for statements to gast
+Includes:
+    ForRangeStatements: for i in range(0,10,1)
+    ForOfStatements: for elem in [1,2,3]
+"""
 def for_statement_to_gast(node):
-    # first identify whether forRange or forOf
     if type(node.iter) == ast.Call:
         return for_range_statement_to_gast(node)
     else: 
@@ -32,15 +37,23 @@ def for_range_statement_to_gast(node):
     if len(args) < 2 or len(args) > 3:
         return "unsupported: too many args in loop" # TODO: streamline messages
     elif len(args) == 3:  
-        # FIXME: this feels very hacky
         step_node = args[2]
+        
+        """
+        python stores step as ast.UnaryOp for negative numbers and
+        ast.Num for positive numbers. This logic takes care of this.
+        TODO: figure out a less "hacky" way of solving this problem
+        """
         if type(step_node) == ast.UnaryOp:
             step_num = -1 * step_node.operand.n
         else:
             step_num = step_node.n
+
+    # if there is no third argument, the step defaults to 1.
     else:
         step_num = 1
 
+    # store the start and end number (in py ast node form) of the loop
     start_node = args[0]
     end_node = args[1]
 
@@ -48,7 +61,6 @@ def for_range_statement_to_gast(node):
     gast["test"] = for_range_statement_test_helper(node.target, start_node, end_node)
     gast["update"] = for_range_statement_update_helper(node.target, step_num)
     gast["body"] = pr.node_to_gast(node.body)
-
     return (gast)
 
 """
@@ -97,5 +109,4 @@ def for_range_statement_update_helper(var_node, step_num):
     gast["left"] = pr.node_to_gast(var_node)
     gast["op"] = op_str
     gast["right"] = right_gast
-
     return gast
