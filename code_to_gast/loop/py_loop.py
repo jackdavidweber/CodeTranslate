@@ -31,10 +31,15 @@ def for_range_statement_to_gast(node):
     args = node.iter.args
     if len(args) < 2 or len(args) > 3:
         return "unsupported: too many args in loop" # TODO: streamline messages
-    elif len(args) == 3:
-        step_num = args[2].n
+    elif len(args) == 3:  
+        # FIXME: this feels very hacky
+        step_node = args[2]
+        if type(step_node) == ast.UnaryOp:
+            step_num = -1 * step_node.operand.n
+        else:
+            step_num = step_node.n
     else:
-        step_num = 1 # TODO: figure out how to do this using ast nodes
+        step_num = 1
 
     start_node = args[0]
     end_node = args[1]
@@ -77,15 +82,20 @@ def for_range_statement_test_helper(var_node, start_node, end_node):
 def for_range_statement_update_helper(var_node, step_num):
     if step_num < 0:
         op_str = "-="
+        right_gast = {
+            "type": "num",
+            "value": -1 * step_num # FIXME: this feels very hacky
+        }
     else:
         op_str = "+="
-    
+        right_gast = {
+            "type": "num",
+            "value": step_num
+        }
     gast = {}
     gast["type"] = "augAssign"
     gast["left"] = pr.node_to_gast(var_node)
     gast["op"] = op_str
-    gast["right"] = {
-        "type": "num",
-        "value": step_num
-    }
+    gast["right"] = right_gast
+
     return gast
