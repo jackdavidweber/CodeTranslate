@@ -1,5 +1,6 @@
 import js_helpers
 import js_router
+import js_built_in_functions as built_in
 
 """
 parses through top level expression 
@@ -27,3 +28,24 @@ def func_declarations_to_gast(node):
     gast["params"] = js_router.node_to_gast(node.params)
     gast["body"] = js_router.node_to_gast(node.body)
     return gast
+
+"""
+Converts Member Expression to our generic AST recursively
+Used for functions called on objects and std funcs like console.log
+"""
+def member_expression_to_gast(node):
+  if node.object.name == "console" and node.property.name == "log":
+    return {"type": "logStatement"}
+  
+  gast = {"value": js_router.node_to_gast(node.object)}
+  func_name = node.property.name
+  # The tool only currently supports the built in functions below 
+  # TODO add other built in function translations
+  if func_name in {func.name for func in built_in.js_built_in_functions}:
+    gast["type"] = "builtInAttribute"
+    gast["id"] = built_in.js_built_in_functions[func_name].value
+    return gast
+
+  gast["type"] = "attribute"
+  gast["id"] = node.property.name
+  return gast

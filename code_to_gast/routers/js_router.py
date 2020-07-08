@@ -54,7 +54,7 @@ def node_to_gast(node):
     elif node.type == "CallExpression":
         return js_expression.call_expression_to_gast(node)
     elif node.type == "MemberExpression":
-        return js_helpers.member_expression_to_gast(node)
+        return js_expression.member_expression_to_gast(node)
     elif node.type == "Program":
         return js_helpers.program_to_gast(node)
     elif node.type == "ArrayExpression":
