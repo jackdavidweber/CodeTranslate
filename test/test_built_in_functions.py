@@ -20,7 +20,7 @@ class TestBuiltInFunctions(unittest2.TestCase):
     def test_array_assign(self):
         self.assertEqual('arr[x] = 6', main.main('arr[x] = 6', 'js', 'py'))
         #TODO since we don't have context it adds the let, do we want to change that?
-        self.assertEqual('let array[3] = []', main.main('array[3] = []', 'py', 'js')) 
+        self.assertEqual('array[3] = []', main.main('array[3] = []', 'py', 'js')) 
     
 
 if __name__ == '__main__':

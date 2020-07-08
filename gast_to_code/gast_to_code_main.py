@@ -39,6 +39,9 @@ def gast_to_js_var_assign(gast):
     kind = gast["kind"]
     varId = gast_to_code(gast["varId"], "js")
     varValue = gast_to_code(gast["varValue"], "js")
+
+    if gast["varId"]["type"] == "subscript":
+        return varId + " = " + varValue
     return kind + " " + varId + " = " + varValue
 
 def gast_to_py_aug_assign(gast):
