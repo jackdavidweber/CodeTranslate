@@ -98,6 +98,16 @@ def block_statement_to_gast(node):
 Takes unary operation such as ! and converts it to generic AST
 """
 def unary_to_gast(node):
+    """
+    javascript makes negative numbers unary expressions. This is our
+    current workaround.
+    """
+    if node.operator == "-":
+        return {
+            "type": "num",
+            "value": node.argument.value * -1
+        }
+
     return {"type": "unaryOp", "op": node.operator, "arg": js_router.node_to_gast(node.argument)}
 
 def return_statement_to_gast(node):
