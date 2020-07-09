@@ -21,6 +21,10 @@ class TestBuiltInFunctions(unittest2.TestCase):
         self.assertEqual('arr[x] = 6', main.main('arr[x] = 6', 'js', 'py'))
         self.assertEqual('array[3] = []', main.main('array[3] = []', 'py', 'js')) 
     
+    def test_array_assign(self):
+        self.assertEqual('myArr.sort()', main.main('myArr.sort()', 'js', 'py'))
+        self.assertEqual('rr.sort()', main.main('rr.sort()', 'py', 'js')) 
+    
 
 if __name__ == '__main__':
     unittest2.main()
