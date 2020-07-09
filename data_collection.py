@@ -16,6 +16,11 @@ def store_query(input_code, output_code, input_lang, output_lang):
     cred = credentials.Certificate(cred_object)
     firebase_admin.initialize_app(cred)
 
+    # only store code written on live heroku
+    if "SHOULD_WRITE_TO_DATABASE" not in os.environ:
+        return
+
+
     successful_translate = True
     if "Feature not supported" in output_code:
         successful_translate = False
