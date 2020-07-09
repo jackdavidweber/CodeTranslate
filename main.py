@@ -12,7 +12,7 @@ sys.path.append('code_to_gast/routers')
 import js_main
 import py_main
 import gast_to_code.gast_to_code_main as gtc
-import data_collection
+#import data_collection
 
 """
 input_code: string representing input code
@@ -49,4 +49,3 @@ def main(input_code, input_lang, output_lang):
     #data_collection.store_query(input_code, output_code, input_lang, output_lang)
 
     return output_code
-
