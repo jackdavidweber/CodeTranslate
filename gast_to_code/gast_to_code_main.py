@@ -189,7 +189,60 @@ def gast_to_js_while(gast):
     
     out = 'while (' + test + ') {\n\t' + body + "\n}"
     return out
+def gast_to_py_forRange(gast):
+    # start value
+    start_value = gast["init"]["varValue"]["value"]
+    start = str(start_value)
 
+    # incrementor
+    incrementor_value = gast["update"]["right"]["value"]
+    incrementor_op = gast["update"]["op"] 
+    if incrementor_op == "-=":
+        incrementor = "-" + str(incrementor_value)
+    elif incrementor_op == "+=":
+        incrementor = str(incrementor_value)
+    else:
+        incrementor = "unsupported update operation" # TODO: rethink this error message
+
+    # end value
+    end_value = gast["test"]["right"]["value"]
+    end_comparator = gast["test"]["op"]
+    if end_comparator == "<=":
+        end_value += incrementor_value
+    elif end_comparator == ">=":
+        end_value -= incrementor_value
+    end = str(end_value)
+
+    var_name = gast["init"]["varId"]["value"]
+    range_str = "range (" + start + ", " + end + ", " + incrementor + ")"
+    body = list_helper(gast["body"], "py", "\n\t")
+    out = "for " + var_name + " in " + range_str + ":\n\t" + body
+    return out
+
+def gast_to_js_forRange(gast):
+    loop_init = gast_to_code(gast["init"], "js")
+    loop_test = gast_to_code(gast["test"], "js")
+    loop_update = gast_to_code(gast["update"], "js")
+    body = list_helper(gast["body"], "js", "\n\t")
+
+    return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {\n\t" + body + "\n}"
+
+def gast_to_py_forOf(gast):
+    arr_str = gast_to_code(gast["iter"], "py")
+    var_name = gast["init"]["value"]
+    body = list_helper(gast["body"], "py", "\n\t")
+
+    out = "for " + var_name + " in " + arr_str + ":\n\t" + body
+    return out
+
+def gast_to_js_forOf(gast):
+    arr_str = gast_to_code(gast["iter"], "js")
+    var_name = gast["init"]["value"]
+    body = list_helper(gast["body"], "js", "\n\t")
+
+    out = "for (" + var_name + " of " + arr_str + ") {\n\t" + body + "\n}"
+    return out
+  
 def gast_to_py_subscript(gast):
     return gast_to_code(gast["value"], "py") + "[" + gast_to_code(gast["index"], "py") + "]"
 
@@ -258,6 +311,14 @@ out = {
         "py": gast_to_py_while,
         "js": gast_to_js_while
     },
+    "forRangeStatement": {
+        "py": gast_to_py_forRange,
+        "js": gast_to_js_forRange
+    },
+    "forOfStatement": {
+        "py": gast_to_py_forOf,
+        "js": gast_to_js_forOf
+    },
     "dict": {
         "py": gast_to_py_dict,
         "js": gast_to_js_dict
@@ -301,6 +362,10 @@ def gast_to_code(gast, out_lang):
     # Loops
     elif gast["type"] == "whileStatement":
         return out["whileStatement"][out_lang](gast)
+    elif gast["type"] == "forRangeStatement":
+        return out["forRangeStatement"][out_lang](gast)
+    elif gast["type"] == "forOfStatement":
+        return out["forOfStatement"][out_lang](gast)
 
     # Other
     elif gast["type"] == "root":
@@ -315,7 +380,6 @@ def gast_to_code(gast, out_lang):
         return out["varAssign"][out_lang](gast)
     elif gast["type"] == "augAssign":
         return out["augAssign"][out_lang](gast)
-    
     elif gast["type"] == "funcCall":
         return out["funcCall"][out_lang](gast)
     elif gast["type"] == "subscript":
@@ -326,12 +390,10 @@ def gast_to_code(gast, out_lang):
         return out["attribute"][out_lang](gast)
     elif gast["type"] == "builtInAttribute":
         return out["builtInAttribute"][out_lang](gast)
-
     elif gast["type"] == "dict":
         return out["dict"][out_lang](gast)
     elif gast["type"] == "property":
         return out["property"][out_lang](gast)
-
     elif gast["type"] == "binOp":
         return gast_to_node_bin_op_helper(gast, out_lang)
     elif gast["type"] == "boolOp":
