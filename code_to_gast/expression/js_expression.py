@@ -34,6 +34,9 @@ Converts Member Expression to our generic AST recursively
 Used for functions called on objects and std funcs like console.log
 """
 def member_expression_to_gast(node):
+  if node.computed == True:
+    return subscript_to_gast(node)
+
   if node.object.name == "console" and node.property.name == "log":
     return {"type": "logStatement"}
   
@@ -48,4 +51,10 @@ def member_expression_to_gast(node):
 
   gast["type"] = "attribute"
   gast["id"] = node.property.name
+  return gast
+
+def subscript_to_gast(node):
+  gast = {"type": "subscript"}
+  gast["index"] = js_router.node_to_gast(node.property)
+  gast["value"] = js_router.node_to_gast(node.object)
   return gast

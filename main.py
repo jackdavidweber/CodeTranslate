@@ -12,6 +12,7 @@ sys.path.append('code_to_gast/routers')
 import js_main
 import py_main
 import gast_to_code.gast_to_code_main as gtc
+import data_collection
 
 """
 input_code: string representing input code
@@ -37,11 +38,15 @@ def main(input_code, input_lang, output_lang):
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
    
+    # don't return error without sending to database
+    output_code = ""
     if (type(gast) == str) :
         # return error if gast not built
-        return "Error: did not compile"
+        output_code = "Error: did not compile"
+    else:
+        output_code = gtc.gast_to_code(gast, output_lang)
     
-    output_code = gtc.gast_to_code(gast, output_lang)
+    #data_collection.store_query(input_code, output_code, input_lang, output_lang)
 
     return output_code
 
