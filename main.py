@@ -38,13 +38,16 @@ def main(input_code, input_lang, output_lang):
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
    
-    # don't return error without sending to database
-    output_code = ""
+
     if (type(gast) == str) :
-        # return error if gast not built
-        output_code = "Error: did not compile"
-    else:
-        output_code = gtc.gast_to_code(gast, output_lang)
+        # return error if gast not built - dont store in database
+        return "Error: did not compile"
+   
+    output_code = gtc.gast_to_code(gast, output_lang)
+    
+    # don't store empty strings
+    if (input_code == "" and output_code == ""):
+        return output_code
     
     data_collection.store_query(input_code, output_code, input_lang, output_lang)
 
