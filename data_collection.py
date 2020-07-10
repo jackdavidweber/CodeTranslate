@@ -1,4 +1,4 @@
-'''import firebase_admin
+import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import json
@@ -37,4 +37,3 @@ def store_query(input_code, output_code, input_lang, output_lang):
         u'output_lang': output_lang,
         u'successful_translate': successful_translate
     })
-'''
