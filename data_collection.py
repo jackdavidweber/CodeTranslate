@@ -20,7 +20,6 @@ def store_query(input_code, output_code, input_lang, output_lang):
 
     # only store code written on live heroku
     if "SHOULD_WRITE_TO_DATABASE" not in os.environ:
-        print("locall dev")
         return
 
 
