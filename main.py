@@ -1,16 +1,6 @@
-import sys
 from flask import abort
-
-sys.path.append('code_to_gast')
-sys.path.append('code_to_gast/assign')
-sys.path.append('code_to_gast/expression')
-sys.path.append('code_to_gast/conditional')
-sys.path.append('code_to_gast/loop')
-sys.path.append('code_to_gast/helpers')
-sys.path.append('code_to_gast/routers')
-
-import js_main
-import py_main
+import code_to_gast.js_main as js_main
+import code_to_gast.py_main as py_main
 import gast_to_code.gast_to_code_main as gtc
 from data_service import DataService
 

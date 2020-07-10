@@ -1,5 +1,5 @@
-import js_helpers
-import js_router
+import code_to_gast.helpers.js_helpers as js_helpers
+import code_to_gast.routers.js_router as js_router
 import js_built_in_functions as built_in
 
 """

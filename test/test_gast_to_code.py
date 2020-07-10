@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('../cjs_capstone')
-
 import unittest2
 import gast_to_code.gast_to_code_main as gtc
 

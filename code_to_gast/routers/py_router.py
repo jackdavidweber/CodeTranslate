@@ -1,10 +1,9 @@
-import sys
 import ast
-import helpers.py_helpers as helpers
-import py_expression as expression
-import py_assign as assign
-import py_conditional as conditional
-import py_loop as loop
+import code_to_gast.helpers.py_helpers as helpers
+import code_to_gast.expression.py_expression as expression
+import code_to_gast.assign.py_assign as assign
+import code_to_gast.conditional.py_conditional as conditional
+import code_to_gast.loop.py_loop as loop
 
 
 """

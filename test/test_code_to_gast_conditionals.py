@@ -1,18 +1,6 @@
 import unittest2
-import sys
-
-sys.path.append('../cjs_capstone') 
-sys.path.append('code_to_gast')
-sys.path.append('code_to_gast/assign')
-sys.path.append('code_to_gast/expression')
-sys.path.append('code_to_gast/conditional')
-sys.path.append('code_to_gast/loop')
-sys.path.append('code_to_gast/helpers')
-sys.path.append('code_to_gast/routers')
-
-import py_main
-import js_main
-
+import code_to_gast.py_main as py_main
+import code_to_gast.js_main as js_main
 
 class test_code_to_gast_conditionals(unittest2.TestCase):
     maxDiff = None

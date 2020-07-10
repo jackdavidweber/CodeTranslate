@@ -1,4 +1,4 @@
-import py_router as pr
+import code_to_gast.routers.py_router as pr
 import ast
 
 def while_statement_to_gast(node):

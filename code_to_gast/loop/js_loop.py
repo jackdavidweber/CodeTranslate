@@ -1,4 +1,4 @@
-import js_router as jr
+import code_to_gast.routers.js_router as jr
 
 def while_statement_to_gast(node):
     gast = {}
