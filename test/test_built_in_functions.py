@@ -53,6 +53,26 @@ class TestBuiltInFunctions(unittest2.TestCase):
         self.assertEqual('str.index()', main.main('str.indexOf()', 'js', 'py'))
         self.assertEqual('str.indexOf()', main.main('str.index()', 'py', 'js'))
     
+    def test_string_join(self):
+        self.assertEqual('str.join()', main.main('str.join()', 'js', 'py'))
+        self.assertEqual('str.join()', main.main('str.join()', 'py', 'js'))
+    
+    def test_dictionary_set(self):
+        self.assertEqual('dict.update(key, value)', main.main('dict.set(key,value)', 'js', 'py'))
+        self.assertEqual('dict.set(key, value)', main.main('dict.update(key, value)', 'py', 'js'))
+    
+    def test_dictionary_keys(self):
+        self.assertEqual('dict.keys()', main.main('dict.keys()', 'js', 'py'))
+        self.assertEqual('dict.keys()', main.main('dict.keys()', 'py', 'js'))
+    
+    def test_dictionary_keys(self):
+        self.assertEqual('dict.values()', main.main('dict.values()', 'js', 'py'))
+        self.assertEqual('dict.values()', main.main('dict.values()', 'py', 'js'))
+    
+    def test_clear(self):
+        self.assertEqual('clear()', main.main('clear()', 'js', 'py'))
+        self.assertEqual('clear()', main.main('clear()', 'py', 'js'))
+    
 
 if __name__ == '__main__':
     unittest2.main()

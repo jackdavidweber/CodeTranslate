@@ -18,3 +18,10 @@ class py_built_in_functions(enum.Enum):
     upper = "upperStatement"
     lower = "lowerStatement"
     index = "indexStatement"
+    join = "joinStatement"
+
+    #Dictionary manipulation
+    keys = "keysStatement"
+    values = "valuesStatement"
+    update = "setStatement"
+    clear = "clearStatement"

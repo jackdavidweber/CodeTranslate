@@ -18,3 +18,10 @@ class js_built_in_functions(enum.Enum):
     toUpperCase = "upperStatement"
     toLowerCase = "lowerStatement"
     indexOf = "indexStatement"
+    join = "joinStatement"
+
+    #Dictionary manipulation
+    keys = "keysStatement"
+    values = "valuesStatement"
+    set = "setStatement"
+    clear = "clearStatement"
