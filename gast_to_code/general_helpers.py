@@ -7,8 +7,13 @@ Default is to put comma and space btwn each stringified gast
 Can specify different btwn string with third parameter
     i.e. list_helper({str_gast}, {str_gast}, out_lang, "**") --> str**str
 """
-def list_helper(gast_list, out_lang, csv_delimiter = ", "):
+def list_helper(gast_list, out_lang, csv_delimiter = ", ", lvl=0):
     out = ""
+    
+    # Takes care of indentation based on lvl
+    if csv_delimiter == "\n\t" and lvl != 0:
+        csv_delimiter = "\n" + "\t"*lvl
+
     for i in range (0, len(gast_list)):
         out += router.gast_to_code(gast_list[i], out_lang)
 

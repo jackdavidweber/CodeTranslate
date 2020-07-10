@@ -41,7 +41,7 @@ def gast_to_js_bool(gast):
     else:
         return "false"
 
-def gast_to_js_if(gast):
+def gast_to_js_if(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "js")
     body = general_helpers.list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
 
@@ -57,7 +57,7 @@ def gast_to_js_if(gast):
 
     return out
 
-def gast_to_js_func_declarations(gast):
+def gast_to_js_func_declarations(gast, lvl=0):
     name = router.gast_to_code(gast["id"], "js")
     args = router.gast_to_code(gast["params"], "js")
     body = general_helpers.list_helper(gast["body"], "js", "\n\t")
@@ -75,14 +75,14 @@ def gast_to_js_return_statement(gast):
 def gast_to_js_assign_pattern(gast):
     return router.gast_to_code(gast["left"], "js") + " = " + router.gast_to_code(gast["right"], "js")
 
-def gast_to_js_while(gast):
+def gast_to_js_while(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "js")
     body = general_helpers.list_helper(gast["body"], "js", "\n\t")
     
     out = 'while (' + test + ') {\n\t' + body + "\n}"
     return out
 
-def gast_to_js_forRange(gast):
+def gast_to_js_forRange(gast, lvl=0):
     loop_init = router.gast_to_code(gast["init"], "js")
     loop_test = router.gast_to_code(gast["test"], "js")
     loop_update = router.gast_to_code(gast["update"], "js")
@@ -90,7 +90,7 @@ def gast_to_js_forRange(gast):
 
     return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {\n\t" + body + "\n}"
 
-def gast_to_js_forOf(gast):
+def gast_to_js_forOf(gast, lvl=0):
     arr_str = router.gast_to_code(gast["iter"], "js")
     var_name = gast["init"]["value"]
     body = general_helpers.list_helper(gast["body"], "js", "\n\t")

@@ -10,7 +10,7 @@ out_lang correspond to the language codes defined in datastructure:
 javascript: js
 python: py
 """
-def gast_to_code(gast, out_lang):
+def gast_to_code(gast, out_lang, lvl=0):
     if type(gast) == list:
         return general_helpers.list_helper(gast, out_lang)
 

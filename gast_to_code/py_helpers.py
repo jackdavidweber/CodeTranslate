@@ -40,7 +40,7 @@ def gast_to_py_bool(gast):
     else:
         return "False"
 
-def gast_to_py_if(gast):
+def gast_to_py_if(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "py")
     body = general_helpers.list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
 
@@ -56,7 +56,7 @@ def gast_to_py_if(gast):
 
     return out
 
-def gast_to_py_func_declarations(gast):
+def gast_to_py_func_declarations(gast, lvl=0):
     name = router.gast_to_code(gast["id"], "py")
     args = router.gast_to_code(gast["params"], "py")
     body = general_helpers.list_helper(gast["body"], "py", "\n\t")
@@ -74,14 +74,14 @@ def gast_to_py_return_statement(gast):
 def gast_to_py_assign_pattern(gast):
     return router.gast_to_code(gast["left"], "py") + " = " + router.gast_to_code(gast["right"], "py")
 
-def gast_to_py_while(gast):
+def gast_to_py_while(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "py")
     body = general_helpers.list_helper(gast["body"], "py", "\n\t")
 
     out = 'while (' + test + '):\n\t' + body
     return out
 
-def gast_to_py_forRange(gast):
+def gast_to_py_forRange(gast, lvl=0):
     # start value
     start_value = gast["init"]["varValue"]["value"]
     start = str(start_value)
@@ -111,7 +111,7 @@ def gast_to_py_forRange(gast):
     out = "for " + var_name + " in " + range_str + ":\n\t" + body
     return out
 
-def gast_to_py_forOf(gast):
+def gast_to_py_forOf(gast, lvl=0):
     arr_str = router.gast_to_code(gast["iter"], "py")
     var_name = gast["init"]["value"]
     body = general_helpers.list_helper(gast["body"], "py", "\n\t")
