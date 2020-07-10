@@ -1,7 +1,7 @@
 from flask import abort
 import code_to_gast.js_main as js_main
 import code_to_gast.py_main as py_main
-import gast_to_code.gast_to_code_main as gtc
+import gast_to_code.gast_to_code_router as gtc
 from data_service import DataService
 
 """
