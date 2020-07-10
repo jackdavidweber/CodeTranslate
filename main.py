@@ -12,7 +12,7 @@ sys.path.append('code_to_gast/routers')
 import js_main
 import py_main
 import gast_to_code.gast_to_code_main as gtc
-import data_collection
+from data_service import DataService
 
 """
 input_code: string representing input code
@@ -38,19 +38,19 @@ def main(input_code, input_lang, output_lang):
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
    
-
+    output_code = ""
     if (type(gast) == str) :
         # return error if gast not built - dont store in database
-        return "Error: did not compile"
-   
-    output_code = gtc.gast_to_code(gast, output_lang)
+        output_code = "Error: did not compile"
+    else:
+        output_code = gtc.gast_to_code(gast, output_lang)
     
     # don't store empty strings
     if (input_code == "" and output_code == ""):
         return output_code
     
-    data_collection.store_query(input_code, output_code, input_lang, output_lang)
+    data_service = DataService.getInstance()
+    data_service.store_query(input_code, output_code, input_lang, output_lang)
 
     return output_code
     
-
