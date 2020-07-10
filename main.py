@@ -45,10 +45,11 @@ def main(input_code, input_lang, output_lang):
     else:
         output_code = gtc.gast_to_code(gast, output_lang)
     
-    # don't store empty strings
+    # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         return output_code
     
+    # store translation on firebase
     data_service = DataService.getInstance()
     data_service.store_query(input_code, output_code, input_lang, output_lang)
 
