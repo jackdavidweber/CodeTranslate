@@ -13,8 +13,10 @@ def store_query(input_code, output_code, input_lang, output_lang):
         print("Please set GOOGLE_APPLICATION_CREDENTIALS environmental variable. See readme for more info")
         return
     
-    cred = credentials.Certificate(cred_object)
-    firebase_admin.initialize_app(cred)
+    # only initialize firebase once
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(cred_object)
+        firebase_admin.initialize_app(cred)
 
     # only store code written on live heroku
     if "SHOULD_WRITE_TO_DATABASE" not in os.environ:
