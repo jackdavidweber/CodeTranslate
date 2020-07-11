@@ -42,17 +42,18 @@ def gast_to_py_bool(gast):
 
 def gast_to_py_if(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "py")
-    body = general_helpers.list_helper(gast["body"], "py", "\n\t") # FIXME: this probably will not work for double nesting
+    break_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", break_indent, lvl+1)
 
-    out = 'if (' + test + '):\n\t' + body
+    out = 'if (' + test + '):' + break_indent + body
 
     # orelse can either be empty, or be an elif or be an else
     if len(gast["orelse"]) == 0:
         pass
     elif gast["orelse"][0]["type"] == "if":
-        out += "\nel" + router.gast_to_code(gast["orelse"], "py")
+        out += "\nel" + router.gast_to_code(gast["orelse"], "py", lvl)
     else:
-        out += "\nelse:\n\t" + general_helpers.list_helper(gast["orelse"], "py", "\n\t")
+        out += "\nelse:\n\t" + general_helpers.list_helper(gast["orelse"], "py", "\n\t", lvl)
 
     return out
 

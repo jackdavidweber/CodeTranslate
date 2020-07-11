@@ -9,13 +9,9 @@ Can specify different btwn string with third parameter
 """
 def list_helper(gast_list, out_lang, csv_delimiter = ", ", lvl=0):
     out = ""
-    
-    # Takes care of indentation based on lvl
-    if csv_delimiter == "\n\t" and lvl != 0:
-        csv_delimiter = "\n" + "\t"*lvl
 
     for i in range (0, len(gast_list)):
-        out += router.gast_to_code(gast_list[i], out_lang)
+        out += router.gast_to_code(gast_list[i], out_lang, lvl)
 
         if i< len(gast_list) - 1 : # don't add delimiter for last item
             out += csv_delimiter

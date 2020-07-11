@@ -24,7 +24,7 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
     elif gast["type"] == "if":
-        return out["if"][out_lang](gast)
+        return out["if"][out_lang](gast, lvl)
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
