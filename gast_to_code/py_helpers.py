@@ -42,10 +42,10 @@ def gast_to_py_bool(gast):
 
 def gast_to_py_if(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "py")
-    break_indent = "\n\t" + "\t"*lvl
-    body = general_helpers.list_helper(gast["body"], "py", break_indent, lvl+1)
+    body_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
 
-    out = 'if (' + test + '):' + break_indent + body
+    out = 'if (' + test + '):' + body_indent + body
 
     # orelse can either be empty, or be an elif or be an else
     if len(gast["orelse"]) == 0:

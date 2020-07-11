@@ -43,9 +43,11 @@ def gast_to_js_bool(gast):
 
 def gast_to_js_if(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "js")
-    body = general_helpers.list_helper(gast["body"], "js", "\n\t") # FIXME: this probably will not work for double nesting
+    body_indent = "\n\t" + "\t"*lvl
+    closing_brace_indent = "\n" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
 
-    out = 'if (' + test + ') {\n\t' + body + "\n}"
+    out = 'if (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
 
     # orelse can either be empty, or be an elif or be an else
     if len(gast["orelse"]) == 0:
