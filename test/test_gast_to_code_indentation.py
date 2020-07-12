@@ -4,7 +4,7 @@ import gast_to_code.gast_to_code_router as gtc
 
 class TestGastToCodeIndentation(unittest2.TestCase):
 
-    def test_multi_if (self):
+    def test_indent_if (self):
         input_gast = {
             'type': 'root', 
             'body': [
@@ -53,7 +53,7 @@ class TestGastToCodeIndentation(unittest2.TestCase):
         expected_py = 'if (x == True):\n\tif (y == True):\n\t\tprint("y and x are true")'
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
 
-    def test_multi_for_of(self):
+    def test_indent_for_of(self):
         input_gast = {'type': 'root', 'body': [{'type': 'forOfStatement', 'init': {'type': 'name', 'value': 'j'}, 'iter': {'type': 'arr', 'elements': [{'type': 'num', 'value': 1}, {'type': 'num', 'value': 2}]}, 'body': [{'type': 'forOfStatement', 'init': {'type': 'name', 'value': 'k'}, 'iter': {'type': 'arr', 'elements': [{'type': 'num', 'value': 3}, {'type': 'num', 'value': 4}]}, 'body': [{'type': 'name', 'value': 'j'}, {'type': 'name', 'value': 'k'}]}]}]}
 
         expected_js = 'for (j of [1, 2]) {\n\tfor (k of [3, 4]) {\n\t\tj\n\t\tk\n\t}\n}'
