@@ -1,6 +1,7 @@
 import unittest2
 import main
 
+
 class TestIndentation(unittest2.TestCase):
     def test_indent_if(self):
         js_code = 'if (x == true) {\n\tif (y == true) {\n\t\tconsole.log("y and x are true")\n\t}\n}'
@@ -43,8 +44,6 @@ class TestIndentation(unittest2.TestCase):
 
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
-
-
 
 
 if __name__ == '__main__':

@@ -4,43 +4,43 @@ import gast_to_code.gast_to_code_router as gtc
 
 class TestGastToCodeIndentation(unittest2.TestCase):
 
-    def test_indent_if (self):
+    def test_indent_if(self):
         input_gast = {
-            'type': 'root', 
+            'type': 'root',
             'body': [
                 {
-                    'type': 'if', 
+                    'type': 'if',
                     'body': [
                         {
-                            'type': 'if', 
+                            'type': 'if',
                             'body': [
                                 {
-                                    'type': 'funcCall', 
+                                    'type': 'funcCall',
                                     'value': {
                                         'type': 'logStatement'
-                                    }, 
+                                    },
                                     'args': [
                                         {
-                                            'type': 'str', 
+                                            'type': 'str',
                                             'value': 'y and x are true'
                                         }
                                     ]
                                 }
                             ],
-                            'orelse': [], 
+                            'orelse': [],
                             'test': {
-                                'type': 'binOp', 
-                                'left': {'type': 'name', 'value': 'y'}, 
-                                'op': '==', 
+                                'type': 'binOp',
+                                'left': {'type': 'name', 'value': 'y'},
+                                'op': '==',
                                 'right': {'type': 'bool', 'value': 1}
                             }
                         }
-                    ], 
-                    'orelse': [], 
+                    ],
+                    'orelse': [],
                     'test': {
-                        'type': 'binOp', 
-                        'left': {'type': 'name', 'value': 'x'}, 
-                        'op': '==', 
+                        'type': 'binOp',
+                        'left': {'type': 'name', 'value': 'x'},
+                        'op': '==',
                         'right': {'type': 'bool', 'value': 1}
                     }
                 }
@@ -61,6 +61,7 @@ class TestGastToCodeIndentation(unittest2.TestCase):
 
         expected_py = 'for j in [1, 2]:\n\tfor k in [3, 4]:\n\t\tj\n\t\tk'
         self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+
 
 if __name__ == '__main__':
     unittest2.main()
