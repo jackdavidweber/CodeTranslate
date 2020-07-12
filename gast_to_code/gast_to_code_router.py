@@ -34,7 +34,7 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "forRangeStatement":
         return out["forRangeStatement"][out_lang](gast)
     elif gast["type"] == "forOfStatement":
-        return out["forOfStatement"][out_lang](gast)
+        return out["forOfStatement"][out_lang](gast, lvl)
 
     # Other
     elif gast["type"] == "root":

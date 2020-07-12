@@ -115,9 +115,11 @@ def gast_to_py_forRange(gast, lvl=0):
 def gast_to_py_forOf(gast, lvl=0):
     arr_str = router.gast_to_code(gast["iter"], "py")
     var_name = gast["init"]["value"]
-    body = general_helpers.list_helper(gast["body"], "py", "\n\t")
 
-    out = "for " + var_name + " in " + arr_str + ":\n\t" + body
+    body_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
+
+    out = "for " + var_name + " in " + arr_str + ":" + body_indent + body
     return out
 
   

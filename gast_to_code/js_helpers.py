@@ -95,9 +95,12 @@ def gast_to_js_forRange(gast, lvl=0):
 def gast_to_js_forOf(gast, lvl=0):
     arr_str = router.gast_to_code(gast["iter"], "js")
     var_name = gast["init"]["value"]
-    body = general_helpers.list_helper(gast["body"], "js", "\n\t")
 
-    out = "for (" + var_name + " of " + arr_str + ") {\n\t" + body + "\n}"
+    body_indent = "\n\t" + "\t"*lvl
+    closing_brace_indent = "\n" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
+
+    out = "for (" + var_name + " of " + arr_str + ") {" + body_indent + body + closing_brace_indent + "}"
     return out
 
 def gast_to_js_subscript(gast):
