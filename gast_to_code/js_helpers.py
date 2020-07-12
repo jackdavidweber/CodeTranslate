@@ -62,13 +62,13 @@ def gast_to_js_if(gast, lvl=0):
 def gast_to_js_func_declarations(gast, lvl=0):
     name = router.gast_to_code(gast["id"], "js")
     args = router.gast_to_code(gast["params"], "js")
-    body = general_helpers.list_helper(gast["body"], "js", "\n\t")
+
+    body_indent = "\n\t" + "\t"*lvl
+    closing_brace_indent = "\n" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
     out = "function " + name
-    out += "(" + args + ") {\n\t"
+    out += "(" + args + ") {" + body_indent + body + closing_brace_indent + "}"
 
-    out += body
-
-    out += "\n}"
     return out
 
 def gast_to_js_return_statement(gast):
@@ -79,18 +79,24 @@ def gast_to_js_assign_pattern(gast):
 
 def gast_to_js_while(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "js")
-    body = general_helpers.list_helper(gast["body"], "js", "\n\t")
+
+    body_indent = "\n\t" + "\t"*lvl
+    closing_brace_indent = "\n" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
     
-    out = 'while (' + test + ') {\n\t' + body + "\n}"
+    out = 'while (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
     return out
 
 def gast_to_js_forRange(gast, lvl=0):
     loop_init = router.gast_to_code(gast["init"], "js")
     loop_test = router.gast_to_code(gast["test"], "js")
     loop_update = router.gast_to_code(gast["update"], "js")
-    body = general_helpers.list_helper(gast["body"], "js", "\n\t")
 
-    return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {\n\t" + body + "\n}"
+    body_indent = "\n\t" + "\t"*lvl
+    closing_brace_indent = "\n" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
+
+    return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {" + body_indent + body + closing_brace_indent + "}"
 
 def gast_to_js_forOf(gast, lvl=0):
     arr_str = router.gast_to_code(gast["iter"], "js")

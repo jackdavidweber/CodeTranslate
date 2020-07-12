@@ -30,9 +30,9 @@ def gast_to_code(gast, out_lang, lvl=0):
 
     # Loops
     elif gast["type"] == "whileStatement":
-        return out["whileStatement"][out_lang](gast)
+        return out["whileStatement"][out_lang](gast, lvl)
     elif gast["type"] == "forRangeStatement":
-        return out["forRangeStatement"][out_lang](gast)
+        return out["forRangeStatement"][out_lang](gast, lvl)
     elif gast["type"] == "forOfStatement":
         return out["forOfStatement"][out_lang](gast, lvl)
 
@@ -70,7 +70,7 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "unaryOp":
         return out["unaryOp"][out_lang](gast)
     elif gast["type"] == "functionDeclaration":
-        return out["functionDeclaration"][out_lang](gast)
+        return out["functionDeclaration"][out_lang](gast, lvl)
     elif gast["type"] == "returnStatement":
         return out["returnStatement"][out_lang](gast)
     elif gast["type"] == "assignPattern":

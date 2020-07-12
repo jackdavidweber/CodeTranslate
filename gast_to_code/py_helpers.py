@@ -60,12 +60,14 @@ def gast_to_py_if(gast, lvl=0):
 def gast_to_py_func_declarations(gast, lvl=0):
     name = router.gast_to_code(gast["id"], "py")
     args = router.gast_to_code(gast["params"], "py")
-    body = general_helpers.list_helper(gast["body"], "py", "\n\t")
+
+    body_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
+    
     out = "def " + name
-    out += "(" + args + "):\n\t"
+    out += "(" + args + "):" + body_indent
 
     out += body
-
     return out
 
 
@@ -77,9 +79,11 @@ def gast_to_py_assign_pattern(gast):
 
 def gast_to_py_while(gast, lvl=0):
     test = router.gast_to_code(gast["test"], "py")
-    body = general_helpers.list_helper(gast["body"], "py", "\n\t")
+    
+    body_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
 
-    out = 'while (' + test + '):\n\t' + body
+    out = 'while (' + test + '):' + body_indent + body
     return out
 
 def gast_to_py_forRange(gast, lvl=0):
@@ -108,8 +112,11 @@ def gast_to_py_forRange(gast, lvl=0):
 
     var_name = gast["init"]["varId"]["value"]
     range_str = "range (" + start + ", " + end + ", " + incrementor + ")"
-    body = general_helpers.list_helper(gast["body"], "py", "\n\t")
-    out = "for " + var_name + " in " + range_str + ":\n\t" + body
+    
+    body_indent = "\n\t" + "\t"*lvl
+    body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
+    
+    out = "for " + var_name + " in " + range_str + ":" + body_indent + body
     return out
 
 def gast_to_py_forOf(gast, lvl=0):
