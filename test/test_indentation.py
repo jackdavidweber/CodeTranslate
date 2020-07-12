@@ -16,5 +16,28 @@ class TestIndentation(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
 
+    def test_indent_for_range(self):
+        js_code = 'for (let j = 0; j < 10; j += 1) {\n\tfor (let k = 20; i < 30; i += 1) {\n\t\tj\n\t\tk\n\t}\n}'
+        py_code = 'for j in range (0, 10, 1):\n\tfor k in range (20, 30, 1):\n\t\tj\n\t\tk'
+
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
+    def test_indent_while(self):
+        js_code = 'while (1) {\n\twhile (2) {\n\t\t3\n\t}\n}'
+        py_code = 'while (1):\n\twhile (2):\n\t\t3'
+
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+    
+    def test_indent_func_and_if(self):
+        js_code = 'function test() {\n\tif (1) {\n\t\t2\n\t}\n}'
+        py_code = 'def test():\n\tif (1):\n\t\t2'
+
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
+
+
 if __name__ == '__main__':
     unittest2.main()
