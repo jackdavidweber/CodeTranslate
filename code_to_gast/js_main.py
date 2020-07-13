@@ -1,15 +1,5 @@
 import esprima
-import sys
-
-# add path so imports possible in other files without sys
-sys.path.append('assign')
-sys.path.append('expression')
-sys.path.append('conditional')
-sys.path.append('loop')
-sys.path.append('helpers')
-sys.path.append('routers')
-
-import js_router
+import code_to_gast.routers.js_router as js_router
 
 """
 takes js string and converts it to a generic AST

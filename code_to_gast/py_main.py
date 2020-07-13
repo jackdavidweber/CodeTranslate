@@ -1,14 +1,5 @@
-import sys
 import ast
-
-sys.path.append('assign')
-sys.path.append('expression')
-sys.path.append('conditional')
-sys.path.append('loop')
-sys.path.append('helpers')
-sys.path.append('routers')
-
-import py_router
+import code_to_gast.routers.py_router as py_router
 
 """
 takes pyton code and converts it to a node

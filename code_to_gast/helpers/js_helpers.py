@@ -1,4 +1,4 @@
-import js_router
+import code_to_gast.routers.js_router as js_router
 
 """
 handles arrays and recursively calls node_to_gast on all its elements

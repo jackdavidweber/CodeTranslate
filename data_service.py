@@ -9,7 +9,7 @@ class DataService:
     instance = None
 
     def __init__(self):
-        self.running_locally = False
+        self.running_locally = True
         # Use a service account
         try:
             cred_object = json.loads(os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
@@ -21,8 +21,8 @@ class DataService:
         firebase_admin.initialize_app(cred)
 
         # only store code written on live heroku
-        if "SHOULD_WRITE_TO_DATABASE" not in os.environ:
-            self.running_locally = True
+        if "SHOULD_WRITE_TO_DATABASE" in os.environ:
+            self.running_locally = False
 
         self.db = firestore.client()
     
