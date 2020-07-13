@@ -10,7 +10,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
             return "True"
         else:
             return "False"
-    
 
     def handle_if(gast, lvl=0):
         test = router.gast_to_code(gast["test"], "py")
@@ -29,10 +28,8 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-
     def handle_none(gast):
         return "None"
-
 
     def handle_while(gast, lvl=0):
         test = router.gast_to_code(gast["test"], "py")
@@ -42,7 +39,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         out = 'while (' + test + '):' + body_indent + body
         return out
-
 
     def handle_for_range(gast, lvl=0):
         # start value
@@ -77,7 +73,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out = "for " + var_name + " in " + range_str + ":" + body_indent + body
         return out
 
-
     def handle_for_of(gast, lvl=0):
         arr_str = router.gast_to_code(gast["iter"], "py")
         var_name = gast["init"]["value"]
@@ -88,15 +83,12 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out = "for " + var_name + " in " + arr_str + ":" + body_indent + body
         return out
 
-
     def handle_log_statement(gast):
         return "print"
-
 
     def handle_var_assign(gast):
         value = router.gast_to_code(gast["varValue"], "py")
         return router.gast_to_code(gast["varId"], "py") + " = " + value
-
 
     def handle_aug_assign(gast):
         return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
@@ -104,30 +96,23 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "py") + "(" + router.gast_to_code(gast["args"], "py") + ")"
 
-
     def handle_subscript(gast):
         return router.gast_to_code(gast["value"], "py") + "[" + router.gast_to_code(gast["index"], "py") + "]"
-    
 
     def handle_name(gast):
         return gast["value"]
     
-
     def handle_attribute(gast):
         return router.gast_to_code(gast["value"], "py") + "." + gast["id"]
     
-
     def handle_built_in_attribute(gast):
         return router.gast_to_code(gast["value"], "py") + "." + py_built_in_functions.py_built_in_functions(gast["id"]).name
-    
 
     def handle_dict(gast):
         return "{" + router.gast_to_code(gast["elements"], "py") + "}"
-    
 
     def handle_property(gast):
         return router.gast_to_code(gast["key"], "py") + ": " + router.gast_to_code(gast["value"], "py")
-
     
     def handle_bool_op(gast):
         op = " and " if gast["op"] == "&&" else " or "
@@ -137,7 +122,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     
     def handle_unary_op(gast):
         return "not " + router.gast_to_code(gast["arg"], "py")
-    
 
     def handle_function_declaration(gast, lvl):
         name = router.gast_to_code(gast["id"], "py")
@@ -152,10 +136,8 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out += body
         return out
     
-
     def handle_return_statement(gast):
         return "return " + router.gast_to_code(gast["value"], "py")
-
     
     def handle_assign_pattern(gast):
         return router.gast_to_code(gast["left"], "py") + " = " + router.gast_to_code(gast["right"], "py")
