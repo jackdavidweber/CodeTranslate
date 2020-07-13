@@ -1,4 +1,5 @@
 from python.gast_to_code.py_helpers import *
+from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 
 class PyGastToCodeConverter(AbstractGastToCodeConverter):
     
@@ -36,7 +37,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         return gast_to_py_subscript(gast)
     
     def handle_name(gast):
-        return gast_to_py_name(gast)
+        return gast["value"]
     
     def handle_attribute(gast):
         return gast_to_py_attribute(gast)
@@ -57,7 +58,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         return gast_to_py_unary_op(gast)
     
     def handle_function_declaration(gast, lvl):
-        return gast_to_py_func_declaration(gast, lvl)
+        return gast_to_py_func_declarations(gast, lvl)
     
     def handle_return_statement(gast):
         return gast_to_py_return_statement(gast)

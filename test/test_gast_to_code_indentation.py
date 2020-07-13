@@ -1,5 +1,5 @@
 import unittest2
-import gast_to_code.gast_to_code_router as gtc
+import shared.gast_to_code.gast_to_code_router as gtc
 
 
 class TestGastToCodeIndentation(unittest2.TestCase):

@@ -1,5 +1,5 @@
-import gast_to_code.gast_to_code_router as router
-import gast_to_code.general_helpers as general_helpers
+import shared.gast_to_code.gast_to_code_router as router
+import shared.gast_to_code.general_helpers as general_helpers
 import js_built_in_functions
 
 

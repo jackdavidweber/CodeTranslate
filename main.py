@@ -3,6 +3,7 @@ import code_to_gast.js_main as js_main
 import code_to_gast.py_main as py_main
 import shared.gast_to_code.gast_to_code_router as gtc
 from data_service import DataService
+from bootstrap import bootstrap
 
 """
 input_code: string representing input code
@@ -11,6 +12,7 @@ output_lang: string representing output language of code
 return: string representing output code or error message
 """
 def main(input_code, input_lang, output_lang):
+    bootstrap()
 
     if input_lang == None and output_lang == None:
         abort(400, "Error: must specify input and output languages")
