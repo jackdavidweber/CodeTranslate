@@ -1,5 +1,5 @@
 import ast
-import code_to_gast.routers.py_router as py_router
+import python.code_to_gast.py_router as py_router
 
 """
 takes pyton code and converts it to a node

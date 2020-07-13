@@ -1,5 +1,5 @@
 import esprima
-import code_to_gast.routers.js_router as js_router
+import javascript.code_to_gast.js_router as js_router
 
 """
 takes js string and converts it to a generic AST

@@ -1,5 +1,5 @@
 import ast
-import code_to_gast.routers.py_router as pr
+import python.code_to_gast.py_router as pr
 
 
 """

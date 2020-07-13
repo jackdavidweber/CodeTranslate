@@ -1,6 +1,6 @@
 import unittest2
-import code_to_gast.py_main as py_main
-import code_to_gast.js_main as js_main
+import python.code_to_gast.py_main as py_main
+import javascript.code_to_gast.js_main as js_main
 
 class test_code_to_gast_loops(unittest2.TestCase):
     maxDiff=None

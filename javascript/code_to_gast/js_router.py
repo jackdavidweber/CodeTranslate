@@ -1,8 +1,8 @@
-import code_to_gast.assign.js_assign as js_assign
-import code_to_gast.expression.js_expression as js_expression
-import code_to_gast.conditional.js_conditional as js_conditional
-import code_to_gast.loop.js_loop as js_loop
-import code_to_gast.helpers.js_helpers as js_helpers
+import javascript.code_to_gast.js_assign as js_assign
+import javascript.code_to_gast.js_expression as js_expression
+import javascript.code_to_gast.js_conditional as js_conditional
+import javascript.code_to_gast.js_loop as js_loop
+import javascript.code_to_gast.js_helpers as js_helpers
 import esprima
 
 """

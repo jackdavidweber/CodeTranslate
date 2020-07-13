@@ -1,9 +1,9 @@
 import ast
-import code_to_gast.helpers.py_helpers as helpers
-import code_to_gast.expression.py_expression as expression
-import code_to_gast.assign.py_assign as assign
-import code_to_gast.conditional.py_conditional as conditional
-import code_to_gast.loop.py_loop as loop
+import python.code_to_gast.py_helpers as helpers
+import python.code_to_gast.py_expression as expression
+import python.code_to_gast.py_assign as assign
+import python.code_to_gast.py_conditional as conditional
+import python.code_to_gast.py_loop as loop
 
 
 """
