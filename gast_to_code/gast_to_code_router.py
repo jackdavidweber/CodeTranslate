@@ -2,6 +2,7 @@ import gast_to_code.py_helpers as py_helpers
 import gast_to_code.js_helpers as js_helpers
 import gast_to_code.general_helpers as general_helpers
 
+
 """
 gast router that takes generic ast and the output language
 that the gast needs to be converted to and executes the
@@ -10,7 +11,7 @@ out_lang correspond to the language codes defined in datastructure:
 javascript: js
 python: py
 """
-def gast_to_code(gast, out_lang):
+def gast_to_code(gast, out_lang, lvl=0):
     if type(gast) == list:
         return general_helpers.list_helper(gast, out_lang)
 
@@ -24,21 +25,21 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "bool":
         return out["bool"][out_lang](gast)
     elif gast["type"] == "if":
-        return out["if"][out_lang](gast)
+        return out["if"][out_lang](gast, lvl)
     elif gast["type"] == "none":
         return out["none"][out_lang]
 
     # Loops
     elif gast["type"] == "whileStatement":
-        return out["whileStatement"][out_lang](gast)
+        return out["whileStatement"][out_lang](gast, lvl)
     elif gast["type"] == "forRangeStatement":
-        return out["forRangeStatement"][out_lang](gast)
+        return out["forRangeStatement"][out_lang](gast, lvl)
     elif gast["type"] == "forOfStatement":
-        return out["forOfStatement"][out_lang](gast)
+        return out["forOfStatement"][out_lang](gast, lvl)
 
     # Other
     elif gast["type"] == "root":
-        return  general_helpers.list_helper(gast["body"], out_lang, "\n")
+        return general_helpers.list_helper(gast["body"], out_lang, "\n")
     elif gast["type"] == "break":
         return "break"
     elif gast["type"] == "continue":
@@ -70,11 +71,11 @@ def gast_to_code(gast, out_lang):
     elif gast["type"] == "unaryOp":
         return out["unaryOp"][out_lang](gast)
     elif gast["type"] == "functionDeclaration":
-        return out["functionDeclaration"][out_lang](gast)
+        return out["functionDeclaration"][out_lang](gast, lvl)
     elif gast["type"] == "returnStatement":
         return out["returnStatement"][out_lang](gast)
     elif gast["type"] == "assignPattern":
-        return out["assignPattern"][out_lang](gast) 
+        return out["assignPattern"][out_lang](gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string
@@ -121,7 +122,7 @@ out = {
     },
     "none": {
         "py": "None",
-        "js": "null" # TODO look at undefined in JS 
+        "js": "null"  # TODO look at undefined in JS
     },
     "unaryOp": {
         "py": py_helpers.gast_to_py_unary_op,
@@ -164,4 +165,3 @@ out = {
         "js": js_helpers.gast_to_js_subscript
     }
 }
-
