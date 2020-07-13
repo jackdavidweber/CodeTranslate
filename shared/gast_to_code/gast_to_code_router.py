@@ -31,7 +31,7 @@ def gast_to_code(gast, out_lang, lvl=0):
 
     # Loops
     elif gast["type"] == "whileStatement":
-        return converter.handle_while(gast)
+        return converter.handle_while(gast, lvl)
     elif gast["type"] == "forRangeStatement":
         return converter.handle_for_range(gast, lvl)
     elif gast["type"] == "forOfStatement":
@@ -71,7 +71,7 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "unaryOp":
         return converter.handle_unary_op(gast)
     elif gast["type"] == "functionDeclaration":
-        return converter.handle_function_declaration(gast)
+        return converter.handle_function_declaration(gast, lvl)
     elif gast["type"] == "returnStatement":
         return converter.handle_return_statement(gast)
     elif gast["type"] == "assignPattern":

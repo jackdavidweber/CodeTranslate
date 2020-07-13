@@ -4,9 +4,9 @@ class ConverterRegistry():
 
     @staticmethod
     def register(converter, language):
-        converters[language] = converter
+        ConverterRegistry.converters[language] = converter
 
     @staticmethod
     def get_converter(language):
-        return converters[language]
+        return ConverterRegistry.converters[language]
 
