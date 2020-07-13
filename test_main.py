@@ -1,4 +1,7 @@
 import unittest2
+from bootstrap import bootstrap
+
+bootstrap()
 
 loader = unittest2.TestLoader()
 directory = './test'

@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from main import main
+from bootstrap import bootstrap
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,6 +15,7 @@ parser.add_argument('out_lang')
 
 class Translate(Resource):
     def get(self):
+        bootstrap()
         return {'work': 'ing'}
 
     def post(self):

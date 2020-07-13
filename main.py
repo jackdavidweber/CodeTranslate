@@ -12,7 +12,6 @@ output_lang: string representing output language of code
 return: string representing output code or error message
 """
 def main(input_code, input_lang, output_lang):
-    bootstrap()
 
     if input_lang == None and output_lang == None:
         abort(400, "Error: must specify input and output languages")
