@@ -146,5 +146,4 @@ def gast_to_py_forOf(gast, lvl=0):
 
 
 def gast_to_py_subscript(gast):
-    print hello
     return router.gast_to_code(gast["value"], "py") + "[" + router.gast_to_code(gast["index"], "py") + "]"
