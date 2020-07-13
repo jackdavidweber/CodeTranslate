@@ -47,7 +47,8 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "logStatement":
         return out["logStatement"][out_lang]
     elif gast["type"] == "varAssign":
-        return out["varAssign"][out_lang](gast)
+        #return out["varAssign"][out_lang](gast)
+        return converter.handle_var_assign()
     elif gast["type"] == "augAssign":
         return out["augAssign"][out_lang](gast)
     elif gast["type"] == "funcCall":
