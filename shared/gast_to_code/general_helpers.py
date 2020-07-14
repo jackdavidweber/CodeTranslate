@@ -1,4 +1,4 @@
-import gast_to_code.gast_to_code_router as router
+import shared.gast_to_code.gast_to_code_router as router
 
 """
 Helper for lists of gast

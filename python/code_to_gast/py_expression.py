@@ -1,4 +1,4 @@
-import code_to_gast.routers.py_router as pr
+import python.code_to_gast.py_router as pr
 import py_built_in_functions as built_in
 
 """

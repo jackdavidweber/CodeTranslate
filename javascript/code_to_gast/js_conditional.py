@@ -1,4 +1,4 @@
-import code_to_gast.routers.js_router as jr
+import javascript.code_to_gast.js_router as jr
 
 def if_statement_to_gast(node):
     gast = {}

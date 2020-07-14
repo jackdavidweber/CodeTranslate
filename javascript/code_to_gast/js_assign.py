@@ -1,5 +1,5 @@
-import code_to_gast.helpers.js_helpers as js_helpers
-import code_to_gast.routers.js_router as js_router
+import javascript.code_to_gast.js_helpers as js_helpers
+import javascript.code_to_gast.js_router as js_router
 
 """
 Handles js var declarations to generic AST node

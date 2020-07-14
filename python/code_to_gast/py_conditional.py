@@ -1,4 +1,4 @@
-import code_to_gast.routers.py_router as pr
+import python.code_to_gast.py_router as pr
 
 """
 converts if statement node recursively into our generic AST structure
