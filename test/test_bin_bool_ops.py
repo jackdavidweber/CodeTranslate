@@ -4,8 +4,13 @@ import main
 class TestBinBoolOps(unittest2.TestCase):
     #TODO: add whitespace to methods
     def test_bin_no_nesting(self):
-        js_code = '1 + 3'
+        js_code = '1 + 2'
         py_code = '1 + 2'
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+    def test_bin_left_nesting(self):
+        js_code = '1 + 2 + 3'
+        py_code = '1 + 2 + 3'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
     def test_bin_right_nesting(self):
