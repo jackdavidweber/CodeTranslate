@@ -24,7 +24,5 @@ class TestBashPrimitives(unittest2.TestCase):
         self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
     
     
-
-
 if __name__ == '__main__':
     unittest2.main()
