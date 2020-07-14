@@ -8,6 +8,7 @@ from shared.gast_to_code.converter_registry import ConverterRegistry
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+bootstrap()
 
 parser = reqparse.RequestParser()
 parser.add_argument('input')
@@ -16,7 +17,6 @@ parser.add_argument('out_lang')
 
 class Translate(Resource):
     def __init__(self):
-        bootstrap()
         self.languages = ConverterRegistry.get_languages()
 
     def get(self):
