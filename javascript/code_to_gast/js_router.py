@@ -30,7 +30,7 @@ def node_to_gast(node):
         elif node.raw == "null":
             return {"type": "none"}
         else:
-            return "Unsupported prim"
+            return {"type": "error", "value": "unsupported"}
     elif node.type == "BreakStatement":
         return {"type": "break"}
     elif node.type == "ContinueStatement":
