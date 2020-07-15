@@ -20,15 +20,11 @@ def main(input_code, input_lang, output_lang):
         gast = js_main.js_to_gast(input_code)
     elif input_lang == "py":
         gast = py_main.py_to_gast(input_code)
-    elif input_lang == "java":
-        gast = java_main.java_to_gast(input_code)
-    elif input_lang == "bash":
-        gast = bash_main.bash_to_gast(input_code)
     else:
         #TODO: figure out hwo to do error messages
         return "Error must specify input language. For example, js for javascript and py for python"
 
-    output_langs = ["js", "py", "bash", "java"]
+    output_langs = ["js", "py"]
     if output_lang not in output_langs:
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
