@@ -1,6 +1,7 @@
 import javalang.tree
 import java.code_to_gast.java_expression as java_expression
 import java.code_to_gast.java_helpers as java_helpers
+import java.code_to_gast.java_assign as java_assign
 
 def node_to_gast(node):
     #base cases
@@ -30,6 +31,11 @@ def node_to_gast(node):
         return node_to_gast(node.expression)
     elif type(node) == list:
         return java_helpers.node_list_to_gast_list(node)
+    elif type(node) == javalang.tree.LocalVariableDeclaration:
+        # our current gAST doesn't support multiple declarations/unsure what that is
+        return node_to_gast(node.declarators[0])
+    elif type(node) == javalang.tree.VariableDeclarator:
+        return java_assign.assign_to_gast(node)
     else:   
         # not supported
         return {"type": "error", "value": "unsupported"}
