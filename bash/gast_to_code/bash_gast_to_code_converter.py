@@ -10,4 +10,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
             return "true"
         else:
             return "false"
+    
+    def handle_log_statement(gast):
+        return "echo"
 
