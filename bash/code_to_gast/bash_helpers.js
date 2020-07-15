@@ -26,9 +26,21 @@ function word_to_gast(node) {
     } else {
         return {'type': 'str', 'value': text}
     }
-        
+}
+
+function command_to_gast(node) {
+    // TODO update to handle more than just echo function
+    if ('suffix' in node) { 
+        gast = {'type': 'funcCall'}
+        gast['args'] = bash_router.node_to_gast(node['suffix'])
+        gast['value'] = {'type': 'logStatement'}
+        return gast
+    } else {
+        return bash_router.node_to_gast(node['name'])
+    }
 }
 
 exports.script_to_gast = script_to_gast
 exports.array_to_gast = array_to_gast
 exports.word_to_gast = word_to_gast
+exports.command_to_gast = command_to_gast

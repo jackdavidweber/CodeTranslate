@@ -6,7 +6,7 @@ function node_to_gast(node) {
     } else if (node['type'] === 'Script') {
         return bash_helpers.script_to_gast(node)
     } else if (node['type'] === 'Command') {
-        return node_to_gast(node['name'])
+        return bash_helpers.command_to_gast(node)
     } else if (node['type'] === 'Word') {
         return bash_helpers.word_to_gast(node)
     }
