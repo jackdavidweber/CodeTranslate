@@ -15,7 +15,7 @@ def node_to_gast(node):
         elif node.value == "false":
             return {"type": "bool", "value": 0}
         else:
-            return "Unsupported prim"
+            return "Unsupported primitive"
     
     elif type(node) == javalang.tree.MethodInvocation:
         return java_expression.method_invocation_to_gast(node)
