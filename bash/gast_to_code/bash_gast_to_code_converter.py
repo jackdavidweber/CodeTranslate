@@ -11,4 +11,10 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
             return "true"
         else:
             return "false"
+    
+    def handle_log_statement(gast):
+        return "echo"
+    
+    def handle_func_call(gast):
+        return router.gast_to_code(gast["value"], "bash") + " " + router.gast_to_code(gast["args"], "bash")
 

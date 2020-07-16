@@ -9,6 +9,7 @@ class TestLogStatement(unittest2.TestCase):
     def test_one_arg(self):
         self.assertEqual('console.log("hello")', main.main('print("hello")', 'py', 'js'))
         self.assertEqual('print(5)', main.main('console.log(5)', 'js', 'py'))
+        self.assertEqual('echo 8', main.main('console.log(8)', 'js', 'bash'))
     
     def test_quotes_string(self):
         self.assertEqual('print("working")', main.main('console.log("working")', 'js', 'py'))
@@ -20,6 +21,7 @@ class TestLogStatement(unittest2.TestCase):
     def test_boolean(self):
         self.assertEqual('print(True)', main.main('console.log(true)', 'js', 'py'))
         self.assertEqual('console.log(!false)', main.main('print(not False)', 'py', 'js'))
+        self.assertEqual('print(True)', main.main('echo true', 'bash', 'py'))
 
     def test_none(self):
         self.assertEqual('console.log(null)', main.main('print(None)', 'py', 'js'))

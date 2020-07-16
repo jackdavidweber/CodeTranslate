@@ -2,3 +2,5 @@ __pycache__/
 .vscode/
 private_keys/*
 !private_keys/.gitkeep
+debug.py
+node_modules/

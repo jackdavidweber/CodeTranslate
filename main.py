@@ -2,10 +2,11 @@ from flask import abort
 import javascript.code_to_gast.js_main as js_main
 import python.code_to_gast.py_main as py_main
 import java.code_to_gast.java_main as java_main
-import bash.code_to_gast.bash_main as bash_main
 import shared.gast_to_code.gast_to_code_router as gtc
 from data_service import DataService
 from bootstrap import bootstrap
+import subprocess
+import json
 
 """
 input_code: string representing input code
@@ -25,7 +26,10 @@ def main(input_code, input_lang, output_lang):
     elif input_lang == "java":
         gast = java_main.java_to_gast(input_code)
     elif input_lang == "bash":
-        gast = bash_main.bash_to_gast(input_code)
+        process = subprocess.Popen(['node', 'bash/code_to_gast/bash_main.js', input_code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, error = process.communicate()
+        string_output = out.decode('utf-8')
+        gast = json.loads(string_output)
     else:
         #TODO: figure out hwo to do error messages
         return "Error must specify input language. For example, js for javascript and py for python"
@@ -36,7 +40,6 @@ def main(input_code, input_lang, output_lang):
         return "Error must specify output language. For example, js for javascript and py for python"
    
     output_code = ""
-
     if (type(gast) == str) :
         # return error if gast not built - dont store in database
         output_code = "Error: did not compile"
