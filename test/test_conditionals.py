@@ -9,6 +9,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js')) 
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
+        self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
 
     def test_else(self):
         js_code = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}' # TODO: consider adding ; after console.log()
@@ -17,6 +18,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
+        self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
    
     def test_elif(self):
         js_code = 'if (1) {\n\tconsole.log("1 is true")\n} else if (2) {\n\tconsole.log("2 is true")\n\tconsole.log("second line")\n}'
@@ -31,6 +33,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
+        self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
 
 if __name__ == '__main__':
     unittest2.main()
