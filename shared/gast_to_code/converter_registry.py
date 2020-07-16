@@ -11,7 +11,7 @@ class ConverterRegistry():
         return ConverterRegistry.converters[lang_code]
     
     """
-    Returns supported languages in the converter as a list of strings
+    Returns supported language codes in the converter as a list of strings
     """
     @staticmethod
     def get_language_codes():
