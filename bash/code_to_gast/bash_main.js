@@ -9,4 +9,6 @@ try {
     return "Error: code could not compile"
 }
 
-console.log(JSON.stringify(bash_router.node_to_gast(input_ast)))
+const gast = bash_router.node_to_gast(input_ast)
+const json_string = JSON.stringify(gast)
+console.log(json_string)
