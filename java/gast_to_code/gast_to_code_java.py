@@ -52,10 +52,17 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         pass
 
     def handle_name(gast):
-        return gast["value"]
+        ''' 
+        NOTE: some places store {"type": "name", "value": "s"} while others have
+        {"type": "name", "id" : "s"} in gAST but both get routed to this func.
+        We may want to re-evaluate gAST structure regarding funcs and vars
+        '''
+        if "value" in gast:
+            return gast["value"]
+        return gast["id"]
 
     def handle_attribute(gast):
-        pass
+        return router.gast_to_code(gast["value"], "java") + "." + gast["id"]
 
     def handle_built_in_attribute(gast):
         pass
