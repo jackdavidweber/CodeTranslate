@@ -9,6 +9,7 @@ class TestLogStatement(unittest2.TestCase):
     def test_one_arg(self):
         self.assertEqual('console.log("hello")', main.main('print("hello")', 'py', 'js'))
         self.assertEqual('print(5)', main.main('console.log(5)', 'js', 'py'))
+        self.assertEqual('echo 8', main.main('console.log(8)', 'js', 'bash'))
     
     def test_quotes_string(self):
         self.assertEqual('print("working")', main.main('console.log("working")', 'js', 'py'))
