@@ -6,10 +6,7 @@ import shared.gast_to_code.gast_to_code_router as router
 class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_bool(gast):
-        if gast["value"] == 1:
-            return "true"
-        else:
-            return "false"
+        return "Bash does not support booleans"
     
     def handle_log_statement(gast):
         return "echo"

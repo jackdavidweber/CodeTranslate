@@ -17,11 +17,7 @@ function array_to_gast(node) {
 
 function word_to_gast(node) {
     const text = node["text"]
-    if (text === "true") {
-        return {"type": "bool", "value": 1}
-    } else if (text === "false") {
-        return {"type": "bool", "value": 0}
-    } else if (!isNaN(text)) {
+    if (!isNaN(text)) {
         return {"type": "num", "value": Number(text)}
     } else {
         return {"type": "str", "value": text}
