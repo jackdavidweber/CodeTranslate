@@ -32,8 +32,11 @@ def node_to_gast(node):
     elif type(node) == list:
         return java_helpers.node_list_to_gast_list(node)
     elif type(node) == javalang.tree.LocalVariableDeclaration:
-        # our current gAST doesn't support multiple declarations/unsure what that is
-        return node_to_gast(node.declarators[0])
+        # our current gAST doesn't support multiple declarations
+        if len(node.declarators) == 1:
+            return node_to_gast(node.declarators[0])
+        else:
+            return {"type": "error", "value": "unsupported"}
     elif type(node) == javalang.tree.VariableDeclarator:
         return java_assign.assign_to_gast(node)
     else:   
