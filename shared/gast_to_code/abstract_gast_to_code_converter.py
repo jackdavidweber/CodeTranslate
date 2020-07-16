@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 
 class AbstractGastToCodeConverter(ABC):
+    @abstractmethod
+    def get_pretty_name(): # FIXME: is this necessary?
+        pass
 
     @abstractmethod
     def handle_log_statement(gast):

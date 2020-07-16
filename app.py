@@ -17,10 +17,11 @@ parser.add_argument('out_lang')
 
 class Translate(Resource):
     def __init__(self):
-        self.languages = ConverterRegistry.get_languages()
+        self.lang_codes = ConverterRegistry.get_language_codes()
+        self.lang_objects = ConverterRegistry.get_pretty_names()
 
     def get(self):
-        return {'supported_languages': self.languages}
+        return {'supported_languages': self.lang_objects}
 
     def post(self):
         # bring in post arguments
@@ -34,8 +35,8 @@ class Translate(Resource):
 
         # automatic language detection
         i = 0
-        while (output_code == "Error: did not compile") and (i < len(self.languages)):
-            response_input_lang = self.languages[i]
+        while (output_code == "Error: did not compile") and (i < len(self.lang_codes)):
+            response_input_lang = self.lang_codes[i]
             output_code = main(input_code, response_input_lang, output_lang)
             i += 1
 
