@@ -4,7 +4,8 @@ import shared.gast_to_code.gast_to_code_router as router
 
 
 class BashGastToCodeConverter(AbstractGastToCodeConverter):
-
+    pretty_name = "Bash"
+   
     def handle_bool(gast):
         return "Bash does not support booleans"
     

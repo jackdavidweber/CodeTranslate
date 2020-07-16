@@ -5,6 +5,7 @@ import shared.gast_to_code.gast_to_code_router as router
 
 
 class JsGastToCodeConverter(AbstractGastToCodeConverter):
+    pretty_name = "Javascript"
 
     def handle_bool(gast):
         if gast["value"] == 1:
