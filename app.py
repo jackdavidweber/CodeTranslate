@@ -18,10 +18,10 @@ parser.add_argument('out_lang')
 class Translate(Resource):
     def __init__(self):
         self.lang_codes = ConverterRegistry.get_language_codes()
-        self.lang_objects = ConverterRegistry.get_pretty_names()
+        self.lang_object = ConverterRegistry.get_pretty_names()
 
     def get(self):
-        return {'supported_languages': self.lang_objects}
+        return {'supported_languages': self.lang_object}
 
     def post(self):
         # bring in post arguments

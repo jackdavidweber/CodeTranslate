@@ -18,17 +18,17 @@ class ConverterRegistry():
         return list(ConverterRegistry.converters.keys())
 
     """
-    Returns a list of objects where key is language code and value is
-    pretty language name
+    Returns a dictionary where keys are language codes and values are
+    pretty language names
     """
     @staticmethod
     def get_pretty_names():
-        pretty_names_list = []
+        pretty_names_dict = {}
         for lang_code in ConverterRegistry.converters.keys():
             converter = ConverterRegistry.get_converter(lang_code)
-            pretty_names_list.append({lang_code: converter.pretty_name})
+            pretty_names_dict[lang_code] = converter.pretty_name
 
-        return pretty_names_list
+        return pretty_names_dict
 
 
 
