@@ -2,7 +2,6 @@ from flask import abort
 import javascript.code_to_gast.js_main as js_main
 import python.code_to_gast.py_main as py_main
 import java.code_to_gast.java_main as java_main
-import bash.code_to_gast.bash_main as bash_main
 import shared.gast_to_code.gast_to_code_router as gtc
 from data_service import DataService
 from bootstrap import bootstrap
