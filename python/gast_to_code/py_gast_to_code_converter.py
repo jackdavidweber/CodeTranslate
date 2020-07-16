@@ -4,7 +4,8 @@ import shared.gast_to_code.general_helpers as general_helpers
 import py_built_in_functions
 
 class PyGastToCodeConverter(AbstractGastToCodeConverter):
-    
+    pretty_name = "Python"
+
     def handle_bool(gast):
         if gast["value"] == 1:
             return "True"
