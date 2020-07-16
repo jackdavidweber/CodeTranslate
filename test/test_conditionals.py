@@ -3,16 +3,20 @@ import main
 
 class TestConditionals(unittest2.TestCase):
     def test_if(self):
-        js_code = 'if (true) {\n\tconsole.log("This is true")\n}'
-        py_code = 'if (True):\n\tprint("This is true")'
+        js_code = 'if (1) {\n\tconsole.log("This is true")\n}'
+        py_code = 'if (1):\n\tprint("This is true")'
+        bash_code = 'if [[ 1 ]]; then\n\techo "This is true"\nfi'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js')) 
+        self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
 
     def test_else(self):
         js_code = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}' # TODO: consider adding ; after console.log()
         py_code = 'if (1):\n\tprint("1 is true")\nelse:\n\tprint("1 is NOT true")'
+        bash_code = 'if [[ 1 ]]; then\n\techo "1 is true"\nelse\n\techo "1 is NOT true"\nfi'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
    
     def test_elif(self):
         js_code = 'if (1) {\n\tconsole.log("1 is true")\n} else if (2) {\n\tconsole.log("2 is true")\n\tconsole.log("second line")\n}'
@@ -23,8 +27,10 @@ class TestConditionals(unittest2.TestCase):
     def test_elif_else(self):
         js_code = 'if (1) {\n\tconsole.log("1 is true")\n} else if (2) {\n\tconsole.log("2 is true")\n} else {\n\tconsole.log("nothing is true")\n}'
         py_code = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\nelse:\n\tprint("nothing is true")'
+        bash_code = 'if [[ 1 ]]; then\n\techo "1 is true"\nelif [[ 2 ]]; then\n\techo "2 is true"\nelse\n\techo "nothing is true"\nfi'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
 
 if __name__ == '__main__':
     unittest2.main()
