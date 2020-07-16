@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
 class AbstractGastToCodeConverter(ABC):
-    
     @abstractmethod
     def handle_log_statement(gast):
         pass
