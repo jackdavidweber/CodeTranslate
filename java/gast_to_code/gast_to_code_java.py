@@ -29,7 +29,20 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         return "System.out.println"
 
     def handle_var_assign(gast):
-        pass
+        var_id = router.gast_to_code(gast["varId"], "java")
+        var_value = router.gast_to_code(gast["varValue"], "java")
+        var_type = gast["varValue"]["type"]
+        
+        if var_type == "num":
+            kind = "int"
+        elif var_type == "str":
+            kind = "String"
+        elif var_type == "bool":
+            kind = "boolean"
+        else:
+            kind = "customType"
+ 
+        return kind + " " + var_id + " = " + var_value
 
     def handle_aug_assign(gast):
         pass
@@ -41,7 +54,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         pass
 
     def handle_name(gast):
-        pass
+        return gast["value"]
 
     def handle_attribute(gast):
         pass
