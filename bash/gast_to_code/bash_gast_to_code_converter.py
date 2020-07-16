@@ -14,3 +14,9 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "bash") + " " + router.gast_to_code(gast["args"], "bash")
 
+    def handle_if(gast, lvl=0):
+        test = router.gast_to_code(gast["test"], "bash")
+        body_indent = "\n\t" + "\t"*lvl
+        closing_brace_indent = "\n" + "\t"*lvl
+        body = general_helpers.list_helper(gast["body"], "bash", body_indent, lvl+1)
+        

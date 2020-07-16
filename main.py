@@ -26,6 +26,7 @@ def main(input_code, input_lang, output_lang):
     elif input_lang == "java":
         gast = java_main.java_to_gast(input_code)
     elif input_lang == "bash":
+        # TODO move to separate function
         process = subprocess.Popen(['node', 'bash/code_to_gast/bash_main.js', input_code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, error = process.communicate()
         string_output = out.decode('utf-8')
