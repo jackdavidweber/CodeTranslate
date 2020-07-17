@@ -11,7 +11,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(js_code, main.main(py_code, 'py', 'js')) 
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
         self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
-        #self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
+        self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
         self.assertEqual(py_code, main.main(java_code, 'java', 'py'))
 
     def test_else(self):
@@ -23,7 +23,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
         self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
-        #self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
+        self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
         self.assertEqual(py_code, main.main(java_code, 'java', 'py'))
    
     def test_elif(self):
@@ -32,7 +32,7 @@ class TestConditionals(unittest2.TestCase):
         java_code = 'if (1) {\n\tSystem.out.println("1 is true");\n} else if (2) {\n\tSystem.out.println("2 is true");\n\tSystem.out.println("second line");\n}'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
-        #self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
+        self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
         self.assertEqual(py_code, main.main(java_code, 'java', 'py'))
 
     def test_elif_else(self):
@@ -44,7 +44,7 @@ class TestConditionals(unittest2.TestCase):
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
         self.assertEqual(bash_code, main.main(py_code, 'py', 'bash'))
         self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
-        #self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
+        self.assertEqual(java_code, main.main(js_code, 'js', 'java'))
         self.assertEqual(py_code, main.main(java_code, 'java', 'py'))
 
 if __name__ == '__main__':

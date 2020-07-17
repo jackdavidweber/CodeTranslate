@@ -42,6 +42,9 @@ def main(input_code, input_lang, output_lang):
         output_code = "Error: did not compile"
     else:
         output_code = gtc.gast_to_code(gast, output_lang)
+
+        if output_lang == "java":
+            output_code = java_linter(output_code)
     
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
@@ -61,3 +64,22 @@ def run_bash_javascript(input_code):
         out, error = process.communicate()
         string_output = out.decode('utf-8')
         return json.loads(string_output)
+
+"""
+Add semicolons to the end of java lines
+"""
+def java_linter(output_code):
+
+    if '\n' not in output_code:
+        return output_code + ";"
+
+    #Add semicolons to every line
+    output_code = output_code.replace("\n", ";\n")
+    output_code += ";"
+    
+    #Remove them where they shouldn't be
+    output_code = output_code.replace("{;", "{")
+    output_code = output_code.replace("};", "}")
+    output_code = output_code.replace("+;", "+")
+    
+    return output_code
