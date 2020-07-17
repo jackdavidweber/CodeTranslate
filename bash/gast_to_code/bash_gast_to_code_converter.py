@@ -25,4 +25,3 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arr(gast):
         return "(" + router.gast_to_code(gast["elements"], "py") + ")"
-
