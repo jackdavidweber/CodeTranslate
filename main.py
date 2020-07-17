@@ -26,10 +26,7 @@ def main(input_code, input_lang, output_lang):
     elif input_lang == "java":
         gast = java_main.java_to_gast(input_code)
     elif input_lang == "bash":
-        process = subprocess.Popen(['node', 'bash/code_to_gast/bash_main.js', input_code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, error = process.communicate()
-        string_output = out.decode('utf-8')
-        gast = json.loads(string_output)
+        gast = run_bash_javascript(input_code)
     else:
         #TODO: figure out hwo to do error messages
         return "Error must specify input language. For example, js for javascript and py for python"
@@ -55,3 +52,12 @@ def main(input_code, input_lang, output_lang):
     data_service.store_query(input_code, output_code, input_lang, output_lang)
 
     return output_code
+
+"""
+Uses subprocess library to read from sdout after running javascript code
+"""
+def run_bash_javascript(input_code):
+        process = subprocess.Popen(['node', 'bash/code_to_gast/bash_main.js', input_code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, error = process.communicate()
+        string_output = out.decode('utf-8')
+        return json.loads(string_output)

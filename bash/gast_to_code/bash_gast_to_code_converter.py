@@ -7,15 +7,14 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     pretty_name = "Bash"
    
     def handle_bool(gast):
-        if gast["value"] == 1:
-            return "true"
-        else:
-            return "false"
+        return "Bash does not support booleans"
     
     def handle_log_statement(gast):
         return "echo"
     
     def handle_func_call(gast):
+        if gast["value"]["type"] == "logStatement" and general_helpers.arr_in_list(gast["args"]):
+            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error messag
         ''' 
         temporary solution since gast needs to be fixed to handle vars and func names
         differently - this goes through and manually distinguishes using rules 
@@ -35,8 +34,35 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
             updated_args += new_elm + " " 
             # remove trailing space
         updated_args = updated_args[:-1]
-
         return router.gast_to_code(gast["value"], "bash") + " " + updated_args
+        
+    def handle_arr(gast):
+        # This logic returns an error for nested arrays which are not supported in bash
+        if general_helpers.arr_in_list(gast["elements"]):
+            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error message as part of refactor
+
+        return "(" + router.gast_to_code(gast["elements"], "py") + ")"
+
+    def handle_if(gast, lvl=0):
+        test = router.gast_to_code(gast["test"], "bash")
+        body_indent = "\n\t" + "\t"*lvl
+        closing_exp_indent = "\n" + "\t"*lvl
+        body = general_helpers.list_helper(gast["body"], "bash", body_indent, lvl+1)
+        
+        out = "if [[ " + test + " ]]; then" + body_indent + body + closing_exp_indent
+
+        if len(gast["orelse"]) == 0:
+            out += "fi"
+        elif gast["orelse"][0]["type"] == "if":
+            out += "el" + router.gast_to_code(gast["orelse"], "bash")
+        else:
+            out += "else\n\t" + general_helpers.list_helper(gast["orelse"], "bash", "\n\t") + "\nfi"
+
+        return out
+
+    def handle_var_assign(gast):
+        value = router.gast_to_code(gast["varValue"], "bash")
+        return router.gast_to_code(gast["varId"], "bash") + "=" + value
 
     def handle_name(gast):
         return gast["value"]

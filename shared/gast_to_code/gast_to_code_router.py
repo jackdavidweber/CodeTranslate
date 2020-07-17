@@ -22,7 +22,7 @@ def gast_to_code(gast, out_lang, lvl=0):
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_to_code(gast["elements"], out_lang) + "]"
+        return converter.handle_arr(gast)
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
