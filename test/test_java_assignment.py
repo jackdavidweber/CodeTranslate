@@ -9,5 +9,6 @@ class TestJavaAssignment(unittest2.TestCase):
     def test_arr(self):
         self.assertEqual('int[] x = {1, 2}', main.main('int[] x = {1, 2};', 'java', 'java'))
 
+
 if __name__ == '__main__':
     unittest2.main()
