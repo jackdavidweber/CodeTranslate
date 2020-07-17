@@ -20,5 +20,8 @@ class TestCustomFunctions(unittest2.TestCase):
         self.assertEqual('car.honda.drive(1, 3)', main.main('car.honda.drive(1,3)', 'js', 'py'))
         self.assertEqual('car.ford.park(null)', main.main('car.ford.park(None)', 'py', 'js'))
 
+    def test_arg_varaible(self):
+        self.assertEqual('test "$file"', main.main('test(file)', 'js', 'bash'))
+
 if __name__ == '__main__':
     unittest2.main()
