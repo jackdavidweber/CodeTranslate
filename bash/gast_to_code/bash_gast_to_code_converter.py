@@ -13,7 +13,18 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
         return "echo"
     
     def handle_func_call(gast):
+        # bash has no way to directly print arrays. This logic returns an error for such behavior
+        if gast["value"]["type"] == "logStatement" and general_helpers.arr_in_list(gast["args"]):
+            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error message as part of refactor
+
         return router.gast_to_code(gast["value"], "bash") + " " + router.gast_to_code(gast["args"], "bash")
+
+    def handle_arr(gast):
+        # This logic returns an error for nested arrays which are not supported in bash
+        if general_helpers.arr_in_list(gast["elements"]):
+            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error message as part of refactor
+
+        return "(" + router.gast_to_code(gast["elements"], "py") + ")"
 
     def handle_if(gast, lvl=0):
         test = router.gast_to_code(gast["test"], "bash")

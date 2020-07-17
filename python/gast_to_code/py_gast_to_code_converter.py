@@ -142,3 +142,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     
     def handle_assign_pattern(gast):
         return router.gast_to_code(gast["left"], "py") + " = " + router.gast_to_code(gast["right"], "py")
+
+    def handle_arr(gast):
+        return "[" + router.gast_to_code(gast["elements"], "py") + "]"

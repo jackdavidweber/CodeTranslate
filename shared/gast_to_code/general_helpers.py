@@ -24,3 +24,14 @@ def gast_to_node_bin_op_helper(gast, out_lang):
     left = router.gast_to_code(gast["left"], out_lang)
     right = router.gast_to_code(gast["right"], out_lang)
     return left + op + right
+
+"""
+returns true if there is a gast node of type arr in list of gast nodes
+else returns false
+"""
+def arr_in_list(gast_list):
+    for node in gast_list:
+        if node["type"] == "arr":
+            return True
+    
+    return False

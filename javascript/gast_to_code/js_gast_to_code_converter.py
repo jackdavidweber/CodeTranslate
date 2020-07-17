@@ -125,3 +125,6 @@ class JsGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_assign_pattern(gast):
         return router.gast_to_code(gast["left"], "js") + " = " + router.gast_to_code(gast["right"], "js")
+
+    def handle_arr(gast):
+        return "[" + router.gast_to_code(gast["elements"], "js") + "]"
