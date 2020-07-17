@@ -5,10 +5,12 @@ class TestCustomFunctions(unittest2.TestCase):
     def test_no_args_no_object(self):
         self.assertEqual('myFunction()', main.main('myFunction()', 'py', 'js'))
         self.assertEqual('drive()', main.main('drive()', 'js', 'py'))
+        self.assertEqual('test ', main.main('test()', 'js', 'bash'))
     
     def test_one_arg_no_object(self):
         self.assertEqual('run("fast")', main.main('run("fast")', 'py', 'js'))
         self.assertEqual('sprint("slow")', main.main('sprint("slow")', 'js', 'py'))
+        self.assertEqual('hello "joe" 1', main.main('hello("joe", 1)', 'js', 'bash'))
     
     def test_object(self):
         self.assertEqual('my.function()', main.main('my.function()', 'js', 'py'))
