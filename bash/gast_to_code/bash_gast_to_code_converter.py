@@ -7,10 +7,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     pretty_name = "Bash"
    
     def handle_bool(gast):
-        if gast["value"] == 1:
-            return "true"
-        else:
-            return "false"
+        return "Bash does not support booleans"
     
     def handle_log_statement(gast):
         return "echo"
