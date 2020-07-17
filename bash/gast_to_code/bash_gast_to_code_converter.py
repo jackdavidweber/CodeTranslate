@@ -31,3 +31,10 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
             out += "else\n\t" + general_helpers.list_helper(gast["orelse"], "bash", "\n\t") + "\nfi"
 
         return out
+
+    def handle_var_assign(gast):
+        value = router.gast_to_code(gast["varValue"], "bash")
+        return router.gast_to_code(gast["varId"], "bash") + "=" + value
+
+    def handle_name(gast):
+        return gast["value"]
