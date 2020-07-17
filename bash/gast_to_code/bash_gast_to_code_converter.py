@@ -26,7 +26,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
         return "(" + router.gast_to_code(gast["elements"], "py") + ")"
 
-      def handle_if(gast, lvl=0):
+    def handle_if(gast, lvl=0):
         test = router.gast_to_code(gast["test"], "bash")
         body_indent = "\n\t" + "\t"*lvl
         closing_exp_indent = "\n" + "\t"*lvl
