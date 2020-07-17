@@ -11,14 +11,12 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     
     def handle_log_statement(gast):
         return "echo"
-    
+
     def handle_func_call(gast):
-        # bash has no way to directly print arrays. This logic returns an error for such behavior
         if gast["value"]["type"] == "logStatement" and general_helpers.arr_in_list(gast["args"]):
-            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error message as part of refactor
-
-        return router.gast_to_code(gast["value"], "bash") + " " + router.gast_to_code(gast["args"], "bash")
-
+            return "impossibleTranslationError: direct translation does not exist" # TODO: streamline error messag
+        return router.gast_to_code(gast["value"], "bash") + " " + bash_arg_helper(gast["args"])
+     
     def handle_arr(gast):
         # This logic returns an error for nested arrays which are not supported in bash
         if general_helpers.arr_in_list(gast["elements"]):
@@ -49,3 +47,22 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_name(gast):
         return gast["value"]
+
+'''
+Helper functions for bash converter since variables are written different when function params
+These functions are called on func args only and return the correct translation
+'''
+def handle_var_arg(gast):
+        return '"$' + gast["value"] + '"'
+        
+def bash_arg_helper(gast_list):
+    out = ""
+    for i in range(0, len(gast_list)):
+        if gast_list[i]["type"] == "name":
+            out += handle_var_arg(gast_list[i])
+        else:
+            out += router.gast_to_code(gast_list[i], "bash")
+
+        if i < len(gast_list) - 1:  # don't add delimiter for last item
+            out += " "
+    return out
