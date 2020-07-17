@@ -39,6 +39,8 @@ def node_to_gast(node):
             return {"type": "error", "value": "unsupported"}
     elif type(node) == javalang.tree.VariableDeclarator:
         return java_assign.assign_to_gast(node)
+    elif type(node) == javalang.tree.ArrayInitializer:
+        return java_helpers.array_to_gast(node.initializers)
     else:   
         # not supported
         return {"type": "error", "value": "unsupported"}
