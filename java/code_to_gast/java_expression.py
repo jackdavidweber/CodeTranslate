@@ -12,8 +12,33 @@ def method_invocation_to_gast(node):
     if node.qualifier == "System.out" and node.member == "println":
         gast["value"] = {"type": "logStatement"}
     else:
-        gast["value"] = {"type": "customStatement"}
+        # function called on object
+        if node.qualifier:
+            object_list = (node.qualifier.split("."))
+            object_list.append(node.member)
+            gast["value"] = list_to_attribute_value_node(object_list)
+        else:
+            gast["value"] = {"type": "name", "value": node.member}
     return gast
+
+'''
+Takes list of callees and members and from function called
+on object and translates into gAST node
+Ex: car.drive() -> {"type": "attribute", "id": "drive", "value": 
+{"type": "name", "id": "car"}}
+'''
+def list_to_attribute_value_node(object_list):
+    gast = {}
+    gast["type"] = "attribute"
+    gast["id"] = object_list.pop()
+
+    if len(object_list) == 1:
+        gast["value"] = {"type": "name", "id": object_list.pop()}
+    else: 
+        gast["value"] = list_to_attribute_value_node(object_list)
+    
+    return gast
+
 
 '''
 Takes class declaration and turns into start of gast
