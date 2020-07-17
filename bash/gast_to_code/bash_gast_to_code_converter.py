@@ -16,5 +16,13 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
         return "echo"
     
     def handle_func_call(gast):
+        # bash has no way to directly print arrays. This logic returns an error for such behavior
+        # TODO: maybe we should run code after translation to make sure it compiles and throw errors if it does NOT
+        if gast["value"]["type"] == "logStatement" and general_helpers.arr_in_list(gast["args"]):
+            return "Error: direct translation not possible" # TODO: streamline error message as part of refactor
+
         return router.gast_to_code(gast["value"], "bash") + " " + router.gast_to_code(gast["args"], "bash")
+
+    def handle_arr(gast):
+        return "(" + router.gast_to_code(gast["elements"], "py") + ")"
 

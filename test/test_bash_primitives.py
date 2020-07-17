@@ -13,6 +13,9 @@ class TestBashPrimitives(unittest2.TestCase):
         bash_code = '46'
         py_code = '46'
         self.assertEqual(bash_code, main.main(js_code, 'js', 'bash'))
+
+    def test_arr(self):
+        self.assertEqual('(1, 2)', main.main('[1, 2]', 'py', 'bash'))
     
     
 if __name__ == '__main__':
