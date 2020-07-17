@@ -17,8 +17,7 @@ parser.add_argument('out_lang')
 
 class Translate(Resource):
     def __init__(self):
-        self.lang_codes = ConverterRegistry.get_language_codes()
-        self.lang_object = ConverterRegistry.get_pretty_names()
+        self.lang_object = ConverterRegistry.get_lang_dict()
 
     def get(self):
         return {'supported_languages': self.lang_object}
@@ -33,10 +32,13 @@ class Translate(Resource):
         output_code = main(input_code, input_lang, output_lang)
         response_input_lang = input_lang
 
-        # automatic language detection
+        # Gets non-beta (alpha) languages for automatic detection
+        alpha_lang_codes = ConverterRegistry.get_alpha_language_codes()
+
+        # automatic language detection (only alpha languages)
         i = 0
-        while (output_code == "Error: did not compile") and (i < len(self.lang_codes)):
-            response_input_lang = self.lang_codes[i]
+        while (output_code == "Error: did not compile") and (i < len(alpha_lang_codes)):
+            response_input_lang = alpha_lang_codes[i]
             output_code = main(input_code, response_input_lang, output_lang)
             i += 1
 
