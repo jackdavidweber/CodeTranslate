@@ -2,8 +2,7 @@ import unittest2
 import main
 
 
-# TODO (swalsh15) this doesn't seem like it is testing just primitives?
-class TestJavaPrim(unittest2.TestCase):
+class TestJavaArr(unittest2.TestCase):
     
     def test_arr_to_code(self):
         self.assertEqual('{1, 2}', main.main('[1, 2]', 'py', 'java'))
@@ -12,6 +11,7 @@ class TestJavaPrim(unittest2.TestCase):
         py_input = 'print([1, 2, 3])'
         expected = 'System.out.println(Arrays.toString(new int[] {1, 2, 3}))'
         self.assertEqual(expected, main.main(py_input, 'py', 'java'))
+    
 
 if __name__ == '__main__':
     unittest2.main()
