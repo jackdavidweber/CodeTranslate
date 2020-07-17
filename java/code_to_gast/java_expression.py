@@ -5,7 +5,6 @@ Takes method invocation ie function declaration and translates to
 gAST node of type funcCall
 '''
 def method_invocation_to_gast(node):
-    
     gast = {"type": "funcCall"}
     gast["args"] = java_router.node_to_gast(node.arguments)
     
@@ -13,16 +12,22 @@ def method_invocation_to_gast(node):
     if node.qualifier == "System.out" and node.member == "println":
         gast["value"] = {"type": "logStatement"}
     else:
-        # function not called on object
-        if not node.qualifier:
-            gast["value"] = {"type": "name", "value": node.member}
-        else:
+        # function called on object
+        if node.qualifier:
             object_list = (node.qualifier.split("."))
             object_list.append(node.member)
-            gast["value"] = functionHelper(object_list)
+            gast["value"] = list_to_attribute_value_node(object_list)
+        else:
+            gast["value"] = {"type": "name", "value": node.member}
     return gast
 
-def functionHelper(object_list):
+'''
+Takes list of callees and members and from function called
+on object and translates into gAST node
+Ex: car.drive() -> {"type": "attribute", "id": "drive", "value": 
+{"type": "name", "id": "car"}}
+'''
+def list_to_attribute_value_node(object_list):
     gast = {}
     gast["type"] = "attribute"
     gast["id"] = object_list.pop()
@@ -30,7 +35,7 @@ def functionHelper(object_list):
     if len(object_list) == 1:
         gast["value"] = {"type": "name", "id": object_list.pop()}
     else: 
-        gast["value"] = functionHelper(object_list)
+        gast["value"] = list_to_attribute_value_node(object_list)
     
     return gast
 
