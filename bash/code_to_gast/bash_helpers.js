@@ -25,11 +25,10 @@ function array_to_gast(node) {
  */ 
 function word_to_gast(node) {
     const text = node["text"]
-    if (!isNaN(text)) {
-        //Checks if it can be parsed into a number
-        return {"type": "num", "value": Number(text)}
-    } else {
+    if (isNaN(text)) {
         return {"type": "str", "value": text}
+    } else {
+        return {"type": "num", "value": Number(text)}
     }
 }
 

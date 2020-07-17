@@ -21,7 +21,6 @@ class TestLogStatement(unittest2.TestCase):
     def test_boolean(self):
         self.assertEqual('print(True)', main.main('console.log(true)', 'js', 'py'))
         self.assertEqual('console.log(!false)', main.main('print(not False)', 'py', 'js'))
-        self.assertEqual('print("hi")', main.main('echo "hi"', 'bash', 'py'))
 
     def test_none(self):
         self.assertEqual('console.log(null)', main.main('print(None)', 'py', 'js'))
