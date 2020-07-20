@@ -44,6 +44,8 @@ def node_to_gast(node):
         return js_helpers.bool_op_to_gast(node)
     elif node.type == "UnaryExpression":
         return js_helpers.unary_to_gast(node)
+    elif node.type == "UpdateExpression":
+        return js_helpers.update_expression_to_gast(node)
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.assign_to_gast(node)

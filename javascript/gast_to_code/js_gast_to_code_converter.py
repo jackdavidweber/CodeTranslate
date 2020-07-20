@@ -82,7 +82,10 @@ class JsGastToCodeConverter(AbstractGastToCodeConverter):
         return kind + " " + varId + " = " + varValue
 
     def handle_aug_assign(gast):
-        return router.gast_to_code(gast["left"], "js") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "js")
+        if "right" in gast:
+            return router.gast_to_code(gast["left"], "js") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "js")
+        else:
+            return router.gast_to_code(gast["left"], "js") + gast["op"]
 
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "js") + "(" + router.gast_to_code(gast["args"], "js") + ")"
