@@ -35,3 +35,23 @@ def arr_in_list(gast_list):
             return True
     
     return False
+
+"""
+Add semicolons to the end of java lines
+"""
+def java_linter(output_code):
+
+    #Check if its a one line comment
+    if '\n' not in output_code:
+        return output_code + ";"
+
+    #Add semicolons to every line
+    output_code = output_code.replace("\n", ";\n")
+    output_code += ";"
+    
+    #Remove them where they shouldn't be
+    output_code = output_code.replace("{;", "{")
+    output_code = output_code.replace("};", "}")
+    output_code = output_code.replace("+;", "+")
+    
+    return output_code
