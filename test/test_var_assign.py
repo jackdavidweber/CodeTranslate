@@ -31,6 +31,12 @@ class TestVarAssign(unittest2.TestCase):
     def test_aug_assign_mult(self):
         self.assertEqual('hi *= 5', main.main('hi *= 5', 'js', 'py'))
         self.assertEqual('y *= 4', main.main('y*=4', 'py', 'js'))
+    
+    def test_update_expression(self):
+        py_code = "++x"
+        js_code = "x++"
+        self.assertEqual(py_code, main.main(js_code, "js", "py"))
+        self.assertEqual(js_code, main.main(py_code, "py", "js"))
 
 if __name__ == '__main__':
     unittest2.main()

@@ -86,8 +86,9 @@ def pyop_to_str(op):
         ast.GtE: ">=",
         ast.Lt: "<",
         ast.LtE: "<=",
-        ast.Eq: "=="
-
+        ast.Eq: "==",
+        ast.UAdd: "++",
+        ast.USub: "--"
     }
     return op_to_str_map[type(op)]
 
@@ -174,7 +175,19 @@ def name_to_gast(node):
 takes node of type unaryOp and converts it to our generic ast represenations
 """
 def unary_op_to_gast(node):
+    if type(node.op) == ast.UAdd or type(node.op) == ast.USub:
+        return update_expression_to_gast(node)
     return {"type": "unaryOp", "op": pyop_to_str(node.op), "arg": pr.node_to_gast(node.operand)}
+
+"""
+Handles ++ and -- for code to gast in python
+"""
+def update_expression_to_gast(node):
+    gast = {"type": "augAssign"}
+    #_Python parser nests two UnaryOp so have to check children
+    gast["left"] = pr.node_to_gast(node.operand.operand)
+    gast["op"] = pyop_to_str(node.op)
+    return gast
 
 """
 takes argument from function declaration and makes into gast node

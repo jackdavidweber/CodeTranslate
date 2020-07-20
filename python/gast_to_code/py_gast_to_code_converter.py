@@ -95,7 +95,10 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         return router.gast_to_code(gast["varId"], "py") + " = " + value
 
     def handle_aug_assign(gast):
-        return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
+        if "right" in gast:
+            return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
+        else:
+            return gast["op"] + router.gast_to_code(gast["left"], "py")
 
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "py") + "(" + router.gast_to_code(gast["args"], "py") + ")"
