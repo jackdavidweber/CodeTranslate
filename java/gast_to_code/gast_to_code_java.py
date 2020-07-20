@@ -12,7 +12,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
             return "false"
 
     def handle_if(gast, lvl=0):
-        test = router.gast_to_code(gast["test"], "js")
+        test = router.gast_to_code(gast["test"], "java")
         body_indent = "\n\t" + "\t"*lvl
         closing_brace_indent = "\n" + "\t"*lvl
         body = general_helpers.list_helper(gast["body"], "java", body_indent, lvl+1)
