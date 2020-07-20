@@ -50,14 +50,28 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         start = str(start_value)
 
         # incrementor
-        incrementor_value = gast["update"]["right"]["value"]
         incrementor_op = gast["update"]["op"]
-        if incrementor_op == "-=":
-            incrementor = "-" + str(incrementor_value)
-        elif incrementor_op == "+=":
-            incrementor = str(incrementor_value)
+
+        # Normal aug assign expression
+        if "right" in gast["update"]:
+            incrementor_value = gast["update"]["right"]["value"]
+            if incrementor_op == "-=":
+                incrementor = "-" + str(incrementor_value)
+            elif incrementor_op == "+=":
+                incrementor = str(incrementor_value)
+            else:
+                incrementor = "unsupported update expression"
+        
+        # ++ or -- expression
         else:
-            incrementor = "unsupported update operation"
+            if incrementor_op == "++":
+                incrementor = "1"
+                incrementor_value = 1
+            elif incrementor_op == "--":
+                incrementor = "-1"
+                incrementor_value = -1
+            else:
+                incrementor = "unsupported update operation"
 
         # end value
         end_value = gast["test"]["right"]["value"]
