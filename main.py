@@ -27,7 +27,7 @@ def main(input_code, input_lang, output_lang):
         output_code = main_gast_to_code(gast, output_lang)
 
         # analytics
-        main_analytics(input_code, output_code, input_lang, output_lang)
+        main_store_analytics(input_code, output_code, input_lang, output_lang)
 
         return output_code
     except:
@@ -81,7 +81,7 @@ def main_gast_to_code(gast, output_lang):
         return "Error: unable to convert generic ast to code"
 
 
-def main_analytics(input_code, output_code, input_lang, output_lang):
+def main_store_analytics(input_code, output_code, input_lang, output_lang):
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         pass
