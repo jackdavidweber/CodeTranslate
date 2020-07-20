@@ -32,13 +32,13 @@ class Translate(Resource):
         output_code = main(input_code, input_lang, output_lang)
         response_input_lang = input_lang
 
-        # Gets non-beta (alpha) languages for automatic detection
-        alpha_lang_codes = ConverterRegistry.get_alpha_language_codes()
+        # Gets non-beta (fully supported) languages for automatic detection
+        fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes()
 
-        # automatic language detection (only alpha languages)
+        # automatic language detection (only fully supported languages)
         i = 0
-        while (output_code == "Error: did not compile") and (i < len(alpha_lang_codes)):
-            response_input_lang = alpha_lang_codes[i]
+        while (output_code == "Error: did not compile") and (i < len(fully_supported_lang_codes)):
+            response_input_lang = fully_supported_lang_codes[i]
             output_code = main(input_code, response_input_lang, output_lang)
             i += 1
 

@@ -15,15 +15,15 @@ class ConverterRegistry():
     Only returns language codes where is_beta is false
     """
     @staticmethod
-    def get_alpha_language_codes():
-        alpha_language_codes = []
+    def get_fully_supported_language_codes():
+        fully_supported_language_codes = []
         for lang_code in ConverterRegistry.converters.keys():
             converter = ConverterRegistry.get_converter(lang_code)
             
             if not converter.is_beta:
-                alpha_language_codes.append(lang_code)
+                fully_supported_language_codes.append(lang_code)
 
-        return alpha_language_codes
+        return fully_supported_language_codes
 
     """
     Returns a dictionary where keys are language codes are dicts
