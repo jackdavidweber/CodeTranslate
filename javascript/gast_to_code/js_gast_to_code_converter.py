@@ -5,7 +5,10 @@ import shared.gast_to_code.gast_to_code_router as router
 
 
 class JsGastToCodeConverter(AbstractGastToCodeConverter):
-    pretty_name = "Javascript"
+    name = "Javascript"
+    is_beta = False
+    is_input_lang = True
+    is_output_lang = True
 
     def handle_bool(gast):
         if gast["value"] == 1:

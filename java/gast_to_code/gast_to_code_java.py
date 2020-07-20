@@ -3,7 +3,10 @@ import shared.gast_to_code.general_helpers as general_helpers
 from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 
 class JavaGastToCodeConverter(AbstractGastToCodeConverter):
-    pretty_name = "Java"
+    name = "Java"
+    is_beta = True
+    is_input_lang = True
+    is_output_lang = True
 
     def handle_bool(gast):
         if gast["value"] == 1:
