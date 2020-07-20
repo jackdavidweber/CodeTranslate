@@ -139,6 +139,16 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         out += body
         return out
+
+    def handle_arrow_func(gast, lvl=0):
+        args = router.gast_to_code(gast["params"], "py")
+
+        body_indent = "\n\t" + "\t"*lvl
+        body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
+        out = "lambda " + args + ":"
+        out += body_indent + body 
+
+        return out
     
     def handle_return_statement(gast):
         return "return " + router.gast_to_code(gast["value"], "py")

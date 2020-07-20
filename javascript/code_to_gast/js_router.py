@@ -75,6 +75,10 @@ def node_to_gast(node):
         return js_helpers.return_statement_to_gast(node)
     elif node.type == "AssignmentPattern":
         return js_helpers.assign_pattern_to_gast(node)
+    elif node.type == "ArrowFunctionExpression":
+        return js_expression.arrow_function_to_gast(node)
+    elif node.type == "FunctionExpression":
+        return js_expression.arrow_function_to_gast(node)
     # Loops
     elif node.type == "WhileStatement":
         return js_loop.while_statement_to_gast(node)

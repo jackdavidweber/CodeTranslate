@@ -59,6 +59,8 @@ def node_to_gast(node):
         return expression.subscript_to_gast(node)
     elif type(node) == ast.arguments:
         return helpers.function_args_to_gast(node)
+    elif type(node) == ast.Lambda:
+        return expression.lamda_to_gast(node)
     # Assigns
     elif type(node) == ast.Assign:
         return assign.assign_to_gast(node)
