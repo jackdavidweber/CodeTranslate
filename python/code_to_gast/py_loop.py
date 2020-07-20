@@ -41,9 +41,14 @@ def for_range_statement_to_gast(node):
         gast["type"] = "forRangeStatement"
         ast.dump(node)
         args = node.iter.args
-        step_num = get_step_num(args)
-        start_num = arg_node_to_num(args[0])
-        end_num = arg_node_to_num(args[1])
+        if len(args) == 1:
+            step_num = 1
+            start_num = 0
+            end_num = arg_node_to_num(args[0])
+        else:
+            step_num = get_step_num(args)
+            start_num = arg_node_to_num(args[0])
+            end_num = arg_node_to_num(args[1])
 
         gast["init"] = for_range_statement_init_helper(node.target, start_num)
         gast["test"] = for_range_statement_test_helper(node.target, start_num, end_num)
