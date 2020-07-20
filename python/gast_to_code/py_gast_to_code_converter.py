@@ -4,7 +4,11 @@ import shared.gast_to_code.general_helpers as general_helpers
 import py_built_in_functions
 
 class PyGastToCodeConverter(AbstractGastToCodeConverter):
-    
+    name = "Python"
+    is_beta = False
+    is_input_lang = True
+    is_output_lang = True
+
     def handle_bool(gast):
         if gast["value"] == 1:
             return "True"
@@ -141,3 +145,6 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     
     def handle_assign_pattern(gast):
         return router.gast_to_code(gast["left"], "py") + " = " + router.gast_to_code(gast["right"], "py")
+
+    def handle_arr(gast):
+        return "[" + router.gast_to_code(gast["elements"], "py") + "]"
