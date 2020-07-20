@@ -56,7 +56,10 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         return kind + " " + var_id + " = " + var_value
 
     def handle_aug_assign(gast):
-        pass
+        if "right" in gast:
+            return router.gast_to_code(gast["left"], "java") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "java")
+        else:
+            return router.gast_to_code(gast["left"], "java") + gast["op"]
 
     # TODO(taiga#149) gast_to_code should not be able to return System.out.println(1, 2)
     def handle_func_call(gast):

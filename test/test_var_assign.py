@@ -36,10 +36,13 @@ class TestVarAssign(unittest2.TestCase):
         py_code = "++x"
         js_code = "x++"
         bash_code = "x++"
+        java_code = "x++;"
         self.assertEqual(py_code, main.main(js_code, "js", "py"))
         self.assertEqual(js_code, main.main(py_code, "py", "js"))
         self.assertEqual(bash_code, main.main(py_code, "py", "bash"))
         self.assertEqual(bash_code, main.main(js_code, "js", "bash"))
+        self.assertEqual(java_code, main.main(js_code, "js", "java"))
+        self.assertEqual(bash_code, main.main(java_code, "java", "bash"))
 
 if __name__ == '__main__':
     unittest2.main()
