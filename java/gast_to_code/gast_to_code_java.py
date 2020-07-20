@@ -1,4 +1,5 @@
 import shared.gast_to_code.gast_to_code_router as router
+import shared.gast_to_code.general_helpers as general_helpers
 from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 
 class JavaGastToCodeConverter(AbstractGastToCodeConverter):
@@ -11,7 +12,21 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
             return "false"
 
     def handle_if(gast, lvl=0):
-        pass
+        test = router.gast_to_code(gast["test"], "java")
+        body_indent = "\n\t" + "\t"*lvl
+        closing_brace_indent = "\n" + "\t"*lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent, lvl+1)
+
+        out = 'if (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
+
+        if len(gast["orelse"]) == 0:
+            pass
+        elif gast["orelse"][0]["type"] == "if":
+            out += " else " + router.gast_to_code(gast["orelse"], "java")
+        else:
+            out += " else {\n\t" + general_helpers.list_helper(gast["orelse"], "java", "\n\t") + "\n}"
+
+        return out
 
     def handle_none(gast):
         pass
