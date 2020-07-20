@@ -40,7 +40,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_aug_assign(gast):
         pass
 
-    # FIXME (taiga#149) gast_to_code should not be able to return System.out.println(1, 2)
+    # TODO(taiga#149) gast_to_code should not be able to return System.out.println(1, 2)
     def handle_func_call(gast):
         # handles logstatement for single array
         if gast["value"]["type"] == "logStatement" and len(gast["args"]) == 1 and gast["args"][0]["type"] == "arr":
