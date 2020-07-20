@@ -3,6 +3,7 @@ import javascript.code_to_gast.js_main as js_main
 import python.code_to_gast.py_main as py_main
 import java.code_to_gast.java_main as java_main
 import shared.gast_to_code.gast_to_code_router as gtc
+import shared.gast_to_code.general_helpers as general_helpers
 from data_service import DataService
 from bootstrap import bootstrap
 import subprocess
@@ -42,6 +43,9 @@ def main(input_code, input_lang, output_lang):
         output_code = "Error: did not compile"
     else:
         output_code = gtc.gast_to_code(gast, output_lang)
+
+        if output_lang == "java":
+            output_code = general_helpers.java_linter(output_code)
     
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
@@ -61,3 +65,5 @@ def run_bash_javascript(input_code):
         out, error = process.communicate()
         string_output = out.decode('utf-8')
         return json.loads(string_output)
+
+
