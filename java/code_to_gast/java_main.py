@@ -1,9 +1,10 @@
 import javalang
 import java.code_to_gast.java_router as java_router
-
 """
 takes js string and converts it to a generic AST
 """
+
+
 def java_to_gast(java_input):
     # wrap input code in a class and function
     class_wrapper = '''
@@ -11,6 +12,6 @@ def java_to_gast(java_input):
         public static void main(String[] args) {{
             {java_input}
         }}
-    }}'''.format(java_input = java_input)
+    }}'''.format(java_input=java_input)
     input_ast = javalang.parse.parse(class_wrapper)
     return java_router.node_to_gast(input_ast)

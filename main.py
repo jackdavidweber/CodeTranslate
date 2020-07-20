@@ -8,13 +8,14 @@ from data_service import DataService
 from bootstrap import bootstrap
 import subprocess
 import json
-
 """
 input_code: string representing input code
 input_lang: string representing input language of code
 output_lang: string representing output language of code
 return: string representing output code or error message
 """
+
+
 def main(input_code, input_lang, output_lang):
 
     if input_lang == None and output_lang == None:
@@ -36,9 +37,9 @@ def main(input_code, input_lang, output_lang):
     if output_lang not in output_langs:
         # TODO: send 400 client error
         return "Error must specify output language. For example, js for javascript and py for python"
-   
+
     output_code = ""
-    if (type(gast) == str) :
+    if (type(gast) == str):
         # return error if gast not built - dont store in database
         output_code = "Error: did not compile"
     else:
@@ -46,24 +47,28 @@ def main(input_code, input_lang, output_lang):
 
         if output_lang == "java":
             output_code = general_helpers.java_linter(output_code)
-    
+
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         return output_code
-    
+
     # store translation on firebase
     data_service = DataService.getInstance()
     data_service.store_query(input_code, output_code, input_lang, output_lang)
 
     return output_code
 
+
 """
 Uses subprocess library to read from sdout after running javascript code
 """
+
+
 def run_bash_javascript(input_code):
-        process = subprocess.Popen(['node', 'bash/code_to_gast/bash_main.js', input_code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, error = process.communicate()
-        string_output = out.decode('utf-8')
-        return json.loads(string_output)
-
-
+    process = subprocess.Popen(
+        ['node', 'bash/code_to_gast/bash_main.js', input_code],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
+    out, error = process.communicate()
+    string_output = out.decode('utf-8')
+    return json.loads(string_output)

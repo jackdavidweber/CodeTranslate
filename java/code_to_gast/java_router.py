@@ -4,6 +4,7 @@ import java.code_to_gast.java_helpers as java_helpers
 import java.code_to_gast.java_assign as java_assign
 import java.code_to_gast.java_conditional as java_conditional
 
+
 def node_to_gast(node):
     #base cases
     if type(node) == javalang.tree.Literal:
@@ -19,7 +20,7 @@ def node_to_gast(node):
             return {"type": "bool", "value": 0}
         else:
             return "Unsupported prim"
-    
+
     elif type(node) == javalang.tree.MethodInvocation:
         return java_expression.method_invocation_to_gast(node)
     elif type(node) == javalang.tree.CompilationUnit:
@@ -47,7 +48,6 @@ def node_to_gast(node):
         return java_assign.assign_to_gast(node)
     elif type(node) == javalang.tree.ArrayInitializer:
         return java_helpers.array_to_gast(node.initializers)
-    else:   
+    else:
         # not supported
         return {"type": "error", "value": "unsupported"}
-    

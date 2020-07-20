@@ -1,5 +1,6 @@
 import javascript.code_to_gast.js_router as jr
 
+
 def while_statement_to_gast(node):
     gast = {}
     gast["type"] = "whileStatement"
@@ -14,6 +15,7 @@ def while_statement_to_gast(node):
     gast["test"] = jr.node_to_gast(node.test)
     return gast
 
+
 def for_range_statement_to_gast(node):
     gast = {}
     gast["type"] = "forRangeStatement"
@@ -22,6 +24,7 @@ def for_range_statement_to_gast(node):
     gast["update"] = jr.node_to_gast(node.update)
     gast["body"] = jr.node_to_gast(node.body)
     return gast
+
 
 def for_of_statement_to_gast(node):
     gast = {}
