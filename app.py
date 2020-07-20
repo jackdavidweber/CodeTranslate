@@ -35,7 +35,7 @@ class Translate(Resource):
         # Gets non-beta (fully supported) languages for automatic detection
         fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes()
 
-        # automatic language detection (only fully supported languages)
+        # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
         i = 0
         while (output_code == "Error: did not compile") and (i < len(fully_supported_lang_codes)):
             response_input_lang = fully_supported_lang_codes[i]
