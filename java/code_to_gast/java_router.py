@@ -3,6 +3,7 @@ import java.code_to_gast.java_expression as java_expression
 import java.code_to_gast.java_helpers as java_helpers
 import java.code_to_gast.java_assign as java_assign
 import java.code_to_gast.java_conditional as java_conditional
+import java.code_to_gast.java_loop as java_loop
 
 
 def node_to_gast(node):
@@ -47,10 +48,14 @@ def node_to_gast(node):
             return {"type": "error", "value": "unsupported"}
     elif type(node) == javalang.tree.VariableDeclarator:
         return java_assign.assign_to_gast(node)
+    elif type(node) == javalang.tree.VariableDeclaration:
+        return node_to_gast(node.declarators[0])
     elif type(node) == javalang.tree.MemberReference:
         return java_assign.member_reference_to_gast(node)
     elif type(node) == javalang.tree.ArrayInitializer:
         return java_helpers.array_to_gast(node.initializers)
+    elif type(node) == javalang.tree.ForStatement:
+        return java_loop.for_loop_to_gast(node)
     else:
         # not supported
         return {"type": "error", "value": "unsupported"}
