@@ -142,11 +142,18 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arrow_func(gast, lvl=0):
         args = router.gast_to_code(gast["params"], "py")
-
-        body_indent = "\n\t" + "\t"*lvl
-        body = general_helpers.list_helper(gast["body"], "py", body_indent, lvl+1)
-        out = "lambda " + args + ":"
-        out += body_indent + body 
+        # lamda functions can only have one expression in body
+        if len(gast["body"]) == 0:
+            body = ""
+        else:
+            body = " " + router.gast_to_code(gast["body"][0], "py")
+        
+        if args == "":
+            out = "lambda:"
+        else:
+            out = "lambda " + args + ":"
+        
+        out += body 
 
         return out
     

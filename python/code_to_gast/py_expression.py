@@ -59,5 +59,6 @@ def subscript_to_gast(node):
 def lamda_to_gast(node):
     gast = {"type": "arrowExpression"}
     gast["params"] = pr.node_to_gast(node.args)
-    gast["body"] = pr.node_to_gast(node.body)
+    gast["body"] = []
+    gast["body"].append(pr.node_to_gast(node.body))
     return gast
