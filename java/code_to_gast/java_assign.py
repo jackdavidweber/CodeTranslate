@@ -22,3 +22,14 @@ def member_reference_to_gast(node):
     gast["left"] = java_router.node_to_gast(node.member)
     gast["op"] = node.postfix_operators[0]
     return gast
+
+
+def aug_assign_to_gast(node):
+    """
+    Handles augmented assignemnt in java but not the incrementor and decrementor operations
+    """
+    gast = {"type": "augAssign"}
+    gast["left"] = java_router.node_to_gast(node.expressionl.member)
+    gast["op"] = node.type
+    gast["right"] = java_router.node_to_gast(node.value)
+    return gast
