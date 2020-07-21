@@ -43,5 +43,5 @@ def int_to_gast(node):
     Handles int to gast for positive and negative whole numbers
     """
     if len(node.prefix_operators) > 0 and node.prefix_operators[0] == "-":
-        return {"type": "num", "value": int(node.value)*-1} 
+        return {"type": "num", "value": int(node.value) * -1}
     return {"type": "num", "value": int(node.value)}

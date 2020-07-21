@@ -121,7 +121,6 @@ class test_code_to_gast_loops(unittest2.TestCase):
         self.assertEqual(expected_gast, js_main.js_to_gast(js_input))
         self.assertEqual(expected_gast, java_main.java_to_gast(java_input))
 
-
     def test_forOf(self):
         js_input = 'for (elem of [1, 2]) {\n\t5\n}'
         py_input = 'for elem in [1, 2]:\n\t5'
@@ -155,7 +154,7 @@ class test_code_to_gast_loops(unittest2.TestCase):
 
         self.assertEqual(expected_gast, py_main.py_to_gast(py_input))
         self.assertEqual(expected_gast, js_main.js_to_gast(js_input))
-    
+
     def test_forOf_with_java(self):
         js_input = 'for (elem of arr) {\n\t5\n}'
         py_input = 'for elem in arr:\n\t5'
@@ -171,10 +170,8 @@ class test_code_to_gast_loops(unittest2.TestCase):
                     "value": "elem"
                 },
                 "iter": {
-                    "type":
-                        "name",
-                    "value":
-                        "arr"
+                    "type": "name",
+                    "value": "arr"
                 },
                 "body": [{
                     "type": "num",
