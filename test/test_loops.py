@@ -56,6 +56,15 @@ class TestLoops(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
 
+    def test_for_range_one_arg_loop(self):
+        ''' 
+        users can give range 1 args - translations give range 3 args 
+        hence js -> py is not supported for this translation 
+        '''
+        js_code = 'for (let i = 0; i < 5; i += 1) {\n\tconsole.log(i)\n}'
+        py_code = 'for i in range (5):\n\tprint(i)'
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
 
 if __name__ == '__main__':
     unittest2.main()

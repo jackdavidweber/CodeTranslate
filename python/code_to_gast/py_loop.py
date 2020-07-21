@@ -41,9 +41,9 @@ def for_range_statement_to_gast(node):
         gast["type"] = "forRangeStatement"
         ast.dump(node)
         args = node.iter.args
+        start_num = get_start_num(args)
+        end_num = get_end_num(args)
         step_num = get_step_num(args)
-        start_num = arg_node_to_num(args[0])
-        end_num = arg_node_to_num(args[1])
 
         gast["init"] = for_range_statement_init_helper(node.target, start_num)
         gast["test"] = for_range_statement_test_helper(node.target, start_num, end_num)
@@ -133,10 +133,33 @@ def get_step_num(args):
     elif len(args) == 2:
         step_num = 1
 
+    elif len(args) == 1:
+        step_num = 1
+
     else:
         return {"type": "error", "value": "unsupported number of arguments"}
 
     return step_num
+
+def get_start_num(args):
+    if len(args) == 3 or len(args) == 2:
+        return arg_node_to_num(args[0])
+    
+    elif len(args) == 1:
+        return 0
+    
+    else:
+        return {"type": "error", "value": "unsupported number of arguments"}
+
+def get_end_num(args):
+    if len(args) == 3 or len(args) == 2:
+        return arg_node_to_num(args[1])
+    
+    elif len(args) == 1:
+        return arg_node_to_num(args[0])
+    
+    else:
+        return {"type": "error", "value": "unsupported number of arguments"}
 
 """
 python stores argument nodes as ast.UnaryOp for negative numbers and
