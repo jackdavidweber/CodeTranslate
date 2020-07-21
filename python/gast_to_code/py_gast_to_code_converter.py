@@ -158,6 +158,23 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         out += body
         return out
+
+    def handle_arrow_func(gast, lvl=0):
+        args = router.gast_to_code(gast["params"], "py")
+        # lamda functions can only have one expression in body
+        if len(gast["body"]) == 0:
+            body = ""
+        else:
+            body = " " + router.gast_to_code(gast["body"][0], "py")
+        
+        if args == "":
+            out = "lambda:"
+        else:
+            out = "lambda " + args + ":"
+        
+        out += body 
+
+        return out
     
     def handle_return_statement(gast):
         return "return " + router.gast_to_code(gast["value"], "py")

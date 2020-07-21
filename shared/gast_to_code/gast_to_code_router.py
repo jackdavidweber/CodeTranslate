@@ -79,6 +79,8 @@ def gast_to_code(gast, out_lang, lvl=0):
         return converter.handle_return_statement(gast)
     elif gast["type"] == "assignPattern":
         return converter.handle_assign_pattern(gast)
+    elif gast["type"] == "arrowExpression":
+        return converter.handle_arrow_func(gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string

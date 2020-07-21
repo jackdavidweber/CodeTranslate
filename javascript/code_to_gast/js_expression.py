@@ -58,3 +58,15 @@ def subscript_to_gast(node):
   gast["index"] = js_router.node_to_gast(node.property)
   gast["value"] = js_router.node_to_gast(node.object)
   return gast
+
+'''
+Takes arrow function or anon function and convert into a
+gast node. This node stores the same fields as a function
+node but doesn't store name
+'''
+def arrow_function_to_gast(node):
+  gast = {}
+  gast["type"] = "arrowExpression"
+  gast["params"] = js_router.node_to_gast(node.params)
+  gast["body"] = js_router.node_to_gast(node.body)
+  return gast

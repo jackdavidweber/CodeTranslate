@@ -55,3 +55,10 @@ def subscript_to_gast(node):
     gast["index"] = pr.node_to_gast(node.slice.value) 
     gast["value"] =  pr.node_to_gast(node.value) # TODO expand to cover slices of a list
     return gast
+
+def lamda_to_gast(node):
+    gast = {"type": "arrowExpression"}
+    gast["params"] = pr.node_to_gast(node.args)
+    gast["body"] = []
+    gast["body"].append(pr.node_to_gast(node.body))
+    return gast

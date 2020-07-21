@@ -90,6 +90,17 @@ class JsGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "js") + "(" + router.gast_to_code(gast["args"], "js") + ")"
 
+    def handle_arrow_func(gast, lvl=0):
+        args = router.gast_to_code(gast["params"], "js")
+
+        body_indent = "\n\t" + "\t"*lvl
+        closing_brace_indent = "\n" + "\t"*lvl
+        body = general_helpers.list_helper(gast["body"], "js", body_indent, lvl+1)
+        out = "(" + args + ") => {"
+        out += body_indent + body + closing_brace_indent + "}"
+
+        return out
+
     def handle_subscript(gast):
         return router.gast_to_code(gast["value"], "js") + "[" + router.gast_to_code(gast["index"], "js") + "]"
 
