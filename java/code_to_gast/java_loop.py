@@ -11,6 +11,6 @@ def for_range_to_gast(node):
     gast = {"type": "forRangeStatement"}
     gast["body"] = java_router.node_to_gast(node.body)
     gast["init"] = java_router.node_to_gast(node.control.init)
-    gast["test"] = java_router.node_to_gast(node.control)
+    gast["test"] = java_router.node_to_gast(node.control.condition)
     gast["update"] = java_router.node_to_gast(node.control.update[0])
     return gast

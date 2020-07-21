@@ -25,3 +25,11 @@ def array_to_gast(node):
 
     gast["elements"] = gast_list
     return gast
+
+
+def bin_op_to_gast(node):
+    gast = {"type": "binOp"}
+    gast["left"] = java_router.node_to_gast(node.operandl.member)
+    gast["op"] = node.operator
+    gast["right"] = java_router.node_to_gast(node.operandr)
+    return gast
