@@ -111,8 +111,10 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_aug_assign(gast):
         if "right" in gast:
             return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
+        elif gast["op"] == "++":
+            return router.gast_to_code(gast["left"], "py") + " += 1"
         else:
-            return gast["op"] + router.gast_to_code(gast["left"], "py")
+            return router.gast_to_code(gast["left"], "py") + " -= 1"
 
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "py") + "(" + router.gast_to_code(gast["args"], "py") + ")"
