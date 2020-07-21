@@ -23,6 +23,8 @@ def node_to_gast(node):
             return "Unsupported prim"
     elif type(node) == str:
         return {"type": "name", "value": node}
+    elif node == None:
+        return {"type": "none"}
     elif type(node) == javalang.tree.BinaryOperation:
         return java_helpers.bin_op_to_gast(node)
     elif type(node) == javalang.tree.MethodInvocation:
