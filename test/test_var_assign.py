@@ -36,10 +36,12 @@ class TestVarAssign(unittest2.TestCase):
     def test_aug_assign_minus(self):
         self.assertEqual('x -= 1', main.main('x -= 1', 'js', 'py'))
         self.assertEqual('y -= 3', main.main('y-=3', 'py', 'js'))
+        self.assertEqual('z -= 3', main.main('z-=3;', 'java', 'py'))
 
     def test_aug_assign_mult(self):
         self.assertEqual('hi *= 5', main.main('hi *= 5', 'js', 'py'))
         self.assertEqual('y *= 4', main.main('y*=4', 'py', 'js'))
+        self.assertEqual('z *= 8', main.main('z*=8;', 'java', 'js'))
 
     def test_update_expression(self):
         output_py_code = "x += 1"
