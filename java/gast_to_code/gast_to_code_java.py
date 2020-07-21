@@ -39,7 +39,15 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         return "null"
 
     def handle_while(gast, lvl=0):
-        pass
+        test = router.gast_to_code(gast["test"], "java")
+
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
+
+        out = 'while (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
+        return out
 
     def handle_for_range(gast, lvl=0):
         loop_init = router.gast_to_code(gast["init"], "java")

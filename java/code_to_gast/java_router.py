@@ -60,6 +60,8 @@ def node_to_gast(node):
         return java_helpers.array_to_gast(node.initializers)
     elif type(node) == javalang.tree.ForStatement:
         return java_loop.for_loop_to_gast(node)
+    elif type(node) == javalang.tree.WhileStatement:
+        return java_loop.while_statement_to_gast(node)
     elif type(node) == javalang.tree.Assignment:
         return java_assign.aug_assign_to_gast(node)
     else:

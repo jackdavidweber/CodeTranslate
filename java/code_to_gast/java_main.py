@@ -17,7 +17,6 @@ def java_to_gast(java_input):
             }}
         }}'''.format(java_input=java_input)
         input_ast = javalang.parse.parse(class_wrapper)
-        #print(input_ast)
     except:
         "Error: code could not compile"
 

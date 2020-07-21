@@ -7,14 +7,20 @@ class TestLoops(unittest2.TestCase):
     def test_while_simple(self):
         js_code = 'while (true) {\n\t5\n}'
         py_code = 'while (True):\n\t5'
+        java_code = 'while (true) {\n\t5;\n}'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(java_code, main.main(py_code, 'py', 'java'))
+        self.assertEqual(js_code, main.main(java_code, 'java', 'js'))
 
     def test_while_range(self):
         js_code = 'while (x < 10) {\n\t5\n}'
         py_code = 'while (x < 10):\n\t5'
+        java_code = 'while (x < 10) {\n\t5;\n}'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(java_code, main.main(py_code, 'py', 'java'))
+        self.assertEqual(js_code, main.main(java_code, 'java', 'js'))
 
     def test_for_range_increment_one(self):
         js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
