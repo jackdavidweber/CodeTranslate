@@ -87,7 +87,6 @@ def pyop_to_str(op):
         ast.Lt: "<",
         ast.LtE: "<=",
         ast.Eq: "=="
-
     }
     return op_to_str_map[type(op)]
 

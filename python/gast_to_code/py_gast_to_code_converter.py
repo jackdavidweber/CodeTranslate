@@ -50,14 +50,28 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         start = str(start_value)
 
         # incrementor
-        incrementor_value = gast["update"]["right"]["value"]
         incrementor_op = gast["update"]["op"]
-        if incrementor_op == "-=":
-            incrementor = "-" + str(incrementor_value)
-        elif incrementor_op == "+=":
-            incrementor = str(incrementor_value)
+
+        # Normal aug assign expression
+        if "right" in gast["update"]:
+            incrementor_value = gast["update"]["right"]["value"]
+            if incrementor_op == "-=":
+                incrementor = "-" + str(incrementor_value)
+            elif incrementor_op == "+=":
+                incrementor = str(incrementor_value)
+            else:
+                incrementor = "unsupported update expression"
+        
+        # ++ or -- expression
         else:
-            incrementor = "unsupported update operation"
+            if incrementor_op == "++":
+                incrementor = "1"
+                incrementor_value = 1
+            elif incrementor_op == "--":
+                incrementor = "-1"
+                incrementor_value = -1
+            else:
+                incrementor = "unsupported update operation"
 
         # end value
         end_value = gast["test"]["right"]["value"]
@@ -95,7 +109,12 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         return router.gast_to_code(gast["varId"], "py") + " = " + value
 
     def handle_aug_assign(gast):
-        return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
+        if "right" in gast:
+            return router.gast_to_code(gast["left"], "py") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "py")
+        elif gast["op"] == "++":
+            return router.gast_to_code(gast["left"], "py") + " += 1"
+        else:
+            return router.gast_to_code(gast["left"], "py") + " -= 1"
 
     def handle_func_call(gast):
         return router.gast_to_code(gast["value"], "py") + "(" + router.gast_to_code(gast["args"], "py") + ")"

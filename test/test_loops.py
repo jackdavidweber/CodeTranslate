@@ -43,6 +43,21 @@ class TestLoops(unittest2.TestCase):
         input_js_code = 'for (let i = 0; i <= 10; i += 2) {\n\t5\n}'
         expected_py_code = 'for i in range (0, 12, 2):\n\t5'
         self.assertEqual(expected_py_code, main.main(input_js_code, 'js', 'py'))
+    
+    def test_for_with_update_expression_plus(self):
+        input_js_code = 'for (let i = 0; i <= 10; i++) {\n\t5\n}'
+        expected_py_code = 'for i in range (0, 11, 1):\n\t5'
+        self.assertEqual(expected_py_code, main.main(input_js_code, 'js', 'py'))
+    
+    def test_for_with_update_expression_minus(self):
+        input_js_code = 'for (let i = 20; i >= -5; i--) {\n\t5\n}'
+        expected_py_code = 'for i in range (20, -4, -1):\n\t5'
+        self.assertEqual(expected_py_code, main.main(input_js_code, 'js', 'py'))
+    
+    def test_for_loop_python_incrementor(self):
+        input_py_code = 'for i in range(0,10,1): \n\t5'
+        expected_js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
+        self.assertEqual(expected_js_code, main.main(input_py_code, 'py', 'js'))
 
     def test_for_range_increment_negative(self):
         js_code = 'for (let i = 10; i > 0; i -= 1) {\n\t5\n}'

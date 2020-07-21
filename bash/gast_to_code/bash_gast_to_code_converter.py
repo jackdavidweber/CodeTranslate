@@ -47,6 +47,12 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_var_assign(gast):
         value = router.gast_to_code(gast["varValue"], "bash")
         return router.gast_to_code(gast["varId"], "bash") + "=" + value
+    
+    def handle_aug_assign(gast):
+        if "right" in gast:
+            return router.gast_to_code(gast["left"], "bash") + " " + gast["op"] + " " + router.gast_to_code(gast["right"], "bash")
+        else:
+            return router.gast_to_code(gast["left"], "bash") + gast["op"]
 
     def handle_name(gast):
         return gast["value"]
