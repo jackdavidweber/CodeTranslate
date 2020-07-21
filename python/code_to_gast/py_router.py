@@ -4,11 +4,11 @@ import python.code_to_gast.py_expression as expression
 import python.code_to_gast.py_assign as assign
 import python.code_to_gast.py_conditional as conditional
 import python.code_to_gast.py_loop as loop
-
-
 """
 router that all nodes in the python AST are passed through recursively
 """
+
+
 def node_to_gast(node):
     # Base Cases
     if type(node) == ast.Str:
@@ -25,7 +25,7 @@ def node_to_gast(node):
         return helpers.break_to_gast(node)
     elif type(node) == ast.Continue:
         return helpers.continue_to_gast(node)
-      
+
     # Helpers
     elif type(node) == ast.Module:
         return helpers.module_to_gast(node)
@@ -37,7 +37,7 @@ def node_to_gast(node):
         return helpers.array_to_gast(node)
     elif type(node) == ast.Dict:
         return helpers.dictionary_to_gast(node)
-    elif type(node) == list: # TODO: break this up into diff section
+    elif type(node) == list:  # TODO: break this up into diff section
         return helpers.node_list_to_gast(node)
     elif type(node) == ast.Name:
         return helpers.name_to_gast(node)
@@ -81,4 +81,3 @@ def node_to_gast(node):
 
     else:
         return {"type": "error", "value": "unsupported"}
-        

@@ -2,6 +2,8 @@
 Takes gast primitive node and converts to
 string representing java type
 """
+
+
 def gast_to_java_type(gast):
     gast_type = gast["type"]
 
@@ -23,6 +25,8 @@ def gast_to_java_type(gast):
 Returns the string representing type of the items in the array.
 Returns error if multiple types in same array or if array is empty
 """
+
+
 def arr_type_helper(gast_arr):
     if len(gast_arr) == 0:
         return "impossibleTranslationError: direct translation does not exist"
@@ -32,7 +36,5 @@ def arr_type_helper(gast_arr):
     for i in range(1, len(gast_arr)):
         if gast_arr[i]["type"] != node["type"]:
             return "impossibleTranslationError: direct translation does not exist"
-    
-    return gast_to_java_type(node) + "[]"
 
-        
+    return gast_to_java_type(node) + "[]"

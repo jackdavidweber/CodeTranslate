@@ -15,7 +15,9 @@ parser.add_argument('input')
 parser.add_argument('in_lang')
 parser.add_argument('out_lang')
 
+
 class Translate(Resource):
+
     def __init__(self):
         self.lang_object = ConverterRegistry.get_lang_dict()
 
@@ -33,11 +35,13 @@ class Translate(Resource):
         response_input_lang = input_lang
 
         # Gets non-beta (fully supported) languages for automatic detection
-        fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes()
+        fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
+        )
 
         # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
         i = 0
-        while (output_code == "Error: did not compile") and (i < len(fully_supported_lang_codes)):
+        while (output_code == "Error: did not compile") and (
+                i < len(fully_supported_lang_codes)):
             response_input_lang = fully_supported_lang_codes[i]
             output_code = main(input_code, response_input_lang, output_lang)
             i += 1
@@ -46,7 +50,11 @@ class Translate(Resource):
         if output_code == "Error: did not compile":
             response_input_lang = input_lang
 
-        return {'response': output_code, 'response_in_lang': response_input_lang}
+        return {
+            'response': output_code,
+            'response_in_lang': response_input_lang
+        }
+
 
 api.add_resource(Translate, '/')
 
