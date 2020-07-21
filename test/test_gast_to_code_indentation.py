@@ -53,10 +53,10 @@ class TestGastToCodeIndentation(unittest2.TestCase):
         }
 
         expected_js = 'if (x == true) {\n\tif (y == true) {\n\t\tconsole.log("y and x are true")\n\t}\n}'
-        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js")['translation']['output_code'])
 
         expected_py = 'if (x == True):\n\tif (y == True):\n\t\tprint("y and x are true")'
-        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py")['translation']['output_code'])
 
     def test_indent_for_of(self):
         input_gast = {
@@ -110,10 +110,10 @@ class TestGastToCodeIndentation(unittest2.TestCase):
         }
 
         expected_js = 'for (j of [1, 2]) {\n\tfor (k of [3, 4]) {\n\t\tj\n\t\tk\n\t}\n}'
-        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js"))
+        self.assertEqual(expected_js, gtc.gast_to_code(input_gast, "js")['translation']['output_code'])
 
         expected_py = 'for j in [1, 2]:\n\tfor k in [3, 4]:\n\t\tj\n\t\tk'
-        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py"))
+        self.assertEqual(expected_py, gtc.gast_to_code(input_gast, "py")['translation']['output_code'])
 
 
 if __name__ == '__main__':

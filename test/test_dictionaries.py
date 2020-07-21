@@ -7,20 +7,20 @@ class TestDictionaries(unittest2.TestCase):
     def test_assignment_with_dict(self):
         js_code = 'let d = {1: 2}'
         py_code = 'd = {1: 2}'
-        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py')['translation']['output_code'])
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js')['translation']['output_code'])
 
     def test_print_dictionary(self):
         js_code = 'console.log({"first": true})'
         py_code = 'print({"first": True})'
-        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py')['translation']['output_code'])
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js')['translation']['output_code'])
 
     def test_function_dictionary_argument(self):
         js_code = 'my.function({"4": 1 + 1})'
         py_code = 'my.function({"4": 1 + 1})'
-        self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+        self.assertEqual(py_code, main.main(js_code, 'js', 'py')['translation']['output_code'])
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js')['translation']['output_code'])
 
 
 if __name__ == '__main__':

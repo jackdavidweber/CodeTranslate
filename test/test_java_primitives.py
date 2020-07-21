@@ -8,12 +8,12 @@ class TestJavaPrim(unittest2.TestCase):
     def test_basic(self):
         code = "System.out.println();"
         self.assertEqual("System.out.println();",
-                         main.main(code, 'java', 'java'))
+                         main.main(code, 'java', 'java')['translation']['output_code'])
 
     def test_basic_args(self):
         code = 'System.out.println("s");'
         self.assertEqual('System.out.println("s");',
-                         main.main(code, 'java', 'java'))
+                         main.main(code, 'java', 'java')['translation']['output_code'])
 
 
 if __name__ == '__main__':
