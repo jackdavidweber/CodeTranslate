@@ -5,36 +5,36 @@ import main
 class TestLogStatement(unittest2.TestCase):
 
     def test_no_args(self):
-        self.assertEqual('console.log()', main.main('print()', 'py', 'js'))
-        self.assertEqual('print()', main.main('console.log()', 'js', 'py'))
+        self.assertEqual('console.log()', main.main('print()', 'py', 'js')['translation']['output_code'])
+        self.assertEqual('print()', main.main('console.log()', 'js', 'py')['translation']['output_code'])
 
     def test_one_arg(self):
         self.assertEqual('console.log("hello")',
-                         main.main('print("hello")', 'py', 'js'))
-        self.assertEqual('print(5)', main.main('console.log(5)', 'js', 'py'))
-        self.assertEqual('echo 8', main.main('console.log(8)', 'js', 'bash'))
+                         main.main('print("hello")', 'py', 'js')['translation']['output_code'])
+        self.assertEqual('print(5)', main.main('console.log(5)', 'js', 'py')['translation']['output_code'])
+        self.assertEqual('echo 8', main.main('console.log(8)', 'js', 'bash')['translation']['output_code'])
 
     def test_quotes_string(self):
         self.assertEqual('print("working")',
-                         main.main('console.log("working")', 'js', 'py'))
+                         main.main('console.log("working")', 'js', 'py')['translation']['output_code'])
 
     def test_arrays(self):
         self.assertEqual('print([[1, 3], [3, 4]])',
-                         main.main('console.log([[1, 3], [3,4]])', 'js', 'py'))
+                         main.main('console.log([[1, 3], [3,4]])', 'js', 'py')['translation']['output_code'])
         self.assertEqual('console.log(["hi", "bye"])',
-                         main.main('print(["hi", "bye"])', 'py', 'js'))
+                         main.main('print(["hi", "bye"])', 'py', 'js')['translation']['output_code'])
 
     def test_boolean(self):
         self.assertEqual('print(True)',
-                         main.main('console.log(true)', 'js', 'py'))
+                         main.main('console.log(true)', 'js', 'py')['translation']['output_code'])
         self.assertEqual('console.log(!false)',
-                         main.main('print(not False)', 'py', 'js'))
+                         main.main('print(not False)', 'py', 'js')['translation']['output_code'])
 
     def test_none(self):
         self.assertEqual('console.log(null)',
-                         main.main('print(None)', 'py', 'js'))
+                         main.main('print(None)', 'py', 'js')['translation']['output_code'])
         self.assertEqual('print(None)',
-                         main.main('console.log(null)', 'js', 'py'))
+                         main.main('console.log(null)', 'js', 'py')['translation']['output_code'])
 
 
 if __name__ == '__main__':
