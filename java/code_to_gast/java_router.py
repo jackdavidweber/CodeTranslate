@@ -12,7 +12,7 @@ def node_to_gast(node):
         # node.value is stored as string in java AST
         if node.value.isnumeric():
             # TODO add in float type to generic AST (Ticket #152)
-            return {"type": "num", "value": int(node.value)}
+            return java_helpers.int_to_gast(node)
         if node.value.startswith('"'):
             return {"type": "str", "value": node.value.replace('"', '')}
         elif node.value == "true":
