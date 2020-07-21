@@ -1,4 +1,3 @@
-
 class ConverterRegistry():
     converters = {}
 
@@ -9,17 +8,18 @@ class ConverterRegistry():
     @staticmethod
     def get_converter(lang_code):
         return ConverterRegistry.converters[lang_code]
-    
+
     """
     Returns supported language codes in the converter as a list of strings.
     Only returns language codes where is_beta is false
     """
+
     @staticmethod
     def get_fully_supported_language_codes():
         fully_supported_language_codes = []
         for lang_code in ConverterRegistry.converters.keys():
             converter = ConverterRegistry.get_converter(lang_code)
-            
+
             if not converter.is_beta:
                 fully_supported_language_codes.append(lang_code)
 
@@ -30,6 +30,7 @@ class ConverterRegistry():
     with pretty names, and booleans indicating information about whether 
     the language is in beta, supports input and supports output
     """
+
     @staticmethod
     def get_lang_dict():
         lang_dict = {}
@@ -46,6 +47,3 @@ class ConverterRegistry():
             lang_dict[lang_code] = lang_specific_dict
 
         return lang_dict
-
-
-

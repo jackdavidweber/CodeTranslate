@@ -1,9 +1,10 @@
 import esprima
 import javascript.code_to_gast.js_router as js_router
-
 """
 takes js string and converts it to a generic AST
 """
+
+
 def js_to_gast(js_input):
     input_ast = ''
     try:

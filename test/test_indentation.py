@@ -3,6 +3,7 @@ import main
 
 
 class TestIndentation(unittest2.TestCase):
+
     def test_indent_if(self):
         js_code = 'if (x == true) {\n\tif (y == true) {\n\t\tconsole.log("y and x are true")\n\t}\n}'
         py_code = 'if (x == True):\n\tif (y == True):\n\t\tprint("y and x are true")'
