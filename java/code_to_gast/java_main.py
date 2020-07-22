@@ -12,5 +12,5 @@ def java_to_gast(java_input):
             {java_input}
         }}
     }}'''.format(java_input = java_input)
-    input_ast = javalang.parse.parse(class_wrapper)
+    input_ast = javalang.parse.parse(java_input)
     return java_router.node_to_gast(input_ast)

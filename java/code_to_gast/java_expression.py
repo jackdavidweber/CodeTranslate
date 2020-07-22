@@ -47,6 +47,15 @@ converts statements inside that function
 '''
 def class_declaration_to_gast(node):
     gast = {"type": "root"}
-    # only support for one function currently
-    gast["body"] = java_router.node_to_gast(node.body[0])
+    gast["body"] = java_router.node_to_gast(node.body)
     return gast
+
+def function_delcaration_to_gast(node):
+    gast = {"type": "functionDeclaration"}
+    gast["params"] = java_router.node_to_gast(node.parameters)
+    gast["id"] = {"type": "name", "value": node.name}
+    gast["body"] = java_router.node_to_gast(node.body)
+    return gast
+
+def formal_parameter_to_gast(node):
+    return {"type": "name", "value": node.name}
