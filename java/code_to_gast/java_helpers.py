@@ -25,3 +25,23 @@ def array_to_gast(node):
 
     gast["elements"] = gast_list
     return gast
+
+
+def bin_op_to_gast(node):
+    """
+    Binops to gast for java 
+    """
+    gast = {"type": "binOp"}
+    gast["left"] = java_router.node_to_gast(node.operandl.member)
+    gast["op"] = node.operator
+    gast["right"] = java_router.node_to_gast(node.operandr)
+    return gast
+
+
+def int_to_gast(node):
+    """
+    Handles int to gast for positive and negative whole numbers
+    """
+    if len(node.prefix_operators) > 0 and node.prefix_operators[0] == "-":
+        return {"type": "num", "value": int(node.value) * -1}
+    return {"type": "num", "value": int(node.value)}

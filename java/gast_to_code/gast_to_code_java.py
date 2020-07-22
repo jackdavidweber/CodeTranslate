@@ -36,16 +36,42 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         return out
 
     def handle_none(gast):
-        pass
+        return "null"
 
     def handle_while(gast, lvl=0):
-        pass
+        test = router.gast_to_code(gast["test"], "java")
+
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
+
+        out = 'while (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
+        return out
 
     def handle_for_range(gast, lvl=0):
-        pass
+        loop_init = router.gast_to_code(gast["init"], "java")
+        loop_test = router.gast_to_code(gast["test"], "java")
+        loop_update = router.gast_to_code(gast["update"], "java")
+
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
+
+        return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {" + body_indent + body + closing_brace_indent + "}"
 
     def handle_for_of(gast, lvl=0):
-        pass
+        arr_str = router.gast_to_code(gast["iter"], "java")
+        var_name = "GenericType " + gast["init"]["value"]
+
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
+
+        out = "for (" + var_name + " : " + arr_str + ") {" + body_indent + body + closing_brace_indent + "}"
+        return out
 
     def handle_log_statement(gast):
         return "System.out.println"
