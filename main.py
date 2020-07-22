@@ -16,25 +16,25 @@ return: string representing output code or error message
 
 
 def main(input_code, input_lang, output_lang):
-    try:
-        # check arguments TODO(taiga#172): remove hard coded references
-        check_valid_args(input_code, input_lang, output_lang,
-                         ["js", "py", "java"], ["js", "py", "bash", "java"])
+    #try:
+    # check arguments TODO(taiga#172): remove hard coded references
+    check_valid_args(input_code, input_lang, output_lang,
+                        ["js", "py", "java"], ["js", "py", "bash", "java"])
 
-        # code to gast
-        gast = main_code_to_gast(input_code, input_lang)
-        check_valid_gast(gast)
+    # code to gast
+    gast = main_code_to_gast(input_code, input_lang)
+    check_valid_gast(gast)
 
-        #gast to code
-        output_code = main_gast_to_code(gast, output_lang)
+    #gast to code
+    output_code = main_gast_to_code(gast, output_lang)
 
-        # analytics
-        main_store_analytics(input_code, output_code, input_lang, output_lang)
+    # analytics
+    main_store_analytics(input_code, output_code, input_lang, output_lang)
 
-        return output_code
-    except:
+    return output_code
+    #except:
         # This error should never occur but probably a good thing to have in case
-        return "Error: unable to execute main function"
+    #    return "Error: unable to execute main function"
 
 
 def main_code_to_gast(input_code, input_lang):
@@ -80,15 +80,15 @@ def check_valid_gast(gast):
 
 
 def main_gast_to_code(gast, output_lang):
-    try:
-        output_code = gtc.gast_to_code(gast, output_lang)
+    #try:
+    output_code = gtc.gast_to_code(gast, output_lang)
 
-        if output_lang == "java":
-            output_code = general_helpers.java_linter(output_code)
+    if output_lang == "java":
+        output_code = general_helpers.java_linter(output_code)
 
-        return output_code
-    except:
-        return "Error: unable to convert generic ast to code"
+    return output_code
+    #except:
+    #    return "Error: unable to convert generic ast to code"
 
 
 def main_store_analytics(input_code, output_code, input_lang, output_lang):

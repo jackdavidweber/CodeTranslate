@@ -166,3 +166,6 @@ class JsGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arr(gast):
         return "[" + router.gast_to_code(gast["elements"], "js") + "]"
+
+    def handle_root(gast):
+        return general_helpers.list_helper(gast["body"], "js", "\n")

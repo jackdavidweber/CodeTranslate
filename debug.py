@@ -1,3 +1,7 @@
-import bash.code_to_gast.bash_main as bash_main
+import main as main
+from bootstrap import bootstrap
 
-print(bash_main.bash_to_gast('true'))
+# Register all languages before testing can begin
+bootstrap()
+
+print(main.main("function s() {2}\n console.log(1)", "js", "java"))

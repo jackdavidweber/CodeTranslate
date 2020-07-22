@@ -43,7 +43,7 @@ def gast_to_code(gast, out_lang, lvl=0):
 
     # Other
     elif gast["type"] == "root":
-        return general_helpers.list_helper(gast["body"], out_lang, "\n")
+        return converter.handle_root(gast) 
     elif gast["type"] == "break":
         return "break"
     elif gast["type"] == "continue":

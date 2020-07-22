@@ -60,24 +60,23 @@ class TestFunctionDeclarations(unittest2.TestCase):
 
     def test_java_simple(self):
         java_input = 'public void test() {}'
-        java_output = 'public unknown unknown test() {\n\t\n}'
+        java_output = 'public unknown unknown test() {\n\t;\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_simple_arg(self):
         java_input = 'public void test(int x) {1;}'
-        java_output = 'public unknown unknown test(customType x) {\n\t1\n}'
+        java_output = 'public unknown unknown test(customType x) {\n\t1;\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_multiple_args(self):
         java_input = 'public void test(int x, String s, int y) {1;}'
-        java_output = 'public unknown unknown test(customType x, customType s, customType y) {\n\t1\n}'
+        java_output = 'public unknown unknown test(customType x, customType s, customType y) {\n\t1;\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_multiline(self):
         java_input = 'public void test(int x) {1;\n System.out.println(2);}'
-        java_output = 'public unknown unknown test(customType x) {\n\t1\n\tSystem.out.println(2)\n}'
+        java_output = 'public unknown unknown test(customType x) {\n\t1;\n\tSystem.out.println(2);\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
 
     def test_blank_arrow_functions(self):
         #note python won't compile in this case

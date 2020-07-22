@@ -165,3 +165,21 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arr(gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"
+
+    def handle_root(gast):
+        function_output = java_node_list_helper(gast["body"], True, "\n\t", 1)
+        main_output = java_node_list_helper(gast["body"], False, "\n\t\t", 2)
+        print(function_output)
+        print(main_output)
+        out = "class Test {\n"
+        #TODO: going to check if node is function in list
+        # if func -> call router (check line spacing,lvl)
+        # else -> do nothing 
+        # only do this if functions in our gast
+        out += java_function_helper(gast["body"])
+        out += "\tpublic static void main(String[] args) {\n"
+        # add lvl to function -> do inverse 
+        return out
+
+def java_function_helper(node):
+    return ""
