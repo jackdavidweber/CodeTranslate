@@ -12,7 +12,7 @@ class TestFunctionDeclarations(unittest2.TestCase):
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
         self.assertEqual(js_code, main.main(java_code, 'java', 'js'))
         self.assertEqual(py_code, main.main(java_code, 'java', 'py'))
-    
+
     def test_function_one_arg(self):
         js_code = 'function test(x) {\n\tconsole.log(x)\n}'
         py_code = 'def test(x):\n\tprint(x)'
@@ -56,8 +56,8 @@ class TestFunctionDeclarations(unittest2.TestCase):
         js_code = 'function test(x, y = 2, z = 4, a = 1) {\n\treturn y\n}'
         py_code = 'def test(x, y = 2, z = 4, a = 1):\n\treturn y'
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
-        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))   
-    
+        self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
+
     def test_java_simple(self):
         java_input = 'public void test() {}'
         java_output = 'public unknown unknown test() {\n\t\n}'
@@ -67,7 +67,7 @@ class TestFunctionDeclarations(unittest2.TestCase):
         java_input = 'public void test(int x) {1;}'
         java_output = 'public unknown unknown test(customType x) {\n\t1\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
-    
+
     def test_java_multiple_args(self):
         java_input = 'public void test(int x, String s, int y) {1;}'
         java_output = 'public unknown unknown test(customType x, customType s, customType y) {\n\t1\n}'
@@ -114,6 +114,7 @@ class TestFunctionDeclarations(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_arrow, 'js', 'py'))
         self.assertEqual(py_code, main.main(js_anon, 'js', 'py'))
         self.assertEqual(js_arrow, main.main(py_code, 'py', 'js'))
+
 
 if __name__ == '__main__':
     unittest2.main()

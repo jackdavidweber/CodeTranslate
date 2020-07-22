@@ -142,13 +142,15 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         name = router.gast_to_code(gast["id"], "java")
         if len(gast["params"]) != 0:
             args = "customType "
-            args += general_helpers.list_helper(gast["params"], "java", ", customType ")
+            args += general_helpers.list_helper(gast["params"], "java",
+                                                ", customType ")
         else:
             args = ""
 
-        body_indent = "\n\t" + "\t"*lvl
-        closing_brace_indent = "\n" + "\t"*lvl
-        body = general_helpers.list_helper(gast["body"], "java", body_indent, lvl+1)
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
 
         out = "public unknown unknown " + name
         out += "(" + args + ") {" + body_indent + body + closing_brace_indent + "}"

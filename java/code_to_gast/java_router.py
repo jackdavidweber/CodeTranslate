@@ -53,7 +53,7 @@ def node_to_gast(node):
     elif type(node) == javalang.tree.VariableDeclarator:
         return java_assign.assign_to_gast(node)
     elif type(node) == javalang.tree.FormalParameter:
-        return java_expression.formal_parameter_to_gast(node)   
+        return java_expression.formal_parameter_to_gast(node)
     elif type(node) == javalang.tree.VariableDeclaration:
         return node_to_gast(node.declarators[0])
     elif type(node) == javalang.tree.MemberReference:
