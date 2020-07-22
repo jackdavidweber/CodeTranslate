@@ -40,18 +40,29 @@ def arr_type_helper(gast_arr):
 
     return gast_to_java_type(node) + "[]"
 
-def java_node_list_helper(gast_list, is_returning_functions,csv_delimiter=", ", lvl=0):
+
+def java_node_list_helper(gast_list,
+                          is_returning_functions,
+                          csv_delimiter=", ",
+                          lvl=0):
+    """
+    Almost identical to regular list_helper however is_returning_functions is passed in
+    as a boolean to determine whether the list_helper ignores functions or ignores non-functions
+    """
+
     out = ""
 
     for i in range(0, len(gast_list)):
-        if is_returning_functions and gast_list[i]["type"] == "funcCall":
+        if is_returning_functions and gast_list[i][
+                "type"] == "functionDeclaration":
             out += router.gast_to_code(gast_list[i], "java", lvl)
             if i < len(gast_list) - 1:  # don't add delimiter for last item
                 out += csv_delimiter
 
-        elif (not is_returning_functions) and gast_list[i]["type"] != "funcCall":
+        elif (not is_returning_functions
+             ) and gast_list[i]["type"] != "functionDeclaration":
             out += router.gast_to_code(gast_list[i], "java", lvl)
             if i < len(gast_list) - 1:  # don't add delimiter for last item
                 out += csv_delimiter
-        
+
     return out

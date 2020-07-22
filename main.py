@@ -18,8 +18,8 @@ return: string representing output code or error message
 def main(input_code, input_lang, output_lang):
     #try:
     # check arguments TODO(taiga#172): remove hard coded references
-    check_valid_args(input_code, input_lang, output_lang,
-                        ["js", "py", "java"], ["js", "py", "bash", "java"])
+    check_valid_args(input_code, input_lang, output_lang, ["js", "py", "java"],
+                     ["js", "py", "bash", "java"])
 
     # code to gast
     gast = main_code_to_gast(input_code, input_lang)
@@ -33,7 +33,7 @@ def main(input_code, input_lang, output_lang):
 
     return output_code
     #except:
-        # This error should never occur but probably a good thing to have in case
+    # This error should never occur but probably a good thing to have in case
     #    return "Error: unable to execute main function"
 
 

@@ -65,6 +65,9 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_name(gast):
         return gast["value"]
 
+    def handle_root(gast):
+        return general_helpers.list_helper(gast["body"], "py", "\n")
+
 
 '''
 Helper functions for bash converter since variables are written different when function params
