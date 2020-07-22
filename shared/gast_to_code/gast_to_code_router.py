@@ -15,7 +15,7 @@ def gast_to_code(gast, out_lang, lvl=0):
 
     if type(gast) == list:
         # bash has no comma between function arguments
-        if out_lang == "bash":
+        if out_lang == "bash": # FIXME: @Cory is this necessary? Doesn't it go against design principles?
             return general_helpers.list_helper(gast, out_lang, " ")
         return general_helpers.list_helper(gast, out_lang)
 

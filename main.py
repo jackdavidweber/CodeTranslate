@@ -4,6 +4,7 @@ import python.code_to_gast.py_main as py_main
 import java.code_to_gast.java_main as java_main
 import shared.gast_to_code.gast_to_code_router as gtc
 import shared.gast_to_code.general_helpers as general_helpers
+from shared.gast_to_code.converter_registry import ConverterRegistry
 from data_service import DataService
 from bootstrap import bootstrap
 import subprocess
@@ -16,25 +17,24 @@ return: string representing output code or error message
 
 
 def main(input_code, input_lang, output_lang):
-    try:
-        # check arguments TODO(taiga#172): remove hard coded references
-        check_valid_args(input_code, input_lang, output_lang,
-                         ["js", "py", "java"], ["js", "py", "bash", "java"])
+    # check arguments TODO(taiga#172): remove hard coded references
+    check_valid_args(input_code, input_lang, output_lang,
+                        ["js", "py", "java"], ["js", "py", "bash", "java"])
 
-        # code to gast
-        gast = main_code_to_gast(input_code, input_lang)
-        check_valid_gast(gast)
+    # code to gast
+    gast = main_code_to_gast(input_code, input_lang)
+    check_valid_gast(gast)
 
-        #gast to code
-        output_code = main_gast_to_code(gast, output_lang)
+    #gast to code
+    output_code = main_gast_to_code(gast, output_lang)
+    converter = ConverterRegistry.get_converter("js")
+    print(converter.set_response())
 
-        # analytics
-        main_store_analytics(input_code, output_code, input_lang, output_lang)
+    # analytics
+    main_store_analytics(input_code, output_code, input_lang, output_lang)
 
-        return output_code
-    except:
-        # This error should never occur but probably a good thing to have in case
-        return "Error: unable to execute main function"
+    return output_code
+
 
 
 def main_code_to_gast(input_code, input_lang):

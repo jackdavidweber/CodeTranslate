@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class AbstractGastToCodeConverter(ABC):
+    @abstractmethod
+    def get_response(self):
+        pass
 
     @abstractmethod
     def handle_log_statement(gast):

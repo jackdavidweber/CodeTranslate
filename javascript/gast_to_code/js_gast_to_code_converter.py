@@ -9,6 +9,14 @@ class JsGastToCodeConverter(AbstractGastToCodeConverter):
     is_beta = False
     is_input_lang = True
     is_output_lang = True
+    response = {
+        "input": None,
+        "translation": None,
+        "error": None
+    }
+
+    def get_response():
+        return
 
     def handle_bool(gast):
         if gast["value"] == 1:
