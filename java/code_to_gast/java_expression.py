@@ -1,4 +1,5 @@
 import java.code_to_gast.java_router as java_router
+import javalang
 
 '''
 Takes method invocation ie function declaration and translates to
@@ -47,7 +48,14 @@ converts statements inside that function
 '''
 def class_declaration_to_gast(node):
     gast = {"type": "root"}
-    gast["body"] = java_router.node_to_gast(node.body)
+    '''
+    If the method in class is main function only translate that method and ignore function header
+    We are assuming user only wants body of function translated
+    ''' 
+    if type(node.body[0]) == javalang.tree.MethodDeclaration and node.body[0].name == "artifical_wrapper_WkVHC":
+        gast["body"] = java_router.node_to_gast(node.body[0].body) 
+    else:
+        gast["body"] = java_router.node_to_gast(node.body)
     return gast
 
 def function_delcaration_to_gast(node):

@@ -85,7 +85,8 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         if len(gast["params"]) != 0:
             args = "customType "
             args += general_helpers.list_helper(gast["params"], "java", ", customType ")
-
+        else:
+            args = ""
 
         body_indent = "\n\t" + "\t"*lvl
         closing_brace_indent = "\n" + "\t"*lvl
