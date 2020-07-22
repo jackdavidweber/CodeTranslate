@@ -40,6 +40,9 @@ class Translate(Resource):
                 response_input_lang = fully_supported_lang_codes[i]
                 output_code = main(input_code, response_input_lang, output_lang)
                 i += 1
+
+                if output_code != "Error: did not compile":
+                    break
         else:
             output_code = main(input_code, input_lang, output_lang)
             response_input_lang = input_lang
