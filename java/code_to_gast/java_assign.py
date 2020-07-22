@@ -26,7 +26,7 @@ def member_reference_to_gast(node):
 
 def aug_assign_to_gast(node):
     """
-    Handles augmented assignemnt in java but not the incrementor and decrementor operations
+    Handles augmented assignment in java but not the incrementor and decrementor operations
     """
     gast = {"type": "augAssign"}
     gast["left"] = java_router.node_to_gast(node.expressionl.member)

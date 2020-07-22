@@ -63,7 +63,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_for_of(gast, lvl=0):
         arr_str = router.gast_to_code(gast["iter"], "java")
-        var_name = gast["init"]["value"]
+        var_name = "GenericType " + gast["init"]["value"]
 
         body_indent = "\n\t" + "\t" * lvl
         closing_brace_indent = "\n" + "\t" * lvl

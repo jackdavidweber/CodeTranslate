@@ -114,14 +114,12 @@ class TestLoops(unittest2.TestCase):
     def test_forOf_with_java(self):
         js_code = 'for (elem of arr) {\n\t5\n}'
         py_code = 'for elem in arr:\n\t5'
-        java_code = 'for (int elem : arr) {\n\t5;\n}'
-
+        java_input_code = 'for (int elem : arr) {\n\t5;\n}'
+        java_output_code = 'for (GenericType elem : arr) {\n\t5;\n}'
         self.assertEqual(js_code, main.main(py_code, "py", "js"))
         self.assertEqual(py_code, main.main(js_code, "js", "py"))
-        # Without context can't determine what type the elements in the array are,
-        #     so can't translate to java code
-        #self.assertEqual(java_code, main.main(py_code, "py", "java"))
-        self.assertEqual(js_code, main.main(java_code, "java", "js"))
+        self.assertEqual(java_output_code, main.main(py_code, "py", "java"))
+        self.assertEqual(js_code, main.main(java_input_code, "java", "js"))
 
 
 if __name__ == '__main__':
