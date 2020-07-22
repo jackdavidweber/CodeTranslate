@@ -33,6 +33,7 @@ class Translate(Resource):
 
         output_code = main(input_code, input_lang, output_lang)
         response_input_lang = input_lang
+        response_detect_lang = False
 
         # Gets non-beta (fully supported) languages for automatic detection
         fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
@@ -44,6 +45,7 @@ class Translate(Resource):
                 i < len(fully_supported_lang_codes)):
             response_input_lang = fully_supported_lang_codes[i]
             output_code = main(input_code, response_input_lang, output_lang)
+            response_detect_lang = True
             i += 1
 
         # ensures that response_in_lang is the same as requested in_lang if no languages compile
@@ -52,7 +54,8 @@ class Translate(Resource):
 
         return {
             'response': output_code,
-            'response_in_lang': response_input_lang
+            'response_in_lang': response_input_lang,
+            'response_detect_lang': response_detect_lang
         }
 
 
