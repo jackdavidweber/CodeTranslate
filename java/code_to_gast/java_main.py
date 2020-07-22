@@ -1,9 +1,10 @@
 import javalang
 import java.code_to_gast.java_router as java_router
-
 """
 takes js string and converts it to a generic AST
 """
+
+
 def java_to_gast(java_input):
     '''
     Input will be wrapped in a class and main function if no functions are present
@@ -29,5 +30,6 @@ def java_to_gast(java_input):
         try: 
             input_ast = javalang.parse.parse(class_wrapped)
         except:
-            return "Error did not compile"
+            return "Error: did not compile"
     return java_router.node_to_gast(input_ast)
+

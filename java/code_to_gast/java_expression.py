@@ -5,10 +5,12 @@ import javalang
 Takes method invocation ie function declaration and translates to
 gAST node of type funcCall
 '''
+
+
 def method_invocation_to_gast(node):
     gast = {"type": "funcCall"}
     gast["args"] = java_router.node_to_gast(node.arguments)
-    
+
     #TODO: change logic and add support for functions called on objects
     if node.qualifier == "System.out" and node.member == "println":
         gast["value"] = {"type": "logStatement"}
@@ -22,12 +24,15 @@ def method_invocation_to_gast(node):
             gast["value"] = {"type": "name", "value": node.member}
     return gast
 
+
 '''
 Takes list of callees and members and from function called
 on object and translates into gAST node
 Ex: car.drive() -> {"type": "attribute", "id": "drive", "value": 
 {"type": "name", "id": "car"}}
 '''
+
+
 def list_to_attribute_value_node(object_list):
     gast = {}
     gast["type"] = "attribute"
@@ -35,9 +40,9 @@ def list_to_attribute_value_node(object_list):
 
     if len(object_list) == 1:
         gast["value"] = {"type": "name", "id": object_list.pop()}
-    else: 
+    else:
         gast["value"] = list_to_attribute_value_node(object_list)
-    
+
     return gast
 
 
@@ -46,6 +51,8 @@ Takes class declaration and turns into start of gast
 Currently allows support for one function and only 
 converts statements inside that function
 '''
+
+
 def class_declaration_to_gast(node):
     gast = {"type": "root"}
     '''

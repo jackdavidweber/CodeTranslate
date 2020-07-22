@@ -1,6 +1,5 @@
 import shared.gast_to_code.general_helpers as general_helpers
 from shared.gast_to_code.converter_registry import ConverterRegistry
-
 """
 gast router that takes generic ast and the output language
 that the gast needs to be converted to and executes the
@@ -9,17 +8,22 @@ out_lang correspond to the language codes defined in datastructure:
 javascript: js
 python: py
 """
+
+
 def gast_to_code(gast, out_lang, lvl=0):
     converter = ConverterRegistry.get_converter(out_lang)
-    
+
     if type(gast) == list:
+        # bash has no comma between function arguments
+        if out_lang == "bash":
+            return general_helpers.list_helper(gast, out_lang, " ")
         return general_helpers.list_helper(gast, out_lang)
 
     # Primitives
     elif gast["type"] == "num":
         return str(gast["value"])
     elif gast["type"] == "arr":
-        return "[" + gast_to_code(gast["elements"], out_lang) + "]"
+        return converter.handle_arr(gast)
     elif gast["type"] == "str":
         return '"' + gast["value"] + '"'
     elif gast["type"] == "bool":
@@ -76,9 +80,10 @@ def gast_to_code(gast, out_lang, lvl=0):
         return converter.handle_return_statement(gast)
     elif gast["type"] == "assignPattern":
         return converter.handle_assign_pattern(gast)
+    elif gast["type"] == "arrowExpression":
+        return converter.handle_arrow_func(gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
             # Error string
             return "Feature not supported"
         return "Error"
-        
