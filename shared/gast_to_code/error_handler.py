@@ -1,7 +1,8 @@
 class ErrorHandler():
-    error_number = 0
-    error_obj = {}
 
+    def __init__(self):
+        self.error_number = 0
+        self.error_obj = {}
 
     def unsupported_feature(self):
         error_name = "E" + str(self.error_number)

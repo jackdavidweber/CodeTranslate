@@ -6,7 +6,7 @@ from bash.gast_to_code.bash_gast_to_code_converter import BashGastToCodeConverte
 
 
 def bootstrap():
-    ConverterRegistry.register(PyGastToCodeConverter, "py")
-    ConverterRegistry.register(JsGastToCodeConverter, "js")
-    ConverterRegistry.register(JavaGastToCodeConverter, "java")
-    ConverterRegistry.register(BashGastToCodeConverter, "bash")
+    ConverterRegistry.register(PyGastToCodeConverter(), "py")
+    ConverterRegistry.register(JsGastToCodeConverter(), "js")
+    ConverterRegistry.register(JavaGastToCodeConverter(), "java")
+    ConverterRegistry.register(BashGastToCodeConverter(), "bash")
