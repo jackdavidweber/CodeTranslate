@@ -15,7 +15,7 @@ return: string representing output code or error message
 """
 
 
-def main(input_code, input_lang, output_lang):
+def main(input_code, input_lang, output_lang, session_id=-1):
     try:
         # check arguments TODO(taiga#172): remove hard coded references
         check_valid_args(input_code, input_lang, output_lang,
@@ -29,7 +29,8 @@ def main(input_code, input_lang, output_lang):
         output_code = main_gast_to_code(gast, output_lang)
 
         # analytics
-        main_store_analytics(input_code, output_code, input_lang, output_lang)
+        main_store_analytics(input_code, output_code, input_lang, output_lang,
+                             session_id)
 
         return output_code
     except:
@@ -91,7 +92,8 @@ def main_gast_to_code(gast, output_lang):
         return "Error: unable to convert generic ast to code"
 
 
-def main_store_analytics(input_code, output_code, input_lang, output_lang):
+def main_store_analytics(input_code, output_code, input_lang, output_lang,
+                         session_id):
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         pass
@@ -99,4 +101,4 @@ def main_store_analytics(input_code, output_code, input_lang, output_lang):
         # store translation on firebase
         data_service = DataService.getInstance()
         data_service.store_query(input_code, output_code, input_lang,
-                                 output_lang)
+                                 output_lang, session_id)

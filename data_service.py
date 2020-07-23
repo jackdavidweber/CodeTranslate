@@ -3,6 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import json
 import os
+from datetime import datetime, timezone
 
 
 class DataService:
@@ -37,7 +38,8 @@ class DataService:
             DataService.instance = DataService()
             return DataService.instance
 
-    def store_query(self, input_code, output_code, input_lang, output_lang):
+    def store_query(self, input_code, output_code, input_lang, output_lang,
+                    session_id):
         if self.running_locally:
             return
 
@@ -47,7 +49,9 @@ class DataService:
                 u'input_code': input_code,
                 u'output_code': output_code,
                 u'input_lang': input_lang,
-                u'output_lang': output_lang
+                u'output_lang': output_lang,
+                u'timestamp': datetime.now(timezone.utc).isoformat(),
+                u'session_id': session_id
             })
         elif "Error: did not compile" in output_code:
             doc_ref = self.db.collection(u'did-not-compile').document()
@@ -55,7 +59,9 @@ class DataService:
                 u'input_code': input_code,
                 u'output_code': output_code,
                 u'input_lang': input_lang,
-                u'output_lang': output_lang
+                u'output_lang': output_lang,
+                u'timestamp': datetime.now(timezone.utc).isoformat(),
+                u'session_id': session_id
             })
         else:
             doc_ref = self.db.collection(u'user-query').document()
@@ -63,5 +69,7 @@ class DataService:
                 u'input_code': input_code,
                 u'output_code': output_code,
                 u'input_lang': input_lang,
-                u'output_lang': output_lang
+                u'output_lang': output_lang,
+                u'timestamp': datetime.now(timezone.utc).isoformat(),
+                u'session_id': session_id
             })

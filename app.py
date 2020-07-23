@@ -14,6 +14,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('input')
 parser.add_argument('in_lang')
 parser.add_argument('out_lang')
+parser.add_argument('id')
 
 
 class Translate(Resource):
@@ -30,8 +31,9 @@ class Translate(Resource):
         input_code = args['input']
         input_lang = args['in_lang']
         output_lang = args['out_lang']
+        session_id = args['id']
 
-        output_code = main(input_code, input_lang, output_lang)
+        output_code = main(input_code, input_lang, output_lang, session_id)
         response_input_lang = input_lang
 
         # Gets non-beta (fully supported) languages for automatic detection
