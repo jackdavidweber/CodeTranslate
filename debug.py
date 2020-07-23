@@ -3,14 +3,24 @@ from bootstrap import bootstrap
 import main
 import translate
 
-
 bootstrap()
-print(translate.translate('console.log(8)', 'js', 'bash'))
+
+pycode = 'class Bar:\n\tdef __init__(self):\n\t\tpass'
+print(main.main(pycode, 'py', 'js'))
+
+print(main.main('print()', 'py', 'js'))
 
 
 
 
 
+# bootstrap()
+# print(translate.translate('console.log(8)', 'js', 'bash'))
+
+
+
+
+#------------------
 
 
 
