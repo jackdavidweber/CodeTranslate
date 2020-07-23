@@ -40,14 +40,14 @@ class Translate(Resource):
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             for lang in fully_supported_lang_codes:
                 response_input_lang = lang
-                output_code = main(input_code, response_input_lang, output_lang, session_id)
+                output_code = main(input_code, response_input_lang, output_lang,
+                                   session_id)
 
                 if "Error" not in output_code:
                     break
         else:
             output_code = main(input_code, input_lang, output_lang, session_id)
             response_input_lang = input_lang
-
 
         # ensures that response_in_lang is the same as requested in_lang if no languages compile
         if output_code == "Error: did not compile":
