@@ -5,10 +5,11 @@ takes js string and converts it to a generic AST
 """
 
 
-def js_to_gast(js_input):
+def js_to_gast(js_input, error_handler):
     input_ast = ''
     try:
         input_ast = esprima.parseScript(js_input, {"tokens": False})
     except:
-        return "Error: code could not compile"
+        output_str = error_handler.compilation()
+        return output_str
     return js_router.node_to_gast(input_ast)

@@ -20,12 +20,17 @@ def translate(input_code, input_lang, output_lang):
     error_handler = ConverterRegistry.get_converter(output_lang).get_error_handler()
 
     # check arguments TODO(taiga#172): remove hard coded references
-    check_valid_args(input_code, input_lang, output_lang,
-                        ["js", "py", "java"], ["js", "py", "bash", "java"], error_handler)
+    args_are_valid = is_valid_args(input_code, input_lang, output_lang,
+                        ["js", "py", "java"], ["js", "py", "bash", "java"])
+    if (not args_are_valid):
+        output_code = error_handler.invalid_arguments()
+        return output_code
 
     # code to gast
     gast = code_to_gast_caller(input_code, input_lang, error_handler)
-    check_valid_gast(gast, error_handler)
+    if (not is_valid_gast(gast)):
+        output_code = error_handler.compilation()
+        return output_code
 
     #gast to code
     output_code = gast_to_code_caller(gast, output_lang, error_handler)
@@ -39,11 +44,11 @@ def translate(input_code, input_lang, output_lang):
 def code_to_gast_caller(input_code, input_lang, error_handler):
     # TODO(taiga#172): remove hard coded references
     if input_lang == "js":
-        gast = js_main.js_to_gast(input_code)
+        gast = js_main.js_to_gast(input_code, error_handler)
     elif input_lang == "py":
-        gast = py_main.py_to_gast(input_code)
+        gast = py_main.py_to_gast(input_code, error_handler)
     elif input_lang == "java":
-        gast = java_main.java_to_gast(input_code)
+        gast = java_main.java_to_gast(input_code, error_handler)
     else:
         # TODO: use error handler
         return "Error must specify input language. For example, js for javascript and py for python"
@@ -52,29 +57,27 @@ def code_to_gast_caller(input_code, input_lang, error_handler):
 
 
 
-def check_valid_args(input_code, input_lang, output_lang, valid_input_langs,
-                     valid_output_langs, error_handler):
+def is_valid_args(input_code, input_lang, output_lang, valid_input_langs,
+                     valid_output_langs):
     if not (type(input_code) == str and type(input_lang) == str and
             type(output_lang) == str):
-        abort(400, "Error: invalid argument types")
+        return False # "Error: invalid argument types"
 
     if input_lang not in valid_input_langs:
-        abort(
-            400,
-            "Error must specify valid input language. For example, js for javascript and py for python"
-        )
+        return False # invalid input language
 
     if output_lang not in valid_output_langs:
-        abort(
-            400,
-            "Error must specify valid output language. For example, js for javascript and py for python"
-        )
+        return False # invalid output language
+
+    return True
 
 
-def check_valid_gast(gast, error_handler):
+def is_valid_gast(gast):
     if (type(gast) == str):  # FIXME(swalsh15) why is this necessary??
         # return error if gast not built - dont store in database
-        abort(400, "Error: did not compile")
+        return False
+    
+    return True
 
 
 def gast_to_code_caller(gast, output_lang, error_handler):

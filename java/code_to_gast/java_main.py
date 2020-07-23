@@ -5,7 +5,7 @@ takes js string and converts it to a generic AST
 """
 
 
-def java_to_gast(java_input):
+def java_to_gast(java_input, error_handler):
     input_ast = ''
 
     try:
@@ -18,6 +18,7 @@ def java_to_gast(java_input):
         }}'''.format(java_input=java_input)
         input_ast = javalang.parse.parse(class_wrapper)
     except:
-        "Error: code could not compile"
+        output_str = error_handler.compilation()
+        return output_str
 
     return java_router.node_to_gast(input_ast)

@@ -6,11 +6,12 @@ node is then dealt with by node_to_gast
 """
 
 
-def py_to_gast(python_input):
+def py_to_gast(python_input, error_handler):
     input_ast = ''
     try:
         input_ast = ast.parse(python_input)
     except:
-        return "Error: code could not compile"
+        output_str = error_handler.compilation()
+        return output_str
 
     return py_router.node_to_gast(input_ast)

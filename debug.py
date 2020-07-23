@@ -1,14 +1,23 @@
 from shared.gast_to_code.converter_registry import ConverterRegistry
 from bootstrap import bootstrap
 import main
-import translate
+import javascript.code_to_gast.js_main as js_main
 
-bootstrap()
+print(type(js_main.js_to_gast('console.log')))
 
-pycode = 'class Bar:\n\tdef __init__(self):\n\t\tpass'
-print(main.main(pycode, 'py', 'js'))
 
-print(main.main('print()', 'py', 'js'))
+full_d = {"a": 1}
+empty_d = {}
+
+print(len(empty_d))
+
+
+# bootstrap()
+
+# pycode = 'class Bar:\n\tdef __init__(self):\n\t\tpass'
+# print(main.main(pycode, 'py', 'js'))
+
+# print(main.main('print()', 'py', 'js'))
 
 
 
