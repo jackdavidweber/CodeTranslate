@@ -1,6 +1,7 @@
 from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 import shared.gast_to_code.general_helpers as general_helpers
 import shared.gast_to_code.gast_to_code_router as router
+from shared.gast_to_code.error_handler import ErrorHandler
 
 
 class BashGastToCodeConverter(AbstractGastToCodeConverter):
@@ -8,6 +9,8 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
     is_beta = True
     is_input_lang = False
     is_output_lang = True
+    error_handler = ErrorHandler()
+
 
     def handle_bool(gast):
         return "Bash does not support booleans"

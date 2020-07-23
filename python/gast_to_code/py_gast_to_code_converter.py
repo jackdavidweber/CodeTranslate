@@ -2,6 +2,7 @@ from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCo
 import shared.gast_to_code.gast_to_code_router as router
 import shared.gast_to_code.general_helpers as general_helpers
 import py_built_in_functions
+from shared.gast_to_code.error_handler import ErrorHandler
 
 
 class PyGastToCodeConverter(AbstractGastToCodeConverter):
@@ -9,6 +10,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
     is_beta = False
     is_input_lang = True
     is_output_lang = True
+    error_handler = ErrorHandler()
 
     def handle_bool(gast):
         if gast["value"] == 1:

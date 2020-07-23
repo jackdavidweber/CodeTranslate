@@ -84,6 +84,7 @@ def gast_to_code(gast, out_lang, lvl=0):
         return converter.handle_arrow_func(gast)
     elif gast["type"] == "error":
         if gast["value"] == "unsupported":
-            # Error string
-            return "Feature not supported"
+            error_string = converter.error_handler.unsupported_feature();
+            print("yoyo")
+            return error_string
         return "Error"
