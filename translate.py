@@ -15,29 +15,29 @@ return: string representing output code or error message
 """
 
 
-def main(input_code, input_lang, output_lang):
+def translate(input_code, input_lang, output_lang):
     try:
         # check arguments TODO(taiga#172): remove hard coded references
         check_valid_args(input_code, input_lang, output_lang,
                          ["js", "py", "java"], ["js", "py", "bash", "java"])
 
         # code to gast
-        gast = main_code_to_gast(input_code, input_lang)
+        gast = code_to_gast_caller(input_code, input_lang)
         check_valid_gast(gast)
 
         #gast to code
-        output_code = main_gast_to_code(gast, output_lang)
+        output_code = gast_to_code_caller(gast, output_lang)
 
         # analytics
-        main_store_analytics(input_code, output_code, input_lang, output_lang)
+        store_analytics_caller(input_code, output_code, input_lang, output_lang)
 
         return output_code
     except:
         # This error should never occur but probably a good thing to have in case
-        return "Error: unable to execute main function"
+        return "Error: unable to execute translate function"
 
 
-def main_code_to_gast(input_code, input_lang):
+def code_to_gast_caller(input_code, input_lang):
     try:
         # TODO(taiga#172): remove hard coded references
         if input_lang == "js":
@@ -79,7 +79,7 @@ def check_valid_gast(gast):
         abort(400, "Error: did not compile")
 
 
-def main_gast_to_code(gast, output_lang):
+def gast_to_code_caller(gast, output_lang):
     try:
         output_code = gtc.gast_to_code(gast, output_lang)
 
@@ -91,7 +91,7 @@ def main_gast_to_code(gast, output_lang):
         return "Error: unable to convert generic ast to code"
 
 
-def main_store_analytics(input_code, output_code, input_lang, output_lang):
+def store_analytics_caller(input_code, output_code, input_lang, output_lang):
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         pass

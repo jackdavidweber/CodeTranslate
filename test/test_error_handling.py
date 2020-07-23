@@ -1,5 +1,5 @@
 import unittest2
-import main
+import translate
 
 
 class TestErrorHandling(unittest2.TestCase):
@@ -8,7 +8,7 @@ class TestErrorHandling(unittest2.TestCase):
         py_input = 'class Bar:\n\tdef __init__(self):\n\t\tpass'
         expected_error_obj = {'E0': {'errorType': 'unsupportedFeature', 'errorMessage': 'Feature not supported'}}
 
-        self.assertEqual(expected_error_obj, main.main(py_input, 'py', 'js')['error'])
+        self.assertEqual(expected_error_obj, translate.translate(py_input, 'py', 'js')['error'])
 
 
 if __name__ == '__main__':
