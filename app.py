@@ -36,7 +36,8 @@ class Translate(Resource):
             fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
             )
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
-            for response_input_lang in fully_supported_lang_codes:
+            for lang in fully_supported_lang_codes:
+                response_input_lang = lang
                 output_code = main(input_code, response_input_lang, output_lang)
 
                 if "Error" not in output_code:
