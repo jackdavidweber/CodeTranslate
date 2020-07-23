@@ -28,7 +28,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
         if general_helpers.arr_in_list(gast["elements"]):
             return "impossibleTranslationError: direct translation does not exist"  # TODO: streamline error message as part of refactor
 
-        return "(" + router.gast_to_code(gast["elements"], "py") + ")"
+        return "(" + router.gast_to_code(gast["elements"], "bash") + ")"
 
     def handle_if(gast, lvl=0):
         test = router.gast_to_code(gast["test"], "bash")
@@ -51,7 +51,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_var_assign(gast):
         value = router.gast_to_code(gast["varValue"], "bash")
-        return router.gast_to_code(gast["varId"], "bash") + "=" + value
+        return router.gast_to_code(gast["varId"], "bash") + " = " + value
 
     def handle_aug_assign(gast):
         if "right" in gast:
@@ -66,7 +66,7 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
         return gast["value"]
 
     def handle_root(gast):
-        return general_helpers.list_helper(gast["body"], "py", "\n")
+        return general_helpers.list_helper(gast["body"], "bash", "\n")
 
 
 '''

@@ -181,9 +181,13 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
             out = "class Test {\n\t"
             out += function_output
-            out += "\n\tpublic static void main(String[] args) {\n\t\t"
-            out += main_output
-            out += "\n\t}"
+
+            # only include main if there is main_output
+            if main_output != "":
+                out += "\n\tpublic static void main(String[] args) {\n\t\t"
+                out += main_output
+                out += "\n\t}"
+
             out += "\n}"
 
         return out

@@ -14,9 +14,6 @@ def gast_to_code(gast, out_lang, lvl=0):
     converter = ConverterRegistry.get_converter(out_lang)
 
     if type(gast) == list:
-        # bash has no comma between function arguments
-        if out_lang == "bash":
-            return general_helpers.list_helper(gast, out_lang, " ")
         return general_helpers.list_helper(gast, out_lang)
 
     # Primitives
