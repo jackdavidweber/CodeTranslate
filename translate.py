@@ -17,45 +17,39 @@ return: string representing output code or error message
 
 
 def translate(input_code, input_lang, output_lang):
-    try:
-        error_handler = ConverterRegistry.get_converter(output_lang).get_error_handler()
+    error_handler = ConverterRegistry.get_converter(output_lang).get_error_handler()
 
-        # check arguments TODO(taiga#172): remove hard coded references
-        check_valid_args(input_code, input_lang, output_lang,
-                            ["js", "py", "java"], ["js", "py", "bash", "java"], error_handler)
+    # check arguments TODO(taiga#172): remove hard coded references
+    check_valid_args(input_code, input_lang, output_lang,
+                        ["js", "py", "java"], ["js", "py", "bash", "java"], error_handler)
 
-        # code to gast
-        gast = code_to_gast_caller(input_code, input_lang, error_handler)
-        check_valid_gast(gast, error_handler)
+    # code to gast
+    gast = code_to_gast_caller(input_code, input_lang, error_handler)
+    check_valid_gast(gast, error_handler)
 
-        #gast to code
-        output_code = gast_to_code_caller(gast, output_lang, error_handler)
+    #gast to code
+    output_code = gast_to_code_caller(gast, output_lang, error_handler)
 
-        # analytics
-        store_analytics_caller(input_code, output_code, input_lang, output_lang)
+    # analytics
+    store_analytics_caller(input_code, output_code, input_lang, output_lang)
 
-        return output_code
-    except:
-        # This error should never occur but probably a good thing to have in case
-        return "Error: unable to execute translate function"
+    return output_code
 
 
 def code_to_gast_caller(input_code, input_lang, error_handler):
-    try:
-        # TODO(taiga#172): remove hard coded references
-        if input_lang == "js":
-            gast = js_main.js_to_gast(input_code)
-        elif input_lang == "py":
-            gast = py_main.py_to_gast(input_code)
-        elif input_lang == "java":
-            gast = java_main.java_to_gast(input_code)
-        else:
-            # TODO: use error handler
-            return "Error must specify input language. For example, js for javascript and py for python"
+    # TODO(taiga#172): remove hard coded references
+    if input_lang == "js":
+        gast = js_main.js_to_gast(input_code)
+    elif input_lang == "py":
+        gast = py_main.py_to_gast(input_code)
+    elif input_lang == "java":
+        gast = java_main.java_to_gast(input_code)
+    else:
+        # TODO: use error handler
+        return "Error must specify input language. For example, js for javascript and py for python"
 
-        return gast
-    except:
-        return "Error: unable to convert code to generic ast"
+    return gast
+
 
 
 def check_valid_args(input_code, input_lang, output_lang, valid_input_langs,
