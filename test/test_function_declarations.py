@@ -60,7 +60,7 @@ class TestFunctionDeclarations(unittest2.TestCase):
 
     def test_java_func_no_arg_no_body(self):
         java_input = 'public void test() {}'
-        java_output = 'class Test {\n\tpublic unknown unknown test() {\n\t\t;\n\t}\n}'
+        java_output = 'class Test {\n\tpublic unknown unknown test() {\n\t\t\n\t}\n}'
         self.assertEqual(java_output,
                          translate.translate(java_input, 'java', 'java'))
 
@@ -84,7 +84,7 @@ class TestFunctionDeclarations(unittest2.TestCase):
 
     def test_java_main_function(self):
         js = 'function s() {2}\nconsole.log(1)'
-        java = 'class Test {\n\tpublic unknown unknown s() {\n\t\t2;\n\t}\n\t;\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(1);\n\t}\n}'
+        java = 'class Test {\n\tpublic unknown unknown s() {\n\t\t2;\n\t}\n\t\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(1);\n\t}\n}'
         self.assertEqual(java, translate.translate(js, 'js', 'java'))
 
     def test_blank_arrow_functions(self):
