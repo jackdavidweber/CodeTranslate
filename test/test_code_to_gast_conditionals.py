@@ -34,15 +34,9 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(
-            expected_gast,
-            py_main.py_to_gast(py_code))
-        self.assertEqual(
-            expected_gast,
-            js_main.js_to_gast(js_code))
-        self.assertEqual(
-            expected_gast,
-            java_main.java_to_gast(java_code))
+        self.assertEqual(expected_gast, py_main.py_to_gast(py_code))
+        self.assertEqual(expected_gast, js_main.js_to_gast(js_code))
+        self.assertEqual(expected_gast, java_main.java_to_gast(java_code))
 
     def test_else(self):
         py_code = 'if (1):\n\tprint("1 is true")\nelse:\n\tprint("1 is NOT true")\n'
@@ -79,15 +73,9 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(
-            expected_gast,
-            py_main.py_to_gast(py_code))
-        self.assertEqual(
-            expected_gast,
-            js_main.js_to_gast(js_code))
-        self.assertEqual(
-            expected_gast,
-            java_main.java_to_gast(java_code))
+        self.assertEqual(expected_gast, py_main.py_to_gast(py_code))
+        self.assertEqual(expected_gast, js_main.js_to_gast(js_code))
+        self.assertEqual(expected_gast, java_main.java_to_gast(java_code))
 
     def test_elif(self):
         py_code = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\n\tprint("second line")\n'
@@ -141,15 +129,9 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(
-            expected_gast,
-            py_main.py_to_gast(py_code))
-        self.assertEqual(
-            expected_gast,
-            js_main.js_to_gast(js_code))
-        self.assertEqual(
-            expected_gast,
-            java_main.java_to_gast(java_code))
+        self.assertEqual(expected_gast, py_main.py_to_gast(py_code))
+        self.assertEqual(expected_gast, js_main.js_to_gast(js_code))
+        self.assertEqual(expected_gast, java_main.java_to_gast(java_code))
 
 
 if __name__ == '__main__':
