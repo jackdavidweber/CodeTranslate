@@ -3,8 +3,7 @@ from bootstrap import bootstrap
 import main
 import javascript.code_to_gast.js_main as js_main
 
-out = main.main('print()', 'py', 'uk')
-print(out)
+print(main.main('3**2', 'py', 'js'))
 
 # bootstrap()
 

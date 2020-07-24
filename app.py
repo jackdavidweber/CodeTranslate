@@ -38,13 +38,14 @@ class Translate(Resource):
         input_code = args['input']
         input_lang = args['in_lang']
         output_lang = args['out_lang']
-        
+
         output_obj = main(input_code, input_lang, output_lang)
         response_input_lang = input_lang
 
         if input_lang == "auto":
             # Gets non-beta (fully supported) languages for automatic detection
-            fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes()
+            fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
+            )
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             print(fully_supported_lang_codes)
             for lang in fully_supported_lang_codes:

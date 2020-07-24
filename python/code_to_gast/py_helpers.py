@@ -101,7 +101,7 @@ def pyop_to_str(op):
     }
 
     if type(op) in op_to_str_map:
-       return op_to_str_map[type(op)]
+        return op_to_str_map[type(op)]
     else:
         return {"type": "error", "value": "unsupported"}
 
