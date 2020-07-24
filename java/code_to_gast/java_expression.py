@@ -1,4 +1,5 @@
 import java.code_to_gast.java_router as java_router
+import java.code_to_gast.java_constants as java_constants
 import javalang
 '''
 Takes method invocation ie function declaration and translates to
@@ -59,7 +60,12 @@ def class_declaration_to_gast(node):
     We are assuming user only wants body of function translated
     '''
     if type(node.body[0]) == javalang.tree.MethodDeclaration and node.body[
-            0].name == "artifical_wrapper_WkVHC":
+            0].name == java_constants.ARTIFICIAL_WRAPPER:
+        '''
+        functions with name artificial wrapper means you should only
+        translate the body of that function not the function header 
+        and body.   
+        '''
         gast["body"] = java_router.node_to_gast(node.body[0].body)
     else:
         gast["body"] = java_router.node_to_gast(node.body)
@@ -72,6 +78,12 @@ def function_delcaration_to_gast(node):
     gast["id"] = {"type": "name", "value": node.name}
     gast["body"] = java_router.node_to_gast(node.body)
     return gast
+
+
+'''
+Takes java parameter of a function (has type formal parameter) and
+transforms it into the parameter of gast function node 
+'''
 
 
 def formal_parameter_to_gast(node):

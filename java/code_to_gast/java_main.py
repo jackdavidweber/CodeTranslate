@@ -1,5 +1,6 @@
 import javalang
 import java.code_to_gast.java_router as java_router
+import java.code_to_gast.java_constants as java_constants
 """
 takes js string and converts it to a generic AST
 """
@@ -13,10 +14,11 @@ def java_to_gast(java_input):
     '''
     class_main_wrapped = '''
     class Test {{
-        public static void artifical_wrapper_WkVHC(String[] args) {{
+        public static void {wrapper}(String[] args) {{
             {java_input}
         }}
-    }}'''.format(java_input=java_input)
+    }}'''.format(wrapper=java_constants.ARTIFICIAL_WRAPPER,
+                 java_input=java_input)
 
     class_wrapped = '''
     class Test {{

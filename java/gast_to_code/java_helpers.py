@@ -17,7 +17,7 @@ def gast_to_java_type(gast):
     elif gast_type == "arr":
         java_type = arr_type_helper(gast["elements"])
     else:
-        java_type = "customType"
+        java_type = "CustomType"
 
     return java_type
 

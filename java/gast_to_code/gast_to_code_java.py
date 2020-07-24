@@ -138,12 +138,19 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_unary_op(gast):
         pass
 
+    '''
+    Translates gAST node to java function. Whether a function is static or
+    has a return type is not known so the strings unknown are used to represent
+    this value. Additionally variable types are unknown so parameters have type
+    CustomType
+    '''
+
     def handle_function_declaration(gast, lvl=0):
         name = router.gast_to_code(gast["id"], "java")
         if len(gast["params"]) != 0:
-            args = "customType "
+            args = "CustomType "
             args += general_helpers.list_helper(gast["params"], "java",
-                                                ", customType ")
+                                                ", CustomType ")
         else:
             args = ""
 
@@ -165,6 +172,15 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arr(gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"
+
+    '''
+    This is called when the root of a java ast is found. The body of the 
+    AST is handled seperately - the functions are handled and then the 
+    statements outside of functions are handled. If there are both functions
+    and body statements a class with the functions and a main function with 
+    body statements is returned. If there is just body statements the translated
+    body statements will be returned. 
+    '''
 
     def handle_root(gast):
         function_output = java_helpers.java_node_list_helper(

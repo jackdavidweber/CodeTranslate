@@ -58,24 +58,24 @@ class TestFunctionDeclarations(unittest2.TestCase):
         self.assertEqual(py_code, main.main(js_code, 'js', 'py'))
         self.assertEqual(js_code, main.main(py_code, 'py', 'js'))
 
-    def test_java_simple(self):
+    def test_java_func_no_arg_no_body(self):
         java_input = 'public void test() {}'
         java_output = 'class Test {\n\tpublic unknown unknown test() {\n\t\t;\n\t}\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
-    def test_java_simple_arg(self):
+    def test_java_func_arg(self):
         java_input = 'public void test(int x) {1;}'
-        java_output = 'class Test {\n\tpublic unknown unknown test(customType x) {\n\t\t1;\n\t}\n}'
+        java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x) {\n\t\t1;\n\t}\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_multiple_args(self):
         java_input = 'public void test(int x, String s, int y) {1;}'
-        java_output = 'class Test {\n\tpublic unknown unknown test(customType x, customType s, customType y) {\n\t\t1;\n\t}\n}'
+        java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x, CustomType s, CustomType y) {\n\t\t1;\n\t}\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_multiline(self):
         java_input = 'public void test(int x) {1;\n System.out.println(2);}'
-        java_output = 'class Test {\n\tpublic unknown unknown test(customType x) {\n\t\t1;\n\t\tSystem.out.println(2);\n\t}\n}'
+        java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x) {\n\t\t1;\n\t\tSystem.out.println(2);\n\t}\n}'
         self.assertEqual(java_output, main.main(java_input, 'java', 'java'))
 
     def test_java_main_function(self):
