@@ -4,11 +4,11 @@ import javascript.code_to_gast.js_conditional as js_conditional
 import javascript.code_to_gast.js_loop as js_loop
 import javascript.code_to_gast.js_helpers as js_helpers
 import esprima
-
 """
 # TODO: add whitespace
 Takes js and converts to generic ast node
 """
+
 
 def node_to_gast(node):
     #  check if list before calling type to avoid error
@@ -44,6 +44,8 @@ def node_to_gast(node):
         return js_helpers.bool_op_to_gast(node)
     elif node.type == "UnaryExpression":
         return js_helpers.unary_to_gast(node)
+    elif node.type == "UpdateExpression":
+        return js_helpers.update_expression_to_gast(node)
     #statements
     elif node.type == "VariableDeclaration":
         return js_assign.assign_to_gast(node)
@@ -75,6 +77,10 @@ def node_to_gast(node):
         return js_helpers.return_statement_to_gast(node)
     elif node.type == "AssignmentPattern":
         return js_helpers.assign_pattern_to_gast(node)
+    elif node.type == "ArrowFunctionExpression":
+        return js_expression.arrow_function_to_gast(node)
+    elif node.type == "FunctionExpression":
+        return js_expression.arrow_function_to_gast(node)
     # Loops
     elif node.type == "WhileStatement":
         return js_loop.while_statement_to_gast(node)
@@ -85,6 +91,3 @@ def node_to_gast(node):
     else:
         # not supported
         return {"type": "error", "value": "unsupported"}
-
-
-

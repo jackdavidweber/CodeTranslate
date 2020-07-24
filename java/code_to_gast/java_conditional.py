@@ -1,6 +1,7 @@
 import java.code_to_gast.java_router as java_router
 import javalang
 
+
 def if_to_gast(node):
     gast = {"type": "if"}
     gast["body"] = java_router.node_to_gast(node.then_statement)

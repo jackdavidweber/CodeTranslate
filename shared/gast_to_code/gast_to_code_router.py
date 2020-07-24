@@ -1,21 +1,19 @@
 import shared.gast_to_code.general_helpers as general_helpers
 from shared.gast_to_code.converter_registry import ConverterRegistry
 
-"""
-gast router that takes generic ast and the output language
-that the gast needs to be converted to and executes the
-conversion recursively
-out_lang correspond to the language codes defined in datastructure:
-javascript: js
-python: py
-"""
+
 def gast_to_code(gast, out_lang, lvl=0):
+    """
+    gast router that takes generic ast and the output language
+    that the gast needs to be converted to and executes the
+    conversion recursively
+    out_lang correspond to the language codes defined in datastructure:
+    javascript: js
+    python: py
+    """
     converter = ConverterRegistry.get_converter(out_lang)
-    
+
     if type(gast) == list:
-        # bash has no comma between function arguments
-        if out_lang == "bash":
-            return general_helpers.list_helper(gast, out_lang, " ")
         return general_helpers.list_helper(gast, out_lang)
 
     # Primitives
@@ -42,7 +40,7 @@ def gast_to_code(gast, out_lang, lvl=0):
 
     # Other
     elif gast["type"] == "root":
-        return general_helpers.list_helper(gast["body"], out_lang, "\n")
+        return converter.handle_root(gast)
     elif gast["type"] == "break":
         return "break"
     elif gast["type"] == "continue":
@@ -79,9 +77,11 @@ def gast_to_code(gast, out_lang, lvl=0):
         return converter.handle_return_statement(gast)
     elif gast["type"] == "assignPattern":
         return converter.handle_assign_pattern(gast)
-    elif gast["type"] == "error":
-        if gast["value"] == "unsupported":
-            # Error string
-            return "Feature not supported"
-        return "Error"
-        
+    elif gast["type"] == "arrowExpression":
+        return converter.handle_arrow_func(gast)
+    elif gast["type"] == "error" and gast["value"] == "unsupported":
+        error_string = converter.get_error_handler().unsupported_feature()
+        return error_string
+    else:
+        return converter.get_error_handler().unknown_error(
+            "shared/gast_to_code/gast_to_code_router.py", gast)

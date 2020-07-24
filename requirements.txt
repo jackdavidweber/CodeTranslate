@@ -13,4 +13,3 @@ six==1.15.0
 Werkzeug==1.0.1
 firebase-admin==4.3.0
 javalang==0.13.0
-bashlex==0.15

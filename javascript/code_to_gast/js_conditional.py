@@ -1,9 +1,9 @@
 import javascript.code_to_gast.js_router as jr
 
+
 def if_statement_to_gast(node):
     gast = {}
     gast["type"] = "if"
-
     """
     The reason for the below logic is to make the following two expressions evaluate to the same gast
         if (true) {console.log("This is true")}
@@ -17,7 +17,6 @@ def if_statement_to_gast(node):
         gast["body"] = jr.node_to_gast(body)
     else:
         gast["body"] = [jr.node_to_gast(body)]
-
     """
     For now, I added in this logic so that the none type would be replaced by an 
     empty list as specified in gast contract. Since Cory is working on none types, 
@@ -33,8 +32,7 @@ def if_statement_to_gast(node):
         if alt.type == "BlockStatement":
             gast["orelse"] = jr.node_to_gast(alt)
         else:
-            gast["orelse"] = [jr.node_to_gast(alt)] # 
-
+            gast["orelse"] = [jr.node_to_gast(alt)]  #
 
     gast["test"] = jr.node_to_gast(node.test)
 
