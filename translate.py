@@ -28,8 +28,6 @@ def translate(input_code, input_lang, output_lang):
     #gast to code
     output_code = gast_to_code_caller(gast, output_lang, error_handler)
 
-    # analytics
-    store_analytics_caller(input_code, output_code, input_lang, output_lang)
 
     return output_code
 
@@ -79,12 +77,3 @@ def gast_to_code_caller(gast, output_lang, error_handler):
     #     return error_handler.unknown_error("translate.py", artifact)
 
 
-def store_analytics_caller(input_code, output_code, input_lang, output_lang):
-    # if the user deletes their translation don't store empty translation "" -> ""
-    if (input_code == "" and output_code == ""):
-        pass
-    else:
-        # store translation on firebase
-        data_service = DataService.getInstance()
-        data_service.store_query(input_code, output_code, input_lang,
-                                 output_lang)
