@@ -116,7 +116,7 @@ class JavaGastToCodeConverter():
                                        gast["args"], "java") + ")"
 
     def handle_subscript(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_name(self, gast):
         ''' 
@@ -132,19 +132,19 @@ class JavaGastToCodeConverter():
         return router.gast_to_code(gast["value"], "java") + "." + gast["id"]
 
     def handle_built_in_attribute(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_dict(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_property(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_bool_op(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_unary_op(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     '''
     Translates gAST node to java function. Whether a function is static or
@@ -173,10 +173,13 @@ class JavaGastToCodeConverter():
         return out
 
     def handle_return_statement(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
 
     def handle_assign_pattern(self, gast):
-        pass
+        return self.error_handler.unsupported_feature()
+
+    def handle_arrow_func(self, gast):
+        return self.error_handler.unsupported_feature()
 
     def handle_arr(self, gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"

@@ -16,9 +16,6 @@ class BashGastToCodeConverter():
     def get_error_handler(self):
         return self.error_handler
 
-    def handle_bool(self, gast):
-        return "Bash does not support booleans"
-
     def handle_log_statement(self, gast):
         return "echo"
 
@@ -71,3 +68,51 @@ class BashGastToCodeConverter():
 
     def handle_root(self, gast):
         return general_helpers.list_helper(gast["body"], "bash", "\n")
+
+    def handle_bool(self, gast):
+        return self.error_handler.impossible_translation()
+
+    def handle_none(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_while(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_for_range(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_for_of(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_subscript(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_built_in_attribute(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_dict(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_property(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_bool_op(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_unary_op(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_function_declaration(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_return_statement(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_assign_pattern(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_arrow_func(self, gast):
+        return self.error_handler.unsupported_feature()
+
+    def handle_attribute(self, gast):
+        return self.error_handler.unsupported_feature()
