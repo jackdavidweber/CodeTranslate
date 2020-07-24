@@ -92,7 +92,7 @@ class BashGastToCodeConverter():
 
     def handle_dict(self, gast):
         return self.error_handler.unsupported_feature()
-    
+
     def handle_property(self, gast):
         return self.error_handler.unsupported_feature()
 

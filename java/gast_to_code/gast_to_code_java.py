@@ -32,7 +32,7 @@ class JavaGastToCodeConverter():
         out = 'if (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
 
         if len(gast["orelse"]) == 0:
-            return pass
+            pass
         elif gast["orelse"][0]["type"] == "if":
             out += " else " + router.gast_to_code(gast["orelse"], "java")
         else:
@@ -118,7 +118,6 @@ class JavaGastToCodeConverter():
     def handle_subscript(self, gast):
         return self.error_handler.unsupported_feature()
 
-
     def handle_name(self, gast):
         ''' 
         NOTE: some places store {"type": "name", "value": "s"} while others have
@@ -135,22 +134,17 @@ class JavaGastToCodeConverter():
     def handle_built_in_attribute(self, gast):
         return self.error_handler.unsupported_feature()
 
-
     def handle_dict(self, gast):
         return self.error_handler.unsupported_feature()
-
 
     def handle_property(self, gast):
         return self.error_handler.unsupported_feature()
 
-
     def handle_bool_op(self, gast):
         return self.error_handler.unsupported_feature()
 
-
     def handle_unary_op(self, gast):
         return self.error_handler.unsupported_feature()
-
 
     '''
     Translates gAST node to java function. Whether a function is static or
