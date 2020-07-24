@@ -50,7 +50,7 @@ def java_linter(output_code):
 
     #Check if its a one line comment
     if '\n' not in output_code:
-        return output_code + ";" 
+        return output_code + ";"
 
     #Add semicolons to every line
     output_code = output_code.replace("\n", ";\n")

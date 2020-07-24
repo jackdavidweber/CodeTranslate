@@ -57,7 +57,7 @@ def java_node_list_helper(gast_list,
                 "type"] == "functionDeclaration":
             out += router.gast_to_code(gast_list[i], "java", lvl)
             if i < len(gast_list) - 1:  # don't add delimiter for last item
-                out += csv_delimiter 
+                out += csv_delimiter
 
         elif (not is_returning_functions
              ) and gast_list[i]["type"] != "functionDeclaration":
