@@ -82,8 +82,9 @@ def gast_to_code(gast, out_lang, lvl=0):
         return converter.handle_assign_pattern(gast)
     elif gast["type"] == "arrowExpression":
         return converter.handle_arrow_func(gast)
-    elif gast["type"] == "error":
-        if gast["value"] == "unsupported":
-            error_string = converter.get_error_handler().unsupported_feature();
-            return error_string
-        return "Error"
+    elif gast["type"] == "error" and gast["value"] == "unsupported":
+        error_string = converter.get_error_handler().unsupported_feature();
+        return error_string
+    else:
+        return converter.get_error_handler().unknown_error("shared/gast_to_code/gast_to_code_router.py", gast);
+

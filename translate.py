@@ -19,13 +19,6 @@ return: string representing output code or error message
 def translate(input_code, input_lang, output_lang):
     error_handler = ConverterRegistry.get_converter(output_lang).get_error_handler()
 
-    # check arguments TODO(taiga#172): remove hard coded references
-    args_are_valid = is_valid_args(input_code, input_lang, output_lang,
-                        ["js", "py", "java"], ["js", "py", "bash", "java"])
-    if (not args_are_valid):
-        output_code = error_handler.invalid_arguments()
-        return output_code
-
     # code to gast
     gast = code_to_gast_caller(input_code, input_lang, error_handler)
     if (not is_valid_gast(gast)):
@@ -57,27 +50,13 @@ def code_to_gast_caller(input_code, input_lang, error_handler):
 
 
 
-def is_valid_args(input_code, input_lang, output_lang, valid_input_langs,
-                     valid_output_langs):
-    if not (type(input_code) == str and type(input_lang) == str and
-            type(output_lang) == str):
-        return False # "Error: invalid argument types"
-
-    if input_lang not in valid_input_langs:
-        return False # invalid input language
-
-    if output_lang not in valid_output_langs:
-        return False # invalid output language
-
-    return True
 
 
 def is_valid_gast(gast):
-    if (type(gast) == str):  # FIXME(swalsh15) why is this necessary??
-        # return error if gast not built - dont store in database
+    if (type(gast) == dict):
+        return True
+    else:
         return False
-    
-    return True
 
 
 def gast_to_code_caller(gast, output_lang, error_handler):

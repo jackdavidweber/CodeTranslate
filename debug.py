@@ -3,14 +3,9 @@ from bootstrap import bootstrap
 import main
 import javascript.code_to_gast.js_main as js_main
 
-print(type(js_main.js_to_gast('console.log')))
 
-
-full_d = {"a": 1}
-empty_d = {}
-
-print(len(empty_d))
-
+out = main.main('print()','py','uk')
+print(out)
 
 # bootstrap()
 

@@ -15,8 +15,6 @@ class BashGastToCodeConverter():
     def get_error_handler(self):
         return self.error_handler
 
-
-
     def handle_bool(self, gast):
         return "Bash does not support booleans"
 
@@ -24,17 +22,13 @@ class BashGastToCodeConverter():
         return "echo"
 
     def handle_func_call(self, gast):
-        if gast["value"][
-                "type"] == "logStatement" and general_helpers.arr_in_list(
-                    gast["args"]):
-            return "impossibleTranslationError: direct translation does not exist"  # TODO: streamline error messag
         return router.gast_to_code(gast["value"],
                                    "bash") + " " + bash_arg_helper(gast["args"])
 
     def handle_arr(self, gast):
         # This logic returns an error for nested arrays which are not supported in bash
         if general_helpers.arr_in_list(gast["elements"]):
-            return "impossibleTranslationError: direct translation does not exist"  # TODO: streamline error message as part of refactor
+            return self.error_handler.impossible_translation()
 
         return "(" + router.gast_to_code(gast["elements"], "py") + ")"
 

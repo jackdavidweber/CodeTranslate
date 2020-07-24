@@ -40,7 +40,21 @@ class ErrorHandler():
         self.error_obj[error_name] = error
 
         return "$$" + str(error_name) + "$$"
-     
+    
+    def unknown_error(self, filepath=None, artifact=None):
+        error_name = "E" + str(self.error_number)
+        self.error_number += 1
+
+        # TODO: make this more descriptive in next iteration
+        error = {
+            "errorType": "unknown",
+            "errorMessage": "This error is unexpected. If encountered please file issue with description at https://github.com/jackdavidweber/cjs_capstone/issues",
+            "filePath": filepath,
+            "artifact": artifact
+            }
+        self.error_obj[error_name] = error
+
+        return "$$" + str(error_name) + "$$"
 
     def get_error_obj(self):
         return self.error_obj

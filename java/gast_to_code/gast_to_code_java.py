@@ -87,7 +87,7 @@ class JavaGastToCodeConverter():
         var_id = router.gast_to_code(gast["varId"], "java")
         var_value = router.gast_to_code(gast["varValue"], "java")
 
-        kind = java_helpers.gast_to_java_type(gast["varValue"])
+        kind = java_helpers.gast_to_java_type(gast["varValue"], error_handler=self.error_handler)
 
         return kind + " " + var_id + " = " + var_value
 
@@ -106,7 +106,7 @@ class JavaGastToCodeConverter():
         if gast["value"]["type"] == "logStatement" and len(
                 gast["args"]) == 1 and gast["args"][0]["type"] == "arr":
             log_statement = router.gast_to_code(gast["value"], "java")
-            type_declaration = java_helpers.gast_to_java_type(gast["args"][0])
+            type_declaration = java_helpers.gast_to_java_type(gast["args"][0], error_handler=self.error_handler)
             arr = router.gast_to_code(gast["args"], "java")
             return log_statement + "(Arrays.toString(new " + type_declaration + " " + arr + "))"
 
