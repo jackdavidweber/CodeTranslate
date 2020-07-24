@@ -32,7 +32,7 @@ class JavaGastToCodeConverter():
         out = 'if (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
 
         if len(gast["orelse"]) == 0:
-            return pass
+            pass
         elif gast["orelse"][0]["type"] == "if":
             out += " else " + router.gast_to_code(gast["orelse"], "java")
         else:
@@ -116,8 +116,7 @@ class JavaGastToCodeConverter():
                                        gast["args"], "java") + ")"
 
     def handle_subscript(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     def handle_name(self, gast):
         ''' 
@@ -133,24 +132,19 @@ class JavaGastToCodeConverter():
         return router.gast_to_code(gast["value"], "java") + "." + gast["id"]
 
     def handle_built_in_attribute(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     def handle_dict(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     def handle_property(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     def handle_bool_op(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     def handle_unary_op(self, gast):
-        return self.error_handler.unsupported_feature()
-
+        pass
 
     '''
     Translates gAST node to java function. Whether a function is static or
@@ -179,23 +173,24 @@ class JavaGastToCodeConverter():
         return out
 
     def handle_return_statement(self, gast):
-        return self.error_handler.unsupported_feature()
+        pass
 
     def handle_assign_pattern(self, gast):
-        return self.error_handler.unsupported_feature()
+        pass
 
     def handle_arr(self, gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"
 
+    '''
+    This is called when the root of a java ast is found. The body of the 
+    AST is handled seperately - the functions are handled and then the 
+    statements outside of functions are handled. If there are both functions
+    and body statements a class with the functions and a main function with 
+    body statements is returned. If there is just body statements the translated
+    body statements will be returned. 
+    '''
+
     def handle_root(self, gast):
-        '''
-        This is called when the root of a java ast is found. The body of the 
-        AST is handled seperately - the functions are handled and then the 
-        statements outside of functions are handled. If there are both functions
-        and body statements a class with the functions and a main function with 
-        body statements is returned. If there is just body statements the translated
-        body statements will be returned. 
-        '''
         function_output = java_helpers.java_node_list_helper(
             gast["body"], True, "\n\t", 1)
 
@@ -220,6 +215,3 @@ class JavaGastToCodeConverter():
             out += "\n}"
 
         return out
-
-    def handle_arrow_func(self, gast):
-        return self.error_handler.unsupported_feature()
