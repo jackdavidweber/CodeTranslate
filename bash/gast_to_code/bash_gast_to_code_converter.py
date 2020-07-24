@@ -30,7 +30,7 @@ class BashGastToCodeConverter():
         if general_helpers.arr_in_list(gast["elements"]):
             return self.error_handler.impossible_translation()
 
-        return "(" + router.gast_to_code(gast["elements"], "py") + ")"
+        return "(" + router.gast_to_code(gast["elements"], "bash") + ")"
 
     def handle_if(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "bash")
@@ -53,7 +53,7 @@ class BashGastToCodeConverter():
 
     def handle_var_assign(self, gast):
         value = router.gast_to_code(gast["varValue"], "bash")
-        return router.gast_to_code(gast["varId"], "bash") + "=" + value
+        return router.gast_to_code(gast["varId"], "bash") + " = " + value
 
     def handle_aug_assign(self, gast):
         if "right" in gast:
@@ -66,6 +66,9 @@ class BashGastToCodeConverter():
 
     def handle_name(self, gast):
         return gast["value"]
+
+    def handle_root(self, gast):
+        return general_helpers.list_helper(gast["body"], "bash", "\n")
 
 
 '''

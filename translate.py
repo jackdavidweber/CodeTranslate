@@ -67,16 +67,16 @@ def is_valid_gast(gast):
 
 
 def gast_to_code_caller(gast, output_lang, error_handler):
-    try:
-        output_code = gtc.gast_to_code(gast, output_lang)
+    # try:
+    output_code = gtc.gast_to_code(gast, output_lang)
 
-        if output_lang == "java":
-            output_code = general_helpers.java_linter(output_code)
+    if output_lang == "java":
+        output_code = general_helpers.java_linter(output_code)
 
-        return output_code
-    except:
-        artifact = {'gast': gast, 'outputLang': output_lang}
-        return error_handler.unknown_error("translate.py", artifact)
+    return output_code
+    # except:
+    #     artifact = {'gast': gast, 'outputLang': output_lang}
+    #     return error_handler.unknown_error("translate.py", artifact)
 
 
 def store_analytics_caller(input_code, output_code, input_lang, output_lang):

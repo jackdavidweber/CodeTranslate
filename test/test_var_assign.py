@@ -9,15 +9,13 @@ class TestVarAssign(unittest2.TestCase):
                          translate.translate('let x = "hi"', 'js', 'py'))
         self.assertEqual('let test = "working"',
                          translate.translate('test = "working"', 'py', 'js'))
-        self.assertEqual('test="working"',
+        self.assertEqual('test = "working"',
                          translate.translate('test = "working"', 'py', 'bash'))
 
     def test_int_assign(self):
-        self.assertEqual('num = 109',
-                         translate.translate('const num = 109', 'js', 'py'))
-        self.assertEqual('let n = 12',
-                         translate.translate('n = 12', 'py', 'js'))
-        self.assertEqual('n=12', translate.translate('n = 12', 'py', 'bash'))
+        self.assertEqual('num = 109', translate.translate('const num = 109', 'js', 'py'))
+        self.assertEqual('let n = 12', translate.translate('n = 12', 'py', 'js'))
+        self.assertEqual('n = 12', translate.translate('n = 12', 'py', 'bash'))
 
     def test_array_assign(self):
         self.assertEqual('arr = [3, 6]',
