@@ -27,7 +27,6 @@ def arr_type_helper(gast_arr, error_handler):
     """
     if len(gast_arr) == 0:
         return error_handler.impossible_translation()
-    print(gast_arr)
     node = gast_arr[0]
 
     for i in range(1, len(gast_arr)):
