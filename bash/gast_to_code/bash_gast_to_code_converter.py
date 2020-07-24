@@ -1,5 +1,6 @@
 import shared.gast_to_code.general_helpers as general_helpers
 import shared.gast_to_code.gast_to_code_router as router
+import bash.gast_to_code.bash_helpers as bash_helpers
 from shared.gast_to_code.error_handler import ErrorHandler
 
 
@@ -23,7 +24,8 @@ class BashGastToCodeConverter():
 
     def handle_func_call(self, gast):
         return router.gast_to_code(gast["value"],
-                                   "bash") + " " + bash_arg_helper(gast["args"])
+                                   "bash") + " " + bash_helpers.bash_arg_helper(
+                                       gast["args"])
 
     def handle_arr(self, gast):
         # This logic returns an error for nested arrays which are not supported in bash
@@ -69,26 +71,3 @@ class BashGastToCodeConverter():
 
     def handle_root(self, gast):
         return general_helpers.list_helper(gast["body"], "bash", "\n")
-
-
-'''
-Helper functions for bash converter since variables are written different when function params
-These functions are called on func args only and return the correct translation
-'''
-
-
-def handle_var_arg(gast):
-    return '"$' + gast["value"] + '"'
-
-
-def bash_arg_helper(gast_list):
-    out = ""
-    for i in range(0, len(gast_list)):
-        if gast_list[i]["type"] == "name":
-            out += handle_var_arg(gast_list[i])
-        else:
-            out += router.gast_to_code(gast_list[i], "bash")
-
-        if i < len(gast_list) - 1:  # don't add delimiter for last item
-            out += " "
-    return out
