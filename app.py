@@ -27,8 +27,9 @@ class Translate(Resource):
     def contains_compilation_error(self, output_obj):
         # returns true if there exists a compilation error. false otherwise
         errors = output_obj["error"]
-        if len(errors) == 1 and errors["E0"]["errorType"] == "compilation":
-            return True
+        for error_key in errors.keys():
+            if errors[error_key]["errorType"] == "compilation":
+                return True
         else:
             return False
 
