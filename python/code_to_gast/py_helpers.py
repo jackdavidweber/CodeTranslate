@@ -103,7 +103,7 @@ def pyop_to_str(op):
     if type(op) in op_to_str_map:
         return op_to_str_map[type(op)]
     else:
-        return {"type": "error", "value": "unsupported"}
+        return None
 
 
 """
@@ -126,6 +126,9 @@ Recursively handles case where Python creates a list of literals
 
 
 def bool_op_helper(node_list, op_str):
+    if op_str == None:
+        return {"type": "error", "value": "unsupported"}
+
     gast = {}
     gast["type"] = "boolOp"
     gast["left"] = pr.node_to_gast(node_list[0])
@@ -147,6 +150,9 @@ example 3+4:
 
 
 def bin_op_to_gast(node):
+    if pyop_to_str(node.op) == None:
+        return {"type": "error", "value": "unsupported"}
+
     gast = {"type": "binOp", "op": pyop_to_str(node.op)}
     gast["left"] = pr.node_to_gast(node.left)
     gast["right"] = pr.node_to_gast(node.right)
@@ -205,11 +211,11 @@ takes node of type unaryOp and converts it to our generic ast represenations
 
 
 def unary_op_to_gast(node):
-    return {
-        "type": "unaryOp",
-        "op": pyop_to_str(node.op),
-        "arg": pr.node_to_gast(node.operand)
-    }
+    pyop = pyop_to_str(node.op)
+    if pyop == None:
+        return {"type": "error", "value": "unsupported"}
+
+    return {"type": "unaryOp", "op": pyop, "arg": pr.node_to_gast(node.operand)}
 
 
 """
@@ -288,6 +294,9 @@ def compare_to_gast(node):
 
 # TODO: combine logic in bool_op_helper and compare_helper into single function
 def compare_helper(node_list, op_list):
+    if pyop_to_str(op_list[0]) == None:
+        return {"type": "error", "value": "unsupported"}
+
     gast = {}
     gast["type"] = "binOp"
     gast["left"] = pr.node_to_gast(node_list[0])

@@ -14,6 +14,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('input')
 parser.add_argument('in_lang')
 parser.add_argument('out_lang')
+parser.add_argument('id')
 
 
 class Translate(Resource):
@@ -39,8 +40,9 @@ class Translate(Resource):
         input_code = args['input']
         input_lang = args['in_lang']
         output_lang = args['out_lang']
+        session_id = args['id']
 
-        output_obj = main(input_code, input_lang, output_lang)
+        output_obj = main(input_code, input_lang, output_lang, session_id)
         response_input_lang = input_lang
 
         if input_lang == "auto":
@@ -50,7 +52,8 @@ class Translate(Resource):
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             for lang in fully_supported_lang_codes:
                 response_input_lang = lang
-                output_obj = main(input_code, response_input_lang, output_lang)
+                output_obj = main(input_code, response_input_lang, output_lang,
+                                  session_id)
 
                 if not self.contains_compilation_error(output_obj):
                     break
