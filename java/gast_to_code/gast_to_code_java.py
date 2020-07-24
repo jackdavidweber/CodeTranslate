@@ -138,8 +138,31 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
     def handle_unary_op(gast):
         pass
 
+    '''
+    Translates gAST node to java function. Whether a function is static or
+    has a return type is not known so the strings unknown are used to represent
+    this value. Additionally variable types are unknown so parameters have type
+    CustomType
+    '''
+
     def handle_function_declaration(gast, lvl=0):
-        pass
+        name = router.gast_to_code(gast["id"], "java")
+        if len(gast["params"]) != 0:
+            args = "CustomType "
+            args += general_helpers.list_helper(gast["params"], "java",
+                                                ", CustomType ")
+        else:
+            args = ""
+
+        body_indent = "\n\t" + "\t" * lvl
+        closing_brace_indent = "\n" + "\t" * lvl
+        body = general_helpers.list_helper(gast["body"], "java", body_indent,
+                                           lvl + 1)
+
+        out = "public unknown unknown " + name
+        out += "(" + args + ") {" + body_indent + body + closing_brace_indent + "}"
+
+        return out
 
     def handle_return_statement(gast):
         pass
@@ -149,3 +172,38 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
     def handle_arr(gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"
+
+    '''
+    This is called when the root of a java ast is found. The body of the 
+    AST is handled seperately - the functions are handled and then the 
+    statements outside of functions are handled. If there are both functions
+    and body statements a class with the functions and a main function with 
+    body statements is returned. If there is just body statements the translated
+    body statements will be returned. 
+    '''
+
+    def handle_root(gast):
+        function_output = java_helpers.java_node_list_helper(
+            gast["body"], True, "\n\t", 1)
+
+        # if no functions in gast, do not wrap java output code
+        if len(function_output) == 0:
+            return java_helpers.java_node_list_helper(gast["body"], False, "\n")
+
+        # if there are functions in gast, wrap them in class and wrap non-functions in main
+        else:
+            main_output = java_helpers.java_node_list_helper(
+                gast["body"], False, "\n\t\t", 2)
+
+            out = "class Test {\n\t"
+            out += function_output
+
+            # only include main if there is main_output
+            if main_output != "":
+                out += "\n\tpublic static void main(String[] args) {\n\t\t"
+                out += main_output
+                out += "\n\t}"
+
+            out += "\n}"
+
+        return out

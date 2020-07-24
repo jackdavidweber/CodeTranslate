@@ -8,13 +8,13 @@ class TestVarAssign(unittest2.TestCase):
         self.assertEqual('x = "hi"', main.main('let x = "hi"', 'js', 'py'))
         self.assertEqual('let test = "working"',
                          main.main('test = "working"', 'py', 'js'))
-        self.assertEqual('test="working"',
+        self.assertEqual('test = "working"',
                          main.main('test = "working"', 'py', 'bash'))
 
     def test_int_assign(self):
         self.assertEqual('num = 109', main.main('const num = 109', 'js', 'py'))
         self.assertEqual('let n = 12', main.main('n = 12', 'py', 'js'))
-        self.assertEqual('n=12', main.main('n = 12', 'py', 'bash'))
+        self.assertEqual('n = 12', main.main('n = 12', 'py', 'bash'))
 
     def test_array_assign(self):
         self.assertEqual('arr = [3, 6]',

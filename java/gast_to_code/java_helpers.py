@@ -1,3 +1,4 @@
+import shared.gast_to_code.gast_to_code_router as router
 """
 Takes gast primitive node and converts to
 string representing java type
@@ -16,7 +17,7 @@ def gast_to_java_type(gast):
     elif gast_type == "arr":
         java_type = arr_type_helper(gast["elements"])
     else:
-        java_type = "customType"
+        java_type = "CustomType"
 
     return java_type
 
@@ -38,3 +39,30 @@ def arr_type_helper(gast_arr):
             return "impossibleTranslationError: direct translation does not exist"
 
     return gast_to_java_type(node) + "[]"
+
+
+def java_node_list_helper(gast_list,
+                          is_returning_functions,
+                          csv_delimiter=", ",
+                          lvl=0):
+    """
+    Almost identical to regular list_helper however is_returning_functions is passed in
+    as a boolean to determine whether the list_helper ignores functions or ignores non-functions
+    """
+
+    out = ""
+
+    for i in range(0, len(gast_list)):
+        if is_returning_functions and gast_list[i][
+                "type"] == "functionDeclaration":
+            out += router.gast_to_code(gast_list[i], "java", lvl)
+            if i < len(gast_list) - 1:  # don't add delimiter for last item
+                out += csv_delimiter
+
+        elif (not is_returning_functions
+             ) and gast_list[i]["type"] != "functionDeclaration":
+            out += router.gast_to_code(gast_list[i], "java", lvl)
+            if i < len(gast_list) - 1:  # don't add delimiter for last item
+                out += csv_delimiter
+
+    return out

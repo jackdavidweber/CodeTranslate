@@ -35,7 +35,7 @@ def node_to_gast(node):
     elif type(node) == javalang.tree.ClassDeclaration:
         return java_expression.class_declaration_to_gast(node)
     elif type(node) == javalang.tree.MethodDeclaration:
-        return node_to_gast(node.body)
+        return java_expression.function_delcaration_to_gast(node)
     elif type(node) == javalang.tree.StatementExpression:
         return node_to_gast(node.expression)
     elif type(node) == list:
@@ -52,6 +52,8 @@ def node_to_gast(node):
             return {"type": "error", "value": "unsupported"}
     elif type(node) == javalang.tree.VariableDeclarator:
         return java_assign.assign_to_gast(node)
+    elif type(node) == javalang.tree.FormalParameter:
+        return java_expression.formal_parameter_to_gast(node)
     elif type(node) == javalang.tree.VariableDeclaration:
         return node_to_gast(node.declarators[0])
     elif type(node) == javalang.tree.MemberReference:
