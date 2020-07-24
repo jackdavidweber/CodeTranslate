@@ -1,22 +1,29 @@
-from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
+# from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 import shared.gast_to_code.gast_to_code_router as router
 import shared.gast_to_code.general_helpers as general_helpers
 import py_built_in_functions
+from shared.gast_to_code.error_handler import ErrorHandler
 
 
-class PyGastToCodeConverter(AbstractGastToCodeConverter):
+class PyGastToCodeConverter():
     name = "Python"
     is_beta = False
     is_input_lang = True
     is_output_lang = True
 
-    def handle_bool(gast):
+    def __init__(self):
+        self.error_handler = ErrorHandler()
+
+    def get_error_handler(self):
+        return self.error_handler
+
+    def handle_bool(self, gast):
         if gast["value"] == 1:
             return "True"
         else:
             return "False"
 
-    def handle_if(gast, lvl=0):
+    def handle_if(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "py")
         body_indent = "\n\t" + "\t" * lvl
         body = general_helpers.list_helper(gast["body"], "py", body_indent,
@@ -35,10 +42,10 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-    def handle_none(gast):
+    def handle_none(self, gast):
         return "None"
 
-    def handle_while(gast, lvl=0):
+    def handle_while(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "py")
 
         body_indent = "\n\t" + "\t" * lvl
@@ -48,7 +55,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out = 'while (' + test + '):' + body_indent + body
         return out
 
-    def handle_for_range(gast, lvl=0):
+    def handle_for_range(self, gast, lvl=0):
         # start value
         start_value = gast["init"]["varValue"]["value"]
         start = str(start_value)
@@ -96,7 +103,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out = "for " + var_name + " in " + range_str + ":" + body_indent + body
         return out
 
-    def handle_for_of(gast, lvl=0):
+    def handle_for_of(self, gast, lvl=0):
         arr_str = router.gast_to_code(gast["iter"], "py")
         var_name = gast["init"]["value"]
 
@@ -107,14 +114,14 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out = "for " + var_name + " in " + arr_str + ":" + body_indent + body
         return out
 
-    def handle_log_statement(gast):
+    def handle_log_statement(self, gast):
         return "print"
 
-    def handle_var_assign(gast):
+    def handle_var_assign(self, gast):
         value = router.gast_to_code(gast["varValue"], "py")
         return router.gast_to_code(gast["varId"], "py") + " = " + value
 
-    def handle_aug_assign(gast):
+    def handle_aug_assign(self, gast):
         if "right" in gast:
             return router.gast_to_code(
                 gast["left"],
@@ -125,46 +132,46 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         else:
             return router.gast_to_code(gast["left"], "py") + " -= 1"
 
-    def handle_func_call(gast):
+    def handle_func_call(self, gast):
         return router.gast_to_code(gast["value"],
                                    "py") + "(" + router.gast_to_code(
                                        gast["args"], "py") + ")"
 
-    def handle_subscript(gast):
+    def handle_subscript(self, gast):
         return router.gast_to_code(gast["value"],
                                    "py") + "[" + router.gast_to_code(
                                        gast["index"], "py") + "]"
 
-    def handle_name(gast):
+    def handle_name(self, gast):
         return gast["value"]
 
-    def handle_attribute(gast):
+    def handle_attribute(self, gast):
         return router.gast_to_code(gast["value"], "py") + "." + gast["id"]
 
-    def handle_built_in_attribute(gast):
+    def handle_built_in_attribute(self, gast):
         return router.gast_to_code(
             gast["value"],
             "py") + "." + py_built_in_functions.py_built_in_functions(
                 gast["id"]).name
 
-    def handle_dict(gast):
+    def handle_dict(self, gast):
         return "{" + router.gast_to_code(gast["elements"], "py") + "}"
 
-    def handle_property(gast):
+    def handle_property(self, gast):
         return router.gast_to_code(gast["key"],
                                    "py") + ": " + router.gast_to_code(
                                        gast["value"], "py")
 
-    def handle_bool_op(gast):
+    def handle_bool_op(self, gast):
         op = " and " if gast["op"] == "&&" else " or "
         left = router.gast_to_code(gast["left"], "py")
         right = router.gast_to_code(gast["right"], "py")
         return left + op + right
 
-    def handle_unary_op(gast):
+    def handle_unary_op(self, gast):
         return "not " + router.gast_to_code(gast["arg"], "py")
 
-    def handle_function_declaration(gast, lvl):
+    def handle_function_declaration(self, gast, lvl):
         name = router.gast_to_code(gast["id"], "py")
         args = router.gast_to_code(gast["params"], "py")
 
@@ -178,7 +185,7 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
         out += body
         return out
 
-    def handle_arrow_func(gast, lvl=0):
+    def handle_arrow_func(self, gast, lvl=0):
         args = router.gast_to_code(gast["params"], "py")
         # lamda functions can only have one expression in body
         if len(gast["body"]) == 0:
@@ -195,16 +202,16 @@ class PyGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-    def handle_return_statement(gast):
+    def handle_return_statement(self, gast):
         return "return " + router.gast_to_code(gast["value"], "py")
 
-    def handle_assign_pattern(gast):
+    def handle_assign_pattern(self, gast):
         return router.gast_to_code(gast["left"],
                                    "py") + " = " + router.gast_to_code(
                                        gast["right"], "py")
 
-    def handle_arr(gast):
+    def handle_arr(self, gast):
         return "[" + router.gast_to_code(gast["elements"], "py") + "]"
 
-    def handle_root(gast):
+    def handle_root(self, gast):
         return general_helpers.list_helper(gast["body"], "py", "\n")
