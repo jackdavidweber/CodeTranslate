@@ -37,20 +37,20 @@ class Translate(Resource):
         input_lang = args['in_lang']
         output_lang = args['out_lang']
 
-        output_obj = main(input_code, input_lang, output_lang)
-        response_input_lang = input_lang
+        if input_lang == "auto":
+            # Gets non-beta (fully supported) languages for automatic detection
+            fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
+            )
+            # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
+            for lang in fully_supported_lang_codes:
+                response_input_lang = lang
+                output_obj = main(input_code, response_input_lang, output_lang)
 
-        # Gets non-beta (fully supported) languages for automatic detection
-        fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
-        )
-
-        # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
-        i = 0
-        while self.contains_compilation_error(output_obj) and (
-                i < len(fully_supported_lang_codes)):
-            response_input_lang = fully_supported_lang_codes[i]
-            output_obj = main(input_code, response_input_lang, output_lang)
-            i += 1
+                if not self.contains_compilation_error(output_obj):
+                    break
+        else:
+            output_obj = main(input_code, input_lang, output_lang)
+            response_input_lang = input_lang
 
         # ensures that response_in_lang is the same as requested in_lang if no languages compile
         if self.contains_compilation_error(output_obj):
