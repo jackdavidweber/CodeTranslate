@@ -1,38 +1,40 @@
-from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 import shared.gast_to_code.general_helpers as general_helpers
 import shared.gast_to_code.gast_to_code_router as router
 import bash.gast_to_code.bash_helpers as bash_helpers
+from shared.gast_to_code.error_handler import ErrorHandler
 
 
-class BashGastToCodeConverter(AbstractGastToCodeConverter):
+class BashGastToCodeConverter():
     name = "Bash"
     is_beta = True
     is_input_lang = False
     is_output_lang = True
 
-    def handle_bool(gast):
+    def __init__(self):
+        self.error_handler = ErrorHandler()
+
+    def get_error_handler(self):
+        return self.error_handler
+
+    def handle_bool(self, gast):
         return "Bash does not support booleans"
 
-    def handle_log_statement(gast):
+    def handle_log_statement(self, gast):
         return "echo"
 
-    def handle_func_call(gast):
-        if gast["value"][
-                "type"] == "logStatement" and general_helpers.arr_in_list(
-                    gast["args"]):
-            return "impossibleTranslationError: direct translation does not exist"  # TODO: streamline error messag
+    def handle_func_call(self, gast):
         return router.gast_to_code(gast["value"],
                                    "bash") + " " + bash_helpers.bash_arg_helper(
                                        gast["args"])
 
-    def handle_arr(gast):
+    def handle_arr(self, gast):
         # This logic returns an error for nested arrays which are not supported in bash
         if general_helpers.arr_in_list(gast["elements"]):
-            return "impossibleTranslationError: direct translation does not exist"  # TODO: streamline error message as part of refactor
+            return self.error_handler.impossible_translation()
 
         return "(" + router.gast_to_code(gast["elements"], "bash") + ")"
 
-    def handle_if(gast, lvl=0):
+    def handle_if(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "bash")
         body_indent = "\n\t" + "\t" * lvl
         closing_exp_indent = "\n" + "\t" * lvl
@@ -51,11 +53,11 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-    def handle_var_assign(gast):
+    def handle_var_assign(self, gast):
         value = router.gast_to_code(gast["varValue"], "bash")
         return router.gast_to_code(gast["varId"], "bash") + " = " + value
 
-    def handle_aug_assign(gast):
+    def handle_aug_assign(self, gast):
         if "right" in gast:
             return router.gast_to_code(
                 gast["left"],
@@ -64,8 +66,8 @@ class BashGastToCodeConverter(AbstractGastToCodeConverter):
         else:
             return router.gast_to_code(gast["left"], "bash") + gast["op"]
 
-    def handle_name(gast):
+    def handle_name(self, gast):
         return gast["value"]
 
-    def handle_root(gast):
+    def handle_root(self, gast):
         return general_helpers.list_helper(gast["body"], "bash", "\n")

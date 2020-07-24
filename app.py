@@ -2,8 +2,8 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from main import main
-from bootstrap import bootstrap
 from shared.gast_to_code.converter_registry import ConverterRegistry
+from bootstrap import bootstrap
 
 app = Flask(__name__)
 api = Api(app)
@@ -24,12 +24,24 @@ class Translate(Resource):
     def get(self):
         return {'supported_languages': self.lang_object}
 
+    def contains_compilation_error(self, output_obj):
+        # returns true if there exists a compilation error. false otherwise
+        errors = output_obj["error"]
+        for error_key in errors.keys():
+            if errors[error_key]["errorType"] == "compilation":
+                return True
+        else:
+            return False
+
     def post(self):
         # bring in post arguments
         args = parser.parse_args()
         input_code = args['input']
         input_lang = args['in_lang']
         output_lang = args['out_lang']
+
+        output_obj = main(input_code, input_lang, output_lang)
+        response_input_lang = input_lang
 
         if input_lang == "auto":
             # Gets non-beta (fully supported) languages for automatic detection
@@ -38,20 +50,18 @@ class Translate(Resource):
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             for lang in fully_supported_lang_codes:
                 response_input_lang = lang
-                output_code = main(input_code, response_input_lang, output_lang)
+                output_obj = main(input_code, response_input_lang, output_lang)
 
-                if "Error" not in output_code:
+                if not self.contains_compilation_error(output_obj):
                     break
-        else:
-            output_code = main(input_code, input_lang, output_lang)
-            response_input_lang = input_lang
 
         # ensures that response_in_lang is the same as requested in_lang if no languages compile
-        if output_code == "Error: did not compile":
+        if self.contains_compilation_error(output_obj):
             response_input_lang = input_lang
 
         return {
-            'response': output_code,
+            'response': output_obj["translation"],
+            'error': output_obj["error"],
             'response_in_lang': response_input_lang
         }
 

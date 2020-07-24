@@ -32,5 +32,7 @@ def java_to_gast(java_input):
         try:
             input_ast = javalang.parse.parse(class_wrapped)
         except:
-            return "Error: did not compile"
+            # this will signal to translate that error occurred
+            return None
+
     return java_router.node_to_gast(input_ast)
