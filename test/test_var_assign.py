@@ -13,8 +13,10 @@ class TestVarAssign(unittest2.TestCase):
                          translate.translate('test = "working"', 'py', 'bash'))
 
     def test_int_assign(self):
-        self.assertEqual('num = 109', translate.translate('const num = 109', 'js', 'py'))
-        self.assertEqual('let n = 12', translate.translate('n = 12', 'py', 'js'))
+        self.assertEqual('num = 109',
+                         translate.translate('const num = 109', 'js', 'py'))
+        self.assertEqual('let n = 12',
+                         translate.translate('n = 12', 'py', 'js'))
         self.assertEqual('n = 12', translate.translate('n = 12', 'py', 'bash'))
 
     def test_array_assign(self):

@@ -61,22 +61,26 @@ class TestFunctionDeclarations(unittest2.TestCase):
     def test_java_func_no_arg_no_body(self):
         java_input = 'public void test() {}'
         java_output = 'class Test {\n\tpublic unknown unknown test() {\n\t\t;\n\t}\n}'
-        self.assertEqual(java_output, translate.translate(java_input, 'java', 'java'))
+        self.assertEqual(java_output,
+                         translate.translate(java_input, 'java', 'java'))
 
     def test_java_func_arg(self):
         java_input = 'public void test(int x) {1;}'
         java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x) {\n\t\t1;\n\t}\n}'
-        self.assertEqual(java_output, translate.translate(java_input, 'java', 'java'))
+        self.assertEqual(java_output,
+                         translate.translate(java_input, 'java', 'java'))
 
     def test_java_multiple_args(self):
         java_input = 'public void test(int x, String s, int y) {1;}'
         java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x, CustomType s, CustomType y) {\n\t\t1;\n\t}\n}'
-        self.assertEqual(java_output, translate.translate(java_input, 'java', 'java'))
+        self.assertEqual(java_output,
+                         translate.translate(java_input, 'java', 'java'))
 
     def test_java_multiline(self):
         java_input = 'public void test(int x) {1;\n System.out.println(2);}'
         java_output = 'class Test {\n\tpublic unknown unknown test(CustomType x) {\n\t\t1;\n\t\tSystem.out.println(2);\n\t}\n}'
-        self.assertEqual(java_output, translate.translate(java_input, 'java', 'java'))
+        self.assertEqual(java_output,
+                         translate.translate(java_input, 'java', 'java'))
 
     def test_java_main_function(self):
         js = 'function s() {2}\nconsole.log(1)'

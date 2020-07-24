@@ -1,5 +1,5 @@
-
 import shared.gast_to_code.gast_to_code_router as router
+
 
 def gast_to_java_type(gast, error_handler):
     """
@@ -37,7 +37,6 @@ def arr_type_helper(gast_arr, error_handler):
             return error_handler.impossible_translation()
 
     return gast_to_java_type(node, error_handler=error_handler) + "[]"
-
 
 
 def java_node_list_helper(gast_list,

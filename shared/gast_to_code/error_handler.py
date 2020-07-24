@@ -15,15 +15,11 @@ class ErrorHandler():
         error_name = "E" + str(self.error_number)
         self.error_number += 1
 
-        error = {
-            "errorType": error_type,
-            "errorMessage": error_message
-        }
+        error = {"errorType": error_type, "errorMessage": error_message}
         error.update(other)
 
         self.error_obj[error_name] = error
         return "$$" + str(error_name) + "$$"
-
 
     def unsupported_feature(self):
         return self.__add_error("unsupportedFeature", "Feature not supported")
@@ -31,20 +27,17 @@ class ErrorHandler():
     def compilation(self):
         return self.__add_error("compilation", "input code does not compile")
 
-
     def impossible_translation(self):
-        return self.__add_error("impossibleTranslation", "direct translation does not exist to this language")
-
+        return self.__add_error(
+            "impossibleTranslation",
+            "direct translation does not exist to this language")
 
     def invalid_arguments(self):
         return self.__add_error("invalidArguments", "arguments not valid")
 
     def unknown_error(self, filepath=None, artifact=None):
         error_message = "This error is unexpected. If encountered please file issue with description at https://github.com/jackdavidweber/cjs_capstone/issues"
-        additional_error_info = {            
-            "filePath": filepath,
-            "artifact": artifact
-        }
+        additional_error_info = {"filePath": filepath, "artifact": artifact}
         return self.__add_error("unknown", error_message, additional_error_info)
 
     def get_error_obj(self):
