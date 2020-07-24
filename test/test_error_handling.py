@@ -118,6 +118,21 @@ class TestErrorHandling(unittest2.TestCase):
         expected_output_str = 'System.out.println(Arrays.toString(new $$E0$$ {1, "hello world"}));'
         self.assertEqual(expected_output_str, response['translation'])
 
+    def test_compilation(self):
+        code_input = 'x++' # note this does not comile in python
+        response = main.main(code_input, 'py', 'js')
+
+        expected_error_obj = {
+            'E0': {
+            "errorType": "compilation",
+            "errorMessage": "input code does not compile"
+            }
+        }
+        self.assertEqual(expected_error_obj, response['error'])
+
+        expected_output_str = '$$E0$$'
+        self.assertEqual(expected_output_str, response['translation'])
+
 
 if __name__ == '__main__':
     unittest2.main()
