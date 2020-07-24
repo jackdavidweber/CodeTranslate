@@ -23,7 +23,8 @@ def main(input_code=None, input_lang=None, output_lang=None, session_id=-1):
             output_lang).get_error_handler()
 
     # analytics
-    store_analytics_caller(input_code, output_code, input_lang, output_lang, session_id)
+    store_analytics_caller(input_code, output_code, input_lang, output_lang,
+                           session_id)
 
     return {"translation": output_code, "error": error_handler.get_error_obj()}
 
@@ -42,7 +43,9 @@ def is_valid_args(input_code, input_lang, output_lang, valid_input_langs,
 
     return True
 
-def store_analytics_caller(input_code, output_code, input_lang, output_lang, session_id):
+
+def store_analytics_caller(input_code, output_code, input_lang, output_lang,
+                           session_id):
     # if the user deletes their translation don't store empty translation "" -> ""
     if (input_code == "" and output_code == ""):
         pass

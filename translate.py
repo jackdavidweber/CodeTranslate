@@ -28,7 +28,6 @@ def translate(input_code, input_lang, output_lang):
     #gast to code
     output_code = gast_to_code_caller(gast, output_lang, error_handler)
 
-
     return output_code
 
 
@@ -75,5 +74,3 @@ def gast_to_code_caller(gast, output_lang, error_handler):
     # except:
     #     artifact = {'gast': gast, 'outputLang': output_lang}
     #     return error_handler.unknown_error("translate.py", artifact)
-
-

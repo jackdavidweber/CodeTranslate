@@ -52,7 +52,8 @@ class Translate(Resource):
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             for lang in fully_supported_lang_codes:
                 response_input_lang = lang
-                output_obj = main(input_code, response_input_lang, output_lang, session_id)
+                output_obj = main(input_code, response_input_lang, output_lang,
+                                  session_id)
 
                 if not self.contains_compilation_error(output_obj):
                     break
