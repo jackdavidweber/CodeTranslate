@@ -1,22 +1,28 @@
 import shared.gast_to_code.gast_to_code_router as router
 import shared.gast_to_code.general_helpers as general_helpers
-from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 import java.gast_to_code.java_helpers as java_helpers
+from shared.gast_to_code.error_handler import ErrorHandler
 
 
-class JavaGastToCodeConverter(AbstractGastToCodeConverter):
+class JavaGastToCodeConverter():
     name = "Java"
     is_beta = True
     is_input_lang = True
     is_output_lang = True
 
-    def handle_bool(gast):
+    def __init__(self):
+        self.error_handler = ErrorHandler()
+
+    def get_error_handler(self):
+        return self.error_handler
+
+    def handle_bool(self, gast):
         if gast["value"] == 1:
             return "true"
         else:
             return "false"
 
-    def handle_if(gast, lvl=0):
+    def handle_if(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "java")
         body_indent = "\n\t" + "\t" * lvl
         closing_brace_indent = "\n" + "\t" * lvl
@@ -35,10 +41,10 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-    def handle_none(gast):
+    def handle_none(self, gast):
         return "null"
 
-    def handle_while(gast, lvl=0):
+    def handle_while(self, gast, lvl=0):
         test = router.gast_to_code(gast["test"], "java")
 
         body_indent = "\n\t" + "\t" * lvl
@@ -49,7 +55,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         out = 'while (' + test + ') {' + body_indent + body + closing_brace_indent + "}"
         return out
 
-    def handle_for_range(gast, lvl=0):
+    def handle_for_range(self, gast, lvl=0):
         loop_init = router.gast_to_code(gast["init"], "java")
         loop_test = router.gast_to_code(gast["test"], "java")
         loop_update = router.gast_to_code(gast["update"], "java")
@@ -61,7 +67,7 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
         return "for (" + loop_init + "; " + loop_test + "; " + loop_update + ") {" + body_indent + body + closing_brace_indent + "}"
 
-    def handle_for_of(gast, lvl=0):
+    def handle_for_of(self, gast, lvl=0):
         arr_str = router.gast_to_code(gast["iter"], "java")
         var_name = "GenericType " + gast["init"]["value"]
 
@@ -73,18 +79,19 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
         out = "for (" + var_name + " : " + arr_str + ") {" + body_indent + body + closing_brace_indent + "}"
         return out
 
-    def handle_log_statement(gast):
+    def handle_log_statement(self, gast):
         return "System.out.println"
 
-    def handle_var_assign(gast):
+    def handle_var_assign(self, gast):
         var_id = router.gast_to_code(gast["varId"], "java")
         var_value = router.gast_to_code(gast["varValue"], "java")
 
-        kind = java_helpers.gast_to_java_type(gast["varValue"])
+        kind = java_helpers.gast_to_java_type(gast["varValue"],
+                                              error_handler=self.error_handler)
 
         return kind + " " + var_id + " = " + var_value
 
-    def handle_aug_assign(gast):
+    def handle_aug_assign(self, gast):
         if "right" in gast:
             return router.gast_to_code(
                 gast["left"],
@@ -94,12 +101,13 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
             return router.gast_to_code(gast["left"], "java") + gast["op"]
 
     # TODO(taiga#149) gast_to_code should not be able to return System.out.println(1, 2)
-    def handle_func_call(gast):
+    def handle_func_call(self, gast):
         # handles logstatement for single array
         if gast["value"]["type"] == "logStatement" and len(
                 gast["args"]) == 1 and gast["args"][0]["type"] == "arr":
             log_statement = router.gast_to_code(gast["value"], "java")
-            type_declaration = java_helpers.gast_to_java_type(gast["args"][0])
+            type_declaration = java_helpers.gast_to_java_type(
+                gast["args"][0], error_handler=self.error_handler)
             arr = router.gast_to_code(gast["args"], "java")
             return log_statement + "(Arrays.toString(new " + type_declaration + " " + arr + "))"
 
@@ -107,10 +115,10 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
                                    "java") + "(" + router.gast_to_code(
                                        gast["args"], "java") + ")"
 
-    def handle_subscript(gast):
+    def handle_subscript(self, gast):
         pass
 
-    def handle_name(gast):
+    def handle_name(self, gast):
         ''' 
         NOTE: some places store {"type": "name", "value": "s"} while others have
         {"type": "name", "id" : "s"} in gAST but both get routed to this func.
@@ -120,30 +128,37 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
             return gast["value"]
         return gast["id"]
 
-    def handle_attribute(gast):
+    def handle_attribute(self, gast):
         return router.gast_to_code(gast["value"], "java") + "." + gast["id"]
 
-    def handle_built_in_attribute(gast):
+    def handle_built_in_attribute(self, gast):
         pass
 
-    def handle_dict(gast):
+    def handle_dict(self, gast):
         pass
 
-    def handle_property(gast):
+    def handle_property(self, gast):
         pass
 
-    def handle_bool_op(gast):
+    def handle_bool_op(self, gast):
         pass
 
-    def handle_unary_op(gast):
+    def handle_unary_op(self, gast):
         pass
 
-    def handle_function_declaration(gast, lvl=0):
+    '''
+    Translates gAST node to java function. Whether a function is static or
+    has a return type is not known so the strings unknown are used to represent
+    this value. Additionally variable types are unknown so parameters have type
+    CustomType
+    '''
+
+    def handle_function_declaration(self, gast, lvl=0):
         name = router.gast_to_code(gast["id"], "java")
         if len(gast["params"]) != 0:
-            args = "customType "
+            args = "CustomType "
             args += general_helpers.list_helper(gast["params"], "java",
-                                                ", customType ")
+                                                ", CustomType ")
         else:
             args = ""
 
@@ -157,16 +172,25 @@ class JavaGastToCodeConverter(AbstractGastToCodeConverter):
 
         return out
 
-    def handle_return_statement(gast):
+    def handle_return_statement(self, gast):
         pass
 
-    def handle_assign_pattern(gast):
+    def handle_assign_pattern(self, gast):
         pass
 
-    def handle_arr(gast):
+    def handle_arr(self, gast):
         return "{" + router.gast_to_code(gast["elements"], "java") + "}"
 
-    def handle_root(gast):
+    '''
+    This is called when the root of a java ast is found. The body of the 
+    AST is handled seperately - the functions are handled and then the 
+    statements outside of functions are handled. If there are both functions
+    and body statements a class with the functions and a main function with 
+    body statements is returned. If there is just body statements the translated
+    body statements will be returned. 
+    '''
+
+    def handle_root(self, gast):
         function_output = java_helpers.java_node_list_helper(
             gast["body"], True, "\n\t", 1)
 

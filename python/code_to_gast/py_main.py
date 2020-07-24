@@ -11,6 +11,7 @@ def py_to_gast(python_input):
     try:
         input_ast = ast.parse(python_input)
     except:
-        return "Error: code could not compile"
+        # this will signal to translate that error occurred
+        return None
 
     return py_router.node_to_gast(input_ast)
