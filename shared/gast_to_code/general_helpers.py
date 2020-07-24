@@ -60,5 +60,8 @@ def java_linter(output_code):
     output_code = output_code.replace("{;", "{")
     output_code = output_code.replace("};", "}")
     output_code = output_code.replace("+;", "+")
+    # TODO fix edge cases Ticket 187
+    output_code = output_code.replace("\t;", "\t")
+    output_code = output_code.replace(".;", ".")
 
     return output_code

@@ -156,7 +156,7 @@ def get_step_num(args):
         step_num = 1
 
     else:
-        return {"type": "error", "value": "unsupported number of arguments"}
+        return {"type": "error", "value": "unsupported"}
 
     return step_num
 
@@ -169,7 +169,7 @@ def get_start_num(args):
         return 0
 
     else:
-        return {"type": "error", "value": "unsupported number of arguments"}
+        return {"type": "error", "value": "unsupported"}
 
 
 def get_end_num(args):
@@ -180,7 +180,7 @@ def get_end_num(args):
         return arg_node_to_num(args[0])
 
     else:
-        return {"type": "error", "value": "unsupported number of arguments"}
+        return {"type": "error", "value": "unsupported"}
 
 
 """

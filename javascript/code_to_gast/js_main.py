@@ -10,5 +10,6 @@ def js_to_gast(js_input):
     try:
         input_ast = esprima.parseScript(js_input, {"tokens": False})
     except:
-        return "Error: code could not compile"
+        # this will signal to translate that error occurred
+        return None
     return js_router.node_to_gast(input_ast)

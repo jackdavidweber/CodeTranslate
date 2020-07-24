@@ -22,3 +22,7 @@ class AbstractGastToCodeConverter(ABC):
     @abstractmethod
     def handle_functions(gast):
         pass
+
+    @abstractmethod
+    def handle_root(gast):
+        pass
