@@ -37,11 +37,11 @@ def translate(input_code, input_lang, output_lang):
 def code_to_gast_caller(input_code, input_lang, error_handler):
     # TODO(taiga#172): remove hard coded references
     if input_lang == "js":
-        gast = js_main.js_to_gast(input_code, error_handler)
+        gast = js_main.js_to_gast(input_code)
     elif input_lang == "py":
-        gast = py_main.py_to_gast(input_code, error_handler)
+        gast = py_main.py_to_gast(input_code)
     elif input_lang == "java":
-        gast = java_main.java_to_gast(input_code, error_handler)
+        gast = java_main.java_to_gast(input_code)
     else:
         # Note that this is unknown error
         additional_message = """

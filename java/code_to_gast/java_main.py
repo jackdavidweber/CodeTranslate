@@ -5,7 +5,7 @@ takes js string and converts it to a generic AST
 """
 
 
-def java_to_gast(java_input, error_handler):
+def java_to_gast(java_input):
     input_ast = ''
 
     try:
@@ -18,7 +18,7 @@ def java_to_gast(java_input, error_handler):
         }}'''.format(java_input=java_input)
         input_ast = javalang.parse.parse(class_wrapper)
     except:
-        output_str = error_handler.compilation()
-        return output_str
+        # this will signal to translate that error occurred
+        return None
 
     return java_router.node_to_gast(input_ast)
