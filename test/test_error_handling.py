@@ -3,11 +3,17 @@ import main
 
 
 class TestErrorHandling(unittest2.TestCase):
+
     def test_class_unsupported(self):
         code_input = 'class Bar:\n\tdef __init__(self):\n\t\tpass'
         response = main.main(code_input, 'py', 'js')
 
-        expected_error_obj = {'E0': {'errorType': 'unsupportedFeature', 'errorMessage': 'Feature not supported'}}
+        expected_error_obj = {
+            'E0': {
+                'errorType': 'unsupportedFeature',
+                'errorMessage': 'Feature not supported'
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = '$$E0$$'
@@ -18,9 +24,15 @@ class TestErrorHandling(unittest2.TestCase):
         response = main.main(code_input, 'py', 'js')
 
         expected_error_obj = {
-            'E0': {'errorType': 'unsupportedFeature', 'errorMessage': 'Feature not supported'},
-            'E1': {'errorType': 'unsupportedFeature', 'errorMessage': 'Feature not supported'},
-            }
+            'E0': {
+                'errorType': 'unsupportedFeature',
+                'errorMessage': 'Feature not supported'
+            },
+            'E1': {
+                'errorType': 'unsupportedFeature',
+                'errorMessage': 'Feature not supported'
+            },
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = '$$E0$$\nconsole.log()\n$$E1$$'
@@ -30,7 +42,12 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print()'
         response = main.main(code_input, 'unknown language', 'js')
 
-        expected_error_obj = {'E0': {"errorType": "invalidArguments", "errorMessage": "arguments not valid"}}
+        expected_error_obj = {
+            'E0': {
+                "errorType": "invalidArguments",
+                "errorMessage": "arguments not valid"
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = '$$E0$$'
@@ -40,7 +57,12 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print()'
         response = main.main(code_input, 'py', 'unknown language')
 
-        expected_error_obj = {'E0': {"errorType": "invalidArguments", "errorMessage": "arguments not valid"}}
+        expected_error_obj = {
+            'E0': {
+                "errorType": "invalidArguments",
+                "errorMessage": "arguments not valid"
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = '$$E0$$'
@@ -49,7 +71,12 @@ class TestErrorHandling(unittest2.TestCase):
     def test_no_args(self):
         response = main.main()
 
-        expected_error_obj = {'E0': {"errorType": "invalidArguments", "errorMessage": "arguments not valid"}}
+        expected_error_obj = {
+            'E0': {
+                "errorType": "invalidArguments",
+                "errorMessage": "arguments not valid"
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = '$$E0$$'
@@ -60,7 +87,14 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print([[1]])'
         response = main.main(code_input, 'py', 'bash')
 
-        expected_error_obj = {'E0': {"errorType": "impossibleTranslation", "errorMessage": "direct translation does not exist to this language"}}
+        expected_error_obj = {
+            'E0': {
+                "errorType":
+                    "impossibleTranslation",
+                "errorMessage":
+                    "direct translation does not exist to this language"
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = 'echo $$E0$$'
@@ -71,12 +105,18 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print([1, "hello world"])'
         response = main.main(code_input, 'py', 'java')
 
-        expected_error_obj = {'E0': {"errorType": "impossibleTranslation", "errorMessage": "direct translation does not exist to this language"}}
+        expected_error_obj = {
+            'E0': {
+                "errorType":
+                    "impossibleTranslation",
+                "errorMessage":
+                    "direct translation does not exist to this language"
+            }
+        }
         self.assertEqual(expected_error_obj, response['error'])
 
         expected_output_str = 'System.out.println(Arrays.toString(new $$E0$$ {1, "hello world"}));'
         self.assertEqual(expected_output_str, response['translation'])
-
 
 
 if __name__ == '__main__':

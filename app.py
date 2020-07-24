@@ -24,12 +24,11 @@ class Translate(Resource):
 
     def contains_compilation_error(output_obj):
         # returns true if there exists a compilation error. false otherwise
-        errors= output_obj["error"]
+        errors = output_obj["error"]
         if len(errors) == 1 and errors["E0"]["errorType"] == "compilation":
             return True
         else:
             return False
-
 
     def post(self):
         # bring in post arguments
@@ -44,7 +43,7 @@ class Translate(Resource):
         # Gets non-beta (fully supported) languages for automatic detection
         fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
         )
-        
+
         # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
         i = 0
         while self.contains_compilation_error(output_obj) and (

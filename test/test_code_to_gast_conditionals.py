@@ -4,6 +4,7 @@ import javascript.code_to_gast.js_main as js_main
 import java.code_to_gast.java_main as java_main
 from test.error_handler_helper import get_error_handler
 
+
 class test_code_to_gast_conditionals(unittest2.TestCase):
     maxDiff = None
 
@@ -33,9 +34,16 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(expected_gast, py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
-        self.assertEqual(expected_gast, js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
-        self.assertEqual(expected_gast, java_main.java_to_gast(java_code, error_handler=get_error_handler('java')))
+        self.assertEqual(
+            expected_gast,
+            py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
+        self.assertEqual(
+            expected_gast,
+            js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
+        self.assertEqual(
+            expected_gast,
+            java_main.java_to_gast(java_code,
+                                   error_handler=get_error_handler('java')))
 
     def test_else(self):
         py_code = 'if (1):\n\tprint("1 is true")\nelse:\n\tprint("1 is NOT true")\n'
@@ -72,9 +80,16 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(expected_gast, py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
-        self.assertEqual(expected_gast, js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
-        self.assertEqual(expected_gast, java_main.java_to_gast(java_code, error_handler=get_error_handler('java')))
+        self.assertEqual(
+            expected_gast,
+            py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
+        self.assertEqual(
+            expected_gast,
+            js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
+        self.assertEqual(
+            expected_gast,
+            java_main.java_to_gast(java_code,
+                                   error_handler=get_error_handler('java')))
 
     def test_elif(self):
         py_code = 'if (1):\n\tprint("1 is true")\nelif (2):\n\tprint("2 is true")\n\tprint("second line")\n'
@@ -128,9 +143,16 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
                 }
             }]
         }
-        self.assertEqual(expected_gast, py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
-        self.assertEqual(expected_gast, js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
-        self.assertEqual(expected_gast, java_main.java_to_gast(java_code, error_handler=get_error_handler('java')))
+        self.assertEqual(
+            expected_gast,
+            py_main.py_to_gast(py_code, error_handler=get_error_handler('py')))
+        self.assertEqual(
+            expected_gast,
+            js_main.js_to_gast(js_code, error_handler=get_error_handler('js')))
+        self.assertEqual(
+            expected_gast,
+            java_main.java_to_gast(java_code,
+                                   error_handler=get_error_handler('java')))
 
 
 if __name__ == '__main__':

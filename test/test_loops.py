@@ -40,7 +40,8 @@ class TestLoops(unittest2.TestCase):
         input_py_code = 'for i in range (0, 10):\n\t5'
         expected_js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
         expected_java_code = 'for (int i = 0; i < 10; i += 1) {\n\t5;\n}'
-        self.assertEqual(expected_js_code, translate.translate(input_py_code, 'py', 'js'))
+        self.assertEqual(expected_js_code,
+                         translate.translate(input_py_code, 'py', 'js'))
         self.assertEqual(expected_java_code,
                          translate.translate(input_py_code, 'py', 'java'))
 
@@ -58,13 +59,15 @@ class TestLoops(unittest2.TestCase):
     def test_for_inclusiverange_increment_two(self):
         input_js_code = 'for (let i = 0; i <= 10; i += 2) {\n\t5\n}'
         expected_py_code = 'for i in range (0, 12, 2):\n\t5'
-        self.assertEqual(expected_py_code, translate.translate(input_js_code, 'js', 'py'))
+        self.assertEqual(expected_py_code,
+                         translate.translate(input_js_code, 'js', 'py'))
 
     def test_for_with_update_expression_plus(self):
         input_js_code = 'for (let i = 0; i <= 10; i++) {\n\t5\n}'
         input_java_code = 'for (int i = 0; i <= 10; i++) {\n\t5;\n}'
         expected_py_code = 'for i in range (0, 11, 1):\n\t5'
-        self.assertEqual(expected_py_code, translate.translate(input_js_code, 'js', 'py'))
+        self.assertEqual(expected_py_code,
+                         translate.translate(input_js_code, 'js', 'py'))
         self.assertEqual(expected_py_code,
                          translate.translate(input_java_code, 'java', 'py'))
 
@@ -72,7 +75,8 @@ class TestLoops(unittest2.TestCase):
         input_js_code = 'for (let i = 20; i >= -5; i--) {\n\t5\n}'
         input_java_code = 'for (int i = 20; i >= -5; i--) {\n\t5;\n}'
         expected_py_code = 'for i in range (20, -4, -1):\n\t5'
-        self.assertEqual(expected_py_code, translate.translate(input_js_code, 'js', 'py'))
+        self.assertEqual(expected_py_code,
+                         translate.translate(input_js_code, 'js', 'py'))
         self.assertEqual(expected_py_code,
                          translate.translate(input_java_code, 'java', 'py'))
 
@@ -80,7 +84,8 @@ class TestLoops(unittest2.TestCase):
         input_py_code = 'for i in range(0,10,1): \n\t5'
         expected_js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
         expected_java_code = 'for (int i = 0; i < 10; i += 1) {\n\t5;\n}'
-        self.assertEqual(expected_js_code, translate.translate(input_py_code, 'py', 'js'))
+        self.assertEqual(expected_js_code,
+                         translate.translate(input_py_code, 'py', 'js'))
         self.assertEqual(expected_java_code,
                          translate.translate(input_py_code, 'py', 'java'))
 
@@ -118,8 +123,10 @@ class TestLoops(unittest2.TestCase):
         java_output_code = 'for (GenericType elem : arr) {\n\t5;\n}'
         self.assertEqual(js_code, translate.translate(py_code, "py", "js"))
         self.assertEqual(py_code, translate.translate(js_code, "js", "py"))
-        self.assertEqual(java_output_code, translate.translate(py_code, "py", "java"))
-        self.assertEqual(js_code, translate.translate(java_input_code, "java", "js"))
+        self.assertEqual(java_output_code,
+                         translate.translate(py_code, "py", "java"))
+        self.assertEqual(js_code,
+                         translate.translate(java_input_code, "java", "js"))
 
 
 if __name__ == '__main__':

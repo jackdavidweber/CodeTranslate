@@ -12,14 +12,12 @@ def gast_to_java_type(gast, error_handler):
     elif gast_type == "bool":
         java_type = "boolean"
     elif gast_type == "arr":
-        java_type = arr_type_helper(gast["elements"], error_handler=error_handler)
+        java_type = arr_type_helper(gast["elements"],
+                                    error_handler=error_handler)
     else:
         java_type = "customType"
 
     return java_type
-
-
-
 
 
 def arr_type_helper(gast_arr, error_handler):

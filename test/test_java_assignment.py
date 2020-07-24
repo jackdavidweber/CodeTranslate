@@ -10,8 +10,9 @@ class TestJavaAssignment(unittest2.TestCase):
                          translate.translate(code, 'java', 'java'))
 
     def test_arr(self):
-        self.assertEqual('int[] x = {1, 2};',
-                         translate.translate('int[] x = {1, 2};', 'java', 'java'))
+        self.assertEqual(
+            'int[] x = {1, 2};',
+            translate.translate('int[] x = {1, 2};', 'java', 'java'))
 
 
 if __name__ == '__main__':
