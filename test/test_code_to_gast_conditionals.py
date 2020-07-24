@@ -2,7 +2,6 @@ import unittest2
 import python.code_to_gast.py_main as py_main
 import javascript.code_to_gast.js_main as js_main
 import java.code_to_gast.java_main as java_main
-from test.error_handler_helper import get_error_handler
 
 
 class test_code_to_gast_conditionals(unittest2.TestCase):
