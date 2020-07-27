@@ -75,13 +75,13 @@ class BashGastToCodeConverter():
     def handle_none(self, gast):
         return self.error_handler.unsupported_feature()
 
-    def handle_while(self, gast):
+    def handle_while(self, gast, lvl=0):
         return self.error_handler.unsupported_feature()
 
-    def handle_for_range(self, gast):
+    def handle_for_range(self, gast, lvl=0):
         return self.error_handler.unsupported_feature()
 
-    def handle_for_of(self, gast):
+    def handle_for_of(self, gast, lvl=0):
         return self.error_handler.unsupported_feature()
 
     def handle_subscript(self, gast):
@@ -102,7 +102,7 @@ class BashGastToCodeConverter():
     def handle_unary_op(self, gast):
         return self.error_handler.unsupported_feature()
 
-    def handle_function_declaration(self, gast):
+    def handle_function_declaration(self, gast, lvl=0):
         return self.error_handler.unsupported_feature()
 
     def handle_return_statement(self, gast):

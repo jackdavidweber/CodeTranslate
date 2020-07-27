@@ -71,7 +71,7 @@ class PyGastToCodeConverter():
             elif incrementor_op == "+=":
                 incrementor = str(incrementor_value)
             else:
-                incrementor = "unsupported update expression"
+                incrementor = self.error_handler.unsupported_feature()
 
         # ++ or -- expression
         else:
@@ -82,7 +82,7 @@ class PyGastToCodeConverter():
                 incrementor = "-1"
                 incrementor_value = -1
             else:
-                incrementor = "unsupported update operation"
+                incrementor = self.error_handler.unsupported_feature()
 
         # end value
         end_value = gast["test"]["right"]["value"]
