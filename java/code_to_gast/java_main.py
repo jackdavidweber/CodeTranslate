@@ -29,7 +29,7 @@ def java_to_gast(java_input):
     try:
         # if input compiles without wrapper it includes a class which is unsupported
         input_ast = javalang.parse.parse(java_input)
-        # throw an error since classes are not supported 
+        # throw an error since classes are not supported
         return None
     except:
         try:
