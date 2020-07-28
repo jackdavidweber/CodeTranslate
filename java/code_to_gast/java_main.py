@@ -27,12 +27,17 @@ def java_to_gast(java_input):
 
     # try to compile java with both wrappers - if one compiles start to build ast
     try:
-        input_ast = javalang.parse.parse(class_main_wrapped)
+        # if input compiles without wrapper it includes a class which is unsupported
+        input_ast = javalang.parse.parse(java_input)
+        # throw an error since classes are not supported 
+        return None
     except:
         try:
-            input_ast = javalang.parse.parse(class_wrapped)
+            input_ast = javalang.parse.parse(class_main_wrapped)
         except:
-            # this will signal to translate that error occurred
-            return None
-
+            try:
+                input_ast = javalang.parse.parse(class_wrapped)
+            except:
+                # this will signal to translate that error occurred
+                return None
     return java_router.node_to_gast(input_ast)
