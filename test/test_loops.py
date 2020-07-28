@@ -1,5 +1,6 @@
 import unittest2
 import translate
+import main
 
 
 class TestLoops(unittest2.TestCase):
@@ -35,6 +36,12 @@ class TestLoops(unittest2.TestCase):
         js_code = 'for(i=0; i<10; i+=1){\n\t5\n}'
         py_code = 'for i in range (0, 10, 1):\n\t5'
         self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
+
+    def test_for_range_without_let_java(self):
+        java_code = 'for(i=0; i<10; i+=1){\n\t5;\n}'
+        py_code = 'for $$E1$$ in range ($$E0$$, 10, 1):\n\t5'
+        self.assertEqual(py_code,
+                         main.main(java_code, 'java', 'py')["translation"])
 
     def test_for_range_without_let_negative(self):
         js_code = 'for(i=-5; i<10; i+=1){\n\t5\n}'

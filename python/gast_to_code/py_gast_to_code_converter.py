@@ -56,12 +56,13 @@ class PyGastToCodeConverter():
         return out
 
     def handle_for_range(self, gast, lvl=0):
-        # deals with init
-        if (gast["init"]["type"] == "varAssign"):
+        # deals with init TODO: streamline java and javascript to gast to make this easier
+        if (type(gast["init"]) == dict and gast["init"]["type"] == "varAssign"):
             start = str(gast["init"]["varValue"]["value"])
             var_name = gast["init"]["varId"]["value"]
 
-        elif ("right" in gast["init"] and "left" in gast["init"]):
+        elif (type(gast["init"]) == dict and "right" in gast["init"] and
+              "left" in gast["init"]):
             start = str(gast["init"]["right"]["value"])
             var_name = gast["init"]["left"]["value"]
         else:
