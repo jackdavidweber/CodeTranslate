@@ -56,9 +56,17 @@ class PyGastToCodeConverter():
         return out
 
     def handle_for_range(self, gast, lvl=0):
-        # start value
-        start_value = gast["init"]["varValue"]["value"]
-        start = str(start_value)
+        # deals with init
+        if (gast["init"]["type"] == "varAssign"):
+            start = str(gast["init"]["varValue"]["value"])
+            var_name = gast["init"]["varId"]["value"]
+
+        elif ("right" in gast["init"] and "left" in gast["init"]):
+            start = str(gast["init"]["right"]["value"])
+            var_name = gast["init"]["left"]["value"]
+        else:
+            start = self.error_handler.unsupported_feature()
+            var_name = self.error_handler.unsupported_feature()
 
         # incrementor
         incrementor_op = gast["update"]["op"]
@@ -93,7 +101,6 @@ class PyGastToCodeConverter():
             end_value -= incrementor_value
         end = str(end_value)
 
-        var_name = gast["init"]["varId"]["value"]
         range_str = "range (" + start + ", " + end + ", " + incrementor + ")"
 
         body_indent = "\n\t" + "\t" * lvl
