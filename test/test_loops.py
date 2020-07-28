@@ -34,7 +34,12 @@ class TestLoops(unittest2.TestCase):
     def test_for_range_without_let(self):
         js_code = 'for(i=0; i<10; i+=1){\n\t5\n}'
         py_code = 'for i in range (0, 10, 1):\n\t5'
-        self.assertEqual(py_code, translate.translate(js_code, 'js','py'))
+        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
+
+    def test_for_range_without_let_negative(self):
+        js_code = 'for(i=-5; i<10; i+=1){\n\t5\n}'
+        py_code = 'for i in range (-5, 10, 1):\n\t5'
+        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
 
     """
     When python's step argument is ommitted, step=1. This test checks
@@ -75,6 +80,12 @@ class TestLoops(unittest2.TestCase):
                          translate.translate(input_js_code, 'js', 'py'))
         self.assertEqual(expected_py_code,
                          translate.translate(input_java_code, 'java', 'py'))
+
+    def test_for_with_update_expression_plus_without_let(self):
+        input_js_code = 'for (i = 0; i <= 10; i++) {\n\t5\n}'
+        expected_py_code = 'for i in range (0, 11, 1):\n\t5'
+        self.assertEqual(expected_py_code,
+                         translate.translate(input_js_code, 'js', 'py'))
 
     def test_for_with_update_expression_minus(self):
         input_js_code = 'for (let i = 20; i >= -5; i--) {\n\t5\n}'
