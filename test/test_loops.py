@@ -31,6 +31,11 @@ class TestLoops(unittest2.TestCase):
         self.assertEqual(js_code, translate.translate(java_code, 'java', 'js'))
         self.assertEqual(java_code, translate.translate(py_code, 'py', 'java'))
 
+    def test_for_range_without_let(self):
+        js_code = 'for(i=0; i<10; i+=1){\n\t5\n}'
+        py_code = 'for i in range (0, 10, 1):\n\t5'
+        self.assertEqual(py_code, translate.translate(js_code, 'js','py'))
+
     """
     When python's step argument is ommitted, step=1. This test checks
     to make sure functionality is maintained when arg is ommitted.
