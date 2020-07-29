@@ -14,6 +14,12 @@ class TestJavaAssignment(unittest2.TestCase):
             'int[] x = {1, 2};',
             translate.translate('int[] x = {1, 2};', 'java', 'java'))
 
+    def test_aug_assign_var(self):
+        java_input = 'int total = 0;\nint i = 3;\ntotal += i;'
+        expected = 'let total = 0\nlet i = 3\ntotal += $$E2$$'
+        self.assertEqual(expected, translate.translate(java_input, 'java',
+                                                       'js'))
+
 
 if __name__ == '__main__':
     unittest2.main()
