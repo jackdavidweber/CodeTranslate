@@ -29,7 +29,7 @@ def method_invocation_to_gast(node):
 Takes list of callees and members and from function called
 on object and translates into gAST node
 Ex: car.drive() -> {"type": "attribute", "id": "drive", "value": 
-{"type": "name", "id": "car"}}
+{"type": "name", "value": "car"}}
 '''
 
 
@@ -39,7 +39,7 @@ def list_to_attribute_value_node(object_list):
     gast["id"] = object_list.pop()
 
     if len(object_list) == 1:
-        gast["value"] = {"type": "name", "id": object_list.pop()}
+        gast["value"] = {"type": "name", "value": object_list.pop()}
     else:
         gast["value"] = list_to_attribute_value_node(object_list)
 
