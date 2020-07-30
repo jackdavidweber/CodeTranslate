@@ -42,6 +42,11 @@ class TestLogStatement(unittest2.TestCase):
                          translate.translate('print(None)', 'py', 'js'))
         self.assertEqual('print(None)',
                          translate.translate('console.log(null)', 'js', 'py'))
+    
+    def test_log_arr_to_code(self):
+        py_input = 'print([1, 2, 3])'
+        expected = 'System.out.println(Arrays.toString(new int[] {1, 2, 3}));'
+        self.assertEqual(expected, translate.translate(py_input, 'py', 'java'))
 
 
 if __name__ == '__main__':
