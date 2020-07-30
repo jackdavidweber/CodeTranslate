@@ -1,9 +1,6 @@
 import javalang
 import java.code_to_gast.java_router as java_router
 import java.code_to_gast.java_constants as java_constants
-"""
-takes js string and converts it to a generic AST
-"""
 
 
 def java_to_gast(java_input):
