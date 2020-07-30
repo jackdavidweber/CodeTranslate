@@ -23,8 +23,7 @@ def main(input_code=None, input_lang=None, output_lang=None, session_id=-1):
             output_lang).get_error_handler()
 
     # analytics
-    store_analytics_caller(input_code, output_code, input_lang, output_lang,
-                           session_id)
+    #store_analytics_caller(input_code, output_code, input_lang, output_lang, session_id)
 
     return {"translation": output_code, "error": error_handler.get_error_obj()}
 
