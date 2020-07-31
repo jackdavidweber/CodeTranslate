@@ -27,7 +27,10 @@ class BashGastToCodeConverter():
     def handle_arr(self, gast):
         # This logic returns an error for nested arrays which are not supported in bash
         if general_helpers.arr_in_list(gast["elements"]):
-            return self.error_handler.impossible_translation()
+            return self.error_handler.impossible_translation([
+                "https://stackoverflow.com/a/11234169",
+                "https://github.com/pppoe/Nested-Array-Bash"
+            ])
 
         return "(" + router.gast_to_code(gast["elements"], "bash") + ")"
 
@@ -70,7 +73,10 @@ class BashGastToCodeConverter():
         return general_helpers.list_helper(gast["body"], "bash", "\n")
 
     def handle_bool(self, gast):
-        return self.error_handler.impossible_translation()
+        return self.error_handler.impossible_translation([
+            "https://stackoverflow.com/a/47092826",
+            "https://github.com/Jeff-Russ/bash-boolean-helpers"
+        ])
 
     def handle_none(self, gast):
         return self.error_handler.unsupported_feature()
