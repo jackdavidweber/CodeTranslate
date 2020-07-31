@@ -8,13 +8,11 @@ def handle_var_arg(gast):
     return '"$' + gast["value"] + '"'
 
 
-'''
-Called on func args only and return the correct translation since
-variables are written different when function params
-'''
-
-
 def bash_arg_helper(gast_list):
+    '''
+    Called on func args only and return the correct translation since
+    variables are written different when function params
+    '''
     out = ""
     for i in range(0, len(gast_list)):
         if gast_list[i]["type"] == "name":
