@@ -487,3 +487,71 @@ gast_indent_for_of = {
                 }]
             }]
         }
+
+gast_for_range_negative = {
+            'type':
+                'root',
+            'body': [{
+                "type": "forRangeStatement",
+                "init": {
+                    "type": "varAssign",
+                    "kind": "let",
+                    "varId": {
+                        "type": "name",
+                        "value": "i"
+                    },
+                    "varValue": {
+                        "type": "num",
+                        "value": -25
+                    }
+                },
+                "test": {
+                    "type": "binOp",
+                    "left": {
+                        "type": "name",
+                        "value": "i"
+                    },
+                    "op": ">",
+                    "right": {
+                        "type": "num",
+                        "value": -50
+                    }
+                },
+                "update": {
+                    "type": "augAssign",
+                    "left": {
+                        "type": "name",
+                        "value": "i"
+                    },
+                    "op": "-=",
+                    "right": {
+                        "type": "num",
+                        "value": 5
+                    }
+                },
+                "body": [{
+                    "type": "num",
+                    "value": 5
+                }]
+            }]
+        }
+
+gast_for_of_arr = {
+            'type':
+                'root',
+            'body': [{
+                "type": "forOfStatement",
+                "init": {
+                    "type": "name",
+                    "value": "elem"
+                },
+                "iter": {
+                    "type": "name",
+                    "value": "arr"
+                },
+                "body": [{
+                    "type": "num",
+                    "value": 5
+                }]
+            }]
+        }
