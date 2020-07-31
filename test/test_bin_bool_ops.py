@@ -1,5 +1,5 @@
 import unittest2
-import test_matrix
+import matrix
 
 
 class TestBinBoolOps(unittest2.TestCase):
@@ -7,92 +7,92 @@ class TestBinBoolOps(unittest2.TestCase):
     def test_bin_no_nesting(self):
         js_code = '1 + 2'
         py_code = '1 + 2'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bin_left_nesting(self):
         js_code = '1 + 2 + 3'
         py_code = '1 + 2 + 3'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bin_right_nesting(self):
         js_code = '1 + 2 * 3'
         py_code = '1 + 2 * 3'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bin_both_nesting(self):
         js_code = '1 * 2 + 3 * 4'
         py_code = '1 * 2 + 3 * 4'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bin_multilevel_nesting(self):
         js_code = '1 * 2 - 4 / 3 * 4 * 5'
         py_code = '1 * 2 - 4 / 3 * 4 * 5'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_no_nesting(self):
         js_code = 'true && true'
         py_code = 'True and True'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_left_nesting(self):
         js_code = 'true && true || false'
         py_code = 'True and True or False'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_no_nesting_py(self):
         js_code = '1 || 2 || 3 || 4 || 5'
         py_code = '1 or 2 or 3 or 4 or 5'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_right_nesting(self):
         js_code = 'true || true && false'
         py_code = 'True or True and False'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_nesting_no_nest_combo(self):
         js_code = '1 || 2 || 3 || 4 && 6'
         py_code = '1 or 2 or 3 or 4 and 6'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_bool_bin_combo(self):
         js_code = '1 || 2 + 3'
         py_code = '1 or 2 + 3'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_combo_nested(self):
         js_code = '1 || 2 && 3 || 4 + 3'
         py_code = '1 or 2 and 3 or 4 + 3'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_compare_greater_than(self):
         js_code = '1 > 2'
         py_code = '1 > 2'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_compare_less_than_or_equal(self):
         js_code = '1 <= 2'
         py_code = '1 <= 2'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_compare_equal(self):
         js_code = '1 == 2'
         py_code = '1 == 2'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_comparemulti_equal(self):
         js_code = '1 == 2 == 3'
         py_code = '1 == 2 == 3'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_comparemulti_all_ops(self):
         js_code = '1 < 2 <= 3 == 4 >= 5 > 6'
         py_code = '1 < 2 <= 3 == 4 >= 5 > 6'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_comparemulti_strs(self):
         js_code = 'a > b >= c == C'
         py_code = 'a > b >= c == C'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
 
 if __name__ == '__main__':

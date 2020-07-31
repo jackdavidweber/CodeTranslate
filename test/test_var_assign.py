@@ -1,6 +1,6 @@
 import unittest2
 import translate
-import test_matrix
+import matrix
 
 
 class TestVarAssign(unittest2.TestCase):
@@ -10,49 +10,49 @@ class TestVarAssign(unittest2.TestCase):
         js_code = 'let x = "hi"'
         bash_code = 'x = "hi"'
         java_code = 'String x = "hi";'
-        test_matrix.test(self, py_code, js_code, java_code, bash_code)
+        matrix.test(self, py_code, js_code, java_code, bash_code)
 
     def test_int_assign(self):
         py_code = 'num = 109'
         js_code = 'let num = 109'
         bash_code = 'num = 109'
         java_code = 'int num = 109;'
-        test_matrix.test(self, py_code, js_code, java_code, bash_code)
+        matrix.test(self, py_code, js_code, java_code, bash_code)
 
     def test_array_assign(self):
         py_code = 'arr = [3, 6]'
         js_code = 'let arr = [3, 6]'
         bash_code = 'arr = (3, 6)'
         java_code = 'int[] arr = {3, 6};'
-        test_matrix.test(self, py_code, js_code, java_code, bash_code)
+        matrix.test(self, py_code, js_code, java_code, bash_code)
 
     def test_nested_array_assign(self):
         py_code = 'arr = [[1, 9], [2, 8]]'
         js_code = 'let arr = [[1, 9], [2, 8]]'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_boolean_assign(self):
         py_code = 'boo = True'
         js_code = 'let boo = true'
         java_code = 'boolean boo = true;'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_none_assign(self):
         py_code = 'no = None'
         js_code = 'let no = null'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_aug_assign_minus(self):
         py_code = 'x -= 1'
         js_code = 'x -= 1'
         java_code = 'x -= 1;'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_aug_assign_mult(self):
         py_code = 'hi *= 5'
         js_code = 'hi *= 5'
         java_code = 'hi *= 5;'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_update_expression(self):
         output_py_code = "x += 1"

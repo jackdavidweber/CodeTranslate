@@ -1,6 +1,6 @@
 import unittest2
 import translate
-import test_matrix
+import matrix
 
 
 class TestLoops(unittest2.TestCase):
@@ -9,19 +9,19 @@ class TestLoops(unittest2.TestCase):
         js_code = 'while (true) {\n\t5\n}'
         py_code = 'while (True):\n\t5'
         java_code = 'while (true) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_while_range(self):
         js_code = 'while (x < 10) {\n\t5\n}'
         py_code = 'while (x < 10):\n\t5'
         java_code = 'while (x < 10) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_for_range_increment_one(self):
         js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
         py_code = 'for i in range (0, 10, 1):\n\t5'
         java_code = 'for (int i = 0; i < 10; i += 1) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_for_range_implied_increment_one(self):
         """
@@ -40,7 +40,7 @@ class TestLoops(unittest2.TestCase):
         js_code = 'for (let i = 0; i < 10; i += 2) {\n\t5\n}'
         py_code = 'for i in range (0, 10, 2):\n\t5'
         java_code = 'for (int i = 0; i < 10; i += 2) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_for_inclusiverange_increment_two(self):
         """
@@ -83,12 +83,12 @@ class TestLoops(unittest2.TestCase):
         js_code = 'for (let i = 10; i > 0; i -= 1) {\n\t5\n}'
         py_code = 'for i in range (10, 0, -1):\n\t5'
         java_code = 'for (int i = 10; i > 0; i -= 1) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
     def test_for_range_all_args_neg(self):
         js_code = 'for (let i = -25; i > -50; i -= 5) {\n\t5\n}'
         py_code = 'for i in range (-25, -50, -5):\n\t5'
-        test_matrix.test(self, py_code, js_code)
+        matrix.test(self, py_code, js_code)
 
     def test_for_range_one_arg_loop(self):
         ''' 
@@ -109,7 +109,7 @@ class TestLoops(unittest2.TestCase):
         js_code = 'for (elem of arr) {\n\t5\n}'
         py_code = 'for elem in arr:\n\t5'
         java_code = 'for (GenericType elem : arr) {\n\t5;\n}'
-        test_matrix.test(self, py_code, js_code, java_code)
+        matrix.test(self, py_code, js_code, java_code)
 
 
 if __name__ == '__main__':
