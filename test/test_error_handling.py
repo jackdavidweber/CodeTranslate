@@ -87,15 +87,7 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print([[1]])'
         response = main.main(code_input, 'py', 'bash')
 
-        expected_error_obj = {
-            'E0': {
-                "errorType":
-                    "impossibleTranslation",
-                "errorMessage":
-                    "direct translation does not exist to this language"
-            }
-        }
-        self.assertEqual(expected_error_obj, response['error'])
+        self.assertEqual("impossibleTranslation", response['error']['E0']['errorType'])
 
         expected_output_str = 'echo $$E0$$'
         self.assertEqual(expected_output_str, response['translation'])
@@ -105,15 +97,7 @@ class TestErrorHandling(unittest2.TestCase):
         code_input = 'print([1, "hello world"])'
         response = main.main(code_input, 'py', 'java')
 
-        expected_error_obj = {
-            'E0': {
-                "errorType":
-                    "impossibleTranslation",
-                "errorMessage":
-                    "direct translation does not exist to this language"
-            }
-        }
-        self.assertEqual(expected_error_obj, response['error'])
+        self.assertEqual("impossibleTranslation", response['error']['E0']['errorType'])
 
         expected_output_str = 'System.out.println(Arrays.toString(new $$E0$$ {1, "hello world"}));'
         self.assertEqual(expected_output_str, response['translation'])

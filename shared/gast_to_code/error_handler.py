@@ -27,10 +27,14 @@ class ErrorHandler():
     def compilation(self):
         return self.__add_error("compilation", "input code does not compile")
 
-    def impossible_translation(self):
+    def impossible_translation(self, list_of_links=[]):
+        links = {}
+        if (len(list_of_links) > 0):
+            links = {"links": list_of_links}
+
         return self.__add_error(
             "impossibleTranslation",
-            "direct translation does not exist to this language")
+            "direct translation does not exist to this language", links)
 
     def invalid_arguments(self):
         return self.__add_error("invalidArguments", "arguments not valid")
