@@ -7,10 +7,12 @@ from data_service import DataService
 
 def main(input_code=None, input_lang=None, output_lang=None, session_id=-1):
     # First we check arguments since creation of error handler depends on valid args
-    # TODO(taiga#172): remove hard coded references
+    valid_input_langs = ConverterRegistry.get_language_codes_by_property("is_input_lang")
+    valid_output_langs = ConverterRegistry.get_language_codes_by_property("is_output_lang")
+
     args_are_valid = is_valid_args(input_code, input_lang, output_lang,
-                                   ["js", "py", "java"],
-                                   ["js", "py", "bash", "java"])
+                                   valid_input_langs,
+                                   valid_output_langs)
     if (not args_are_valid):
         error_handler = ErrorHandler()
         output_code = error_handler.invalid_arguments()
