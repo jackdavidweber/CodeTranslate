@@ -8,7 +8,6 @@ def handle_var_arg(gast):
     return '"$' + gast["value"] + '"'
 
 
-
 def bash_arg_helper(gast_list):
     '''
     Called on func args only and return the correct translation since
