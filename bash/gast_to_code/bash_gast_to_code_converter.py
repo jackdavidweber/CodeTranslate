@@ -16,6 +16,9 @@ class BashGastToCodeConverter():
     def get_error_handler(self):
         return self.error_handler
 
+    def code_to_gast(self, code_input):
+        return self.error_handler.invalid_arguments()
+
     def handle_log_statement(self, gast):
         return "echo"
 
