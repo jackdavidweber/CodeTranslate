@@ -32,11 +32,13 @@ class TestBashGastToCode(unittest2.TestCase):
 
     def test_binOp_bitwise(self):
         code = '1 & 3'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_binOp_bitwise, "bash"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_binOp_bitwise,
+                                                "bash"))
 
     def test_binOp_add_sub_mult_div(self):
         code = '1 + 2 - 3 * 4 / 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "bash"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "bash"))
 
     def test_boolOp_and(self):
         code = '$$E0$$'
@@ -44,25 +46,30 @@ class TestBashGastToCode(unittest2.TestCase):
 
     def test_boolOp_or_and(self):
         code = '$$E1$$'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_boolOp_or_and, "bash"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_boolOp_or_and,
+                                                "bash"))
 
     # test logStatement
     def test_logStatement_bool(self):
         code = 'echo $$E8$$'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_bool, "bash"))
+        self.assertEqual(code,
+                         gtc.gast_to_code(gasts.gast_logStatement_bool, "bash"))
 
     def test_logStatement_two_arguments(self):
         code = 'echo "hello world" 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "bash"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "bash"))
 
     # test varAssign
     def test_varAssign_let(self):
         code = 'x = 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_let, "bash"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_let,
+                                                "bash"))
 
     def test_varAssign_const(self):
         code = 'x = 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_const, "bash"))
+        self.assertEqual(code,
+                         gtc.gast_to_code(gasts.gast_varAssign_const, "bash"))
 
     # test multiple items in body
     def test_multi_body(self):
@@ -88,14 +95,15 @@ class TestBashGastToCode(unittest2.TestCase):
     def test_forOf(self):
         code = '$$E2$$'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_for_of, "bash"))
-    
+
     def test_indent_if(self):
         code = 'if [[ x == $$E6$$ ]]; then\n\tif [[ y == $$E7$$ ]]; then\n\t\techo "y and x are true"\n\tfi\nfi'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_indent_if, "bash"))
 
     def test_indent_for_of(self):
         code = '$$E5$$'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_indent_for_of, "bash"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_indent_for_of,
+                                                "bash"))
 
 
 if __name__ == '__main__':

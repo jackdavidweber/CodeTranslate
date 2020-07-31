@@ -27,7 +27,6 @@ class TestPrimitives(unittest2.TestCase):
         test_matrix.test(self, py_code, js_code)
         self.assertEqual(java_code, translate.translate(js_code, 'js', 'java'))
         self.assertEqual(bash_code, translate.translate(py_code, 'py', 'bash'))
-    
 
 
 if __name__ == '__main__':

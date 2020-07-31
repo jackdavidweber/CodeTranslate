@@ -25,7 +25,7 @@ class TestVarAssign(unittest2.TestCase):
         bash_code = 'arr = (3, 6)'
         java_code = 'int[] arr = {3, 6};'
         test_matrix.test(self, py_code, js_code, java_code, bash_code)
-    
+
     def test_nested_array_assign(self):
         py_code = 'arr = [[1, 9], [2, 8]]'
         js_code = 'let arr = [[1, 9], [2, 8]]'
@@ -44,13 +44,13 @@ class TestVarAssign(unittest2.TestCase):
 
     def test_aug_assign_minus(self):
         py_code = 'x -= 1'
-        js_code =  'x -= 1'
+        js_code = 'x -= 1'
         java_code = 'x -= 1;'
         test_matrix.test(self, py_code, js_code, java_code)
 
     def test_aug_assign_mult(self):
         py_code = 'hi *= 5'
-        js_code =  'hi *= 5'
+        js_code = 'hi *= 5'
         java_code = 'hi *= 5;'
         test_matrix.test(self, py_code, js_code, java_code)
 

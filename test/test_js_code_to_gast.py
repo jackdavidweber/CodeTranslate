@@ -11,7 +11,7 @@ class test_py_code_to_gast(unittest2.TestCase):
         self.assertEqual(gasts.gast_if_log, js_main.js_to_gast(code))
 
     def test_else(self):
-        code = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}' 
+        code = 'if (1) {\n\tconsole.log("1 is true")\n} else {\n\tconsole.log("1 is NOT true")\n}'
         self.assertEqual(gasts.gast_else_log, js_main.js_to_gast(code))
 
     def test_elif(self):
@@ -20,11 +20,13 @@ class test_py_code_to_gast(unittest2.TestCase):
 
     def test_forRange(self):
         code = 'for (let i = 0; i < 10; i += 2) {\n\t5\n}'
-        self.assertEqual(gasts.gast_for_range, js_main.js_to_gast(code)["body"][0])
+        self.assertEqual(gasts.gast_for_range,
+                         js_main.js_to_gast(code)["body"][0])
 
     def test_forRange_negative(self):
         code = 'for (let i = -25; i > -50; i -= 5) {\n\t5\n}'
-        self.assertEqual(gasts.gast_for_range_negative, js_main.js_to_gast(code))
+        self.assertEqual(gasts.gast_for_range_negative,
+                         js_main.js_to_gast(code))
 
     def test_forOf(self):
         code = 'for (elem of [1, 2]) {\n\t5\n}'
@@ -33,6 +35,7 @@ class test_py_code_to_gast(unittest2.TestCase):
     def test_forOf_with_arr(self):
         code = 'for (elem of arr) {\n\t5\n}'
         self.assertEqual(gasts.gast_for_of_arr, js_main.js_to_gast(code))
+
 
 if __name__ == '__main__':
     unittest2.main()

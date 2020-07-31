@@ -34,7 +34,7 @@ class TestLogStatement(unittest2.TestCase):
         py_code = 'print(None)'
         js_code = 'console.log(null)'
         test_matrix.test(self, py_code, js_code)
-    
+
     def test_log_arr_to_code(self):
         py_input = 'print([1, 2, 3])'
         expected = 'System.out.println(Arrays.toString(new int[] {1, 2, 3}));'

@@ -309,5 +309,6 @@ class test_code_to_gast_conditionals(unittest2.TestCase):
         self.assertEqual(expected_gast, js_main.js_to_gast(js_input))
         self.assertEqual(expected_gast, java_main.java_to_gast(java_input))
 
+
 if __name__ == '__main__':
     unittest2.main()

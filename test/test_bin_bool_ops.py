@@ -3,6 +3,7 @@ import test_matrix
 
 
 class TestBinBoolOps(unittest2.TestCase):
+
     def test_bin_no_nesting(self):
         js_code = '1 + 2'
         py_code = '1 + 2'

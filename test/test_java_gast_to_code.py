@@ -10,7 +10,7 @@ class TestJavaGastToCode(unittest2.TestCase):
         code = '"hello world";'
         output = gtc.gast_to_code(gasts.gast_str, "java")
         self.assertEqual(code, general_helpers.java_linter(output))
-        
+
     def test_primitive_num(self):
         code = '47.47;'
         output = gtc.gast_to_code(gasts.gast_num, "java")
@@ -104,7 +104,7 @@ class TestJavaGastToCode(unittest2.TestCase):
         code = 'for (GenericType elem : {1, 2}) {\n\t5;\n}'
         output = gtc.gast_to_code(gasts.gast_for_of, "java")
         self.assertEqual(code, general_helpers.java_linter(output))
-    
+
     def test_indent_if(self):
         code = 'if (x == true) {\n\tif (y == true) {\n\t\tSystem.out.println("y and x are true");\n\t}\n}'
         output = gtc.gast_to_code(gasts.gast_indent_if, "java")

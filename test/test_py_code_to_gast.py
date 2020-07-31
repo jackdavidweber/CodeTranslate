@@ -20,11 +20,13 @@ class test_py_code_to_gast(unittest2.TestCase):
 
     def test_forRange(self):
         code = 'for i in range (0, 10, 2):\n\t5'
-        self.assertEqual(gasts.gast_for_range, py_main.py_to_gast(code)["body"][0])
+        self.assertEqual(gasts.gast_for_range,
+                         py_main.py_to_gast(code)["body"][0])
 
     def test_forRange_negative(self):
         code = 'for i in range (-25, -50, -5):\n\t5'
-        self.assertEqual(gasts.gast_for_range_negative, py_main.py_to_gast(code))
+        self.assertEqual(gasts.gast_for_range_negative,
+                         py_main.py_to_gast(code))
 
     def test_forOf(self):
         code = 'for elem in [1, 2]:\n\t5'
@@ -33,6 +35,7 @@ class test_py_code_to_gast(unittest2.TestCase):
     def test_forOf_with_arr(self):
         code = 'for elem in arr:\n\t5'
         self.assertEqual(gasts.gast_for_of_arr, py_main.py_to_gast(code))
+
 
 if __name__ == '__main__':
     unittest2.main()

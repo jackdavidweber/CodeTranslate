@@ -36,7 +36,8 @@ class TestJsGastToCode(unittest2.TestCase):
 
     def test_binOp_add_sub_mult_div(self):
         code = '1 + 2 - 3 * 4 / 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "js"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "js"))
 
     def test_boolOp_and(self):
         code = 'true && false'
@@ -49,11 +50,13 @@ class TestJsGastToCode(unittest2.TestCase):
     # test logStatement
     def test_logStatement_bool(self):
         code = 'console.log(false)'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_bool, "js"))
+        self.assertEqual(code,
+                         gtc.gast_to_code(gasts.gast_logStatement_bool, "js"))
 
     def test_logStatement_two_arguments(self):
         code = 'console.log("hello world", 5)'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "js"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "js"))
 
     # test varAssign
     def test_varAssign_let(self):
@@ -62,7 +65,8 @@ class TestJsGastToCode(unittest2.TestCase):
 
     def test_varAssign_const(self):
         code = 'const x = 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_const, "js"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_const,
+                                                "js"))
 
     # test multiple items in body
     def test_multi_body(self):
@@ -88,7 +92,7 @@ class TestJsGastToCode(unittest2.TestCase):
     def test_forOf(self):
         code = 'for (elem of [1, 2]) {\n\t5\n}'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_for_of, "js"))
-    
+
     def test_indent_if(self):
         code = 'if (x == true) {\n\tif (y == true) {\n\t\tconsole.log("y and x are true")\n\t}\n}'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_indent_if, "js"))

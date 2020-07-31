@@ -36,7 +36,8 @@ class TestPyGastToCode(unittest2.TestCase):
 
     def test_binOp_add_sub_mult_div(self):
         code = '1 + 2 - 3 * 4 / 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "py"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_binOp_add_sub_mult_div, "py"))
 
     def test_boolOp_and(self):
         code = 'True and False'
@@ -49,11 +50,13 @@ class TestPyGastToCode(unittest2.TestCase):
     # test logStatement
     def test_logStatement_bool(self):
         code = 'print(False)'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_bool, "py"))
+        self.assertEqual(code,
+                         gtc.gast_to_code(gasts.gast_logStatement_bool, "py"))
 
     def test_logStatement_two_arguments(self):
         code = 'print("hello world", 5)'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "py"))
+        self.assertEqual(
+            code, gtc.gast_to_code(gasts.gast_logStatement_two_args, "py"))
 
     # test varAssign
     def test_varAssign_let(self):
@@ -62,7 +65,8 @@ class TestPyGastToCode(unittest2.TestCase):
 
     def test_varAssign_const(self):
         code = 'x = 5'
-        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_const, "py"))
+        self.assertEqual(code, gtc.gast_to_code(gasts.gast_varAssign_const,
+                                                "py"))
 
     # test multiple items in body
     def test_multi_body(self):
@@ -88,7 +92,7 @@ class TestPyGastToCode(unittest2.TestCase):
     def test_forOf(self):
         code = 'for elem in [1, 2]:\n\t5'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_for_of, "py"))
-    
+
     def test_indent_if(self):
         code = 'if (x == True):\n\tif (y == True):\n\t\tprint("y and x are true")'
         self.assertEqual(code, gtc.gast_to_code(gasts.gast_indent_if, "py"))
