@@ -1,4 +1,3 @@
-# from shared.gast_to_code.abstract_gast_to_code_converter import AbstractGastToCodeConverter
 import shared.gast_to_code.gast_to_code_router as router
 import shared.gast_to_code.general_helpers as general_helpers
 import py_built_in_functions
