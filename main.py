@@ -11,10 +11,11 @@ def main(input_code=None, input_lang=None, output_lang=None, session_id=-1):
         "is_input_lang")
     valid_output_langs = ConverterRegistry.get_language_codes_by_property(
         "is_output_lang")
-    
+
     invalid_args_list = valid_args_checker(input_code, input_lang, output_lang,
-                                   valid_input_langs, valid_output_langs)
-    
+                                           valid_input_langs,
+                                           valid_output_langs)
+
     # If there are no invalid arguments, we can safely use them to produce output code and error_handler
     if (len(invalid_args_list) == 0):
         bootstrap()
