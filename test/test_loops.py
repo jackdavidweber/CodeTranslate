@@ -31,12 +31,11 @@ class TestLoops(unittest2.TestCase):
         self.assertEqual(js_code, translate.translate(java_code, 'java', 'js'))
         self.assertEqual(java_code, translate.translate(py_code, 'py', 'java'))
 
-    """
-    When python's step argument is ommitted, step=1. This test checks
-    to make sure functionality is maintained when arg is ommitted.
-    """
-
     def test_for_range_implied_increment_one(self):
+        """
+        When python's step argument is ommitted, step=1. This test checks
+        to make sure functionality is maintained when arg is ommitted.
+        """
         input_py_code = 'for i in range (0, 10):\n\t5'
         expected_js_code = 'for (let i = 0; i < 10; i += 1) {\n\t5\n}'
         expected_java_code = 'for (int i = 0; i < 10; i += 1) {\n\t5;\n}'
@@ -51,12 +50,11 @@ class TestLoops(unittest2.TestCase):
         self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
         self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
 
-    """
-    Since python does not have inclusive range, it needs to adjust the end point
-    of the range to be effectively inclusive. This test confirms this functionality
-    """
-
     def test_for_inclusiverange_increment_two(self):
+        """
+        Since python does not have inclusive range, it needs to adjust the end point
+        of the range to be effectively inclusive. This test confirms this functionality
+        """
         input_js_code = 'for (let i = 0; i <= 10; i += 2) {\n\t5\n}'
         expected_py_code = 'for i in range (0, 12, 2):\n\t5'
         self.assertEqual(expected_py_code,

@@ -1,14 +1,14 @@
 import shared.gast_to_code.gast_to_code_router as router
-"""
-Helper for lists of gast
-Default is to put comma and space btwn each stringified gast
-    i.e. list_helper({str_gast}, {str_gast}, out_lang) --> str, str
-Can specify different btwn string with third parameter
-    i.e. list_helper({str_gast}, {str_gast}, out_lang, "**") --> str**str
-"""
 
 
 def list_helper(gast_list, out_lang, csv_delimiter=", ", lvl=0):
+    """
+    Helper for lists of gast
+    Default is to put comma and space btwn each stringified gast
+        i.e. list_helper({str_gast}, {str_gast}, out_lang) --> str, str
+    Can specify different btwn string with third parameter
+        i.e. list_helper({str_gast}, {str_gast}, out_lang, "**") --> str**str
+    """
     out = ""
 
     for i in range(0, len(gast_list)):
@@ -27,13 +27,11 @@ def gast_to_node_bin_op_helper(gast, out_lang):
     return left + op + right
 
 
-"""
-returns true if there is a gast node of type arr in list of gast nodes
-else returns false
-"""
-
-
 def arr_in_list(gast_list):
+    """
+    returns true if there is a gast node of type arr in list of gast nodes
+    else returns false
+    """
     for node in gast_list:
         if node["type"] == "arr":
             return True
@@ -41,13 +39,10 @@ def arr_in_list(gast_list):
     return False
 
 
-"""
-Add semicolons to the end of java lines
-"""
-
-
 def java_linter(output_code):
-
+    """
+    Add semicolons to the end of java lines
+    """
     #Check if its a one line comment
     if '\n' not in output_code:
         return output_code + ";"

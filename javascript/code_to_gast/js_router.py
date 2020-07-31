@@ -4,13 +4,13 @@ import javascript.code_to_gast.js_conditional as js_conditional
 import javascript.code_to_gast.js_loop as js_loop
 import javascript.code_to_gast.js_helpers as js_helpers
 import esprima
-"""
-# TODO: add whitespace
-Takes js and converts to generic ast node
-"""
 
 
 def node_to_gast(node):
+    """
+    # TODO: add whitespace
+    Takes js and converts to generic ast node
+    """
     #  check if list before calling type to avoid error
     if type(node) == list:
         return js_helpers.node_list(node)
