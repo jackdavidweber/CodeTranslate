@@ -29,12 +29,15 @@ def arr_type_helper(gast_arr, error_handler):
     Returns error if multiple types in same array or if array is empty
     """
     if len(gast_arr) == 0:
-        return error_handler.impossible_translation()
+        return error_handler.unsupported_feature()
     node = gast_arr[0]
 
     for i in range(1, len(gast_arr)):
         if gast_arr[i]["type"] != node["type"]:
-            return error_handler.impossible_translation()
+            return error_handler.impossible_translation([
+                "https://stackoverflow.com/questions/10007733/multiple-type-array",
+                "http://net-informations.com/faq/netfaq/multipledata.htm#:~:text=You%20can%20create%20an%20array,any%20other%20type%20of%20object."
+            ])
 
     return gast_to_java_type(node, error_handler=error_handler) + "[]"
 
