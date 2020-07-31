@@ -8,48 +8,46 @@ from data_service import DataService
 def main(input_code=None, input_lang=None, output_lang=None, session_id=-1):
     # First we check arguments since creation of error handler depends on valid args
     # TODO(taiga#172): remove hard coded references
-    args_are_valid = is_valid_args(input_code, input_lang, output_lang,
-                                   ["js", "py", "java"],
-                                   ["js", "py", "bash", "java"])
-    if (not args_are_valid):
-        error_handler = ErrorHandler()
-        output_code = error_handler.invalid_arguments()
+    invalid_args_list = valid_args_checker(input_code, input_lang, output_lang,
+                                           ["js", "py", "java"],
+                                           ["js", "py", "bash", "java"])
 
-    # If arguments are valid, we can safely use them to produce output code and error_handler
-    else:
+    # If there are no invalid arguments, we can safely use them to produce output code and error_handler
+    if (len(invalid_args_list) == 0):
         bootstrap()
         output_code = translate(input_code, input_lang, output_lang)
         error_handler = ConverterRegistry.get_converter(
             output_lang).get_error_handler()
 
-    # analytics
-    #store_analytics_caller(input_code, output_code, input_lang, output_lang, session_id)
+    else:
+        error_handler = ErrorHandler()
+        output_code = error_handler.invalid_arguments(*invalid_args_list)
 
     return {"translation": output_code, "error": error_handler.get_error_obj()}
 
 
-def is_valid_args(input_code, input_lang, output_lang, valid_input_langs,
-                  valid_output_langs):
-    if not (type(input_code) == str and type(input_lang) == str and
-            type(output_lang) == str):
-        return False  # "Error: invalid argument types"
+def valid_args_checker(input_code, input_lang, output_lang, valid_input_langs,
+                       valid_output_langs):
+    args_are_all_valid = True
+    invalid_args_list = [None, None, None]
 
-    if input_lang not in valid_input_langs:
-        return False  # invalid input language
+    # check if input code is valid
+    if (type(input_code) != str):
+        args_are_all_valid = False
+        invalid_args_list[0] = input_code
 
-    if output_lang not in valid_output_langs:
-        return False  # invalid output language
+    # check if input language is valid
+    if (type(input_lang) != str) or (input_lang not in valid_input_langs):
+        args_are_all_valid = False
+        invalid_args_list[1] = input_lang
 
-    return True
+    # check if output language is valid
+    if (type(output_lang) != str) or (output_lang not in valid_output_langs):
+        args_are_all_valid = False
+        invalid_args_list[2] = output_lang
 
-
-def store_analytics_caller(input_code, output_code, input_lang, output_lang,
-                           session_id):
-    # if the user deletes their translation don't store empty translation "" -> ""
-    if (input_code == "" and output_code == ""):
-        pass
+    # if arguments are all valid, return empty list
+    if args_are_all_valid:
+        return []
     else:
-        # store translation on firebase
-        data_service = DataService.getInstance()
-        data_service.store_query(input_code, output_code, input_lang,
-                                 output_lang, session_id)
+        return invalid_args_list

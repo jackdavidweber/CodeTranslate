@@ -36,8 +36,20 @@ class ErrorHandler():
             "impossibleTranslation",
             "direct translation does not exist to this language", links)
 
-    def invalid_arguments(self):
-        return self.__add_error("invalidArguments", "arguments not valid")
+    def invalid_arguments(self,
+                          invalid_input_code=None,
+                          invalid_input_lang=None,
+                          invalid_output_lang=None):
+        more_info = {}
+        if invalid_input_code:
+            more_info["invalidInputCode"] = invalid_input_code
+        if invalid_input_lang:
+            more_info["invalidInputLang"] = invalid_input_lang
+        if invalid_output_lang:
+            more_info["invalidOutputLang"] = invalid_output_lang
+
+        return self.__add_error("invalidArguments", "arguments not valid",
+                                more_info)
 
     def unknown_error(self, filepath=None, artifact=None):
         error_message = "This error is unexpected. If encountered please file issue with description at https://github.com/jackdavidweber/cjs_capstone/issues"
