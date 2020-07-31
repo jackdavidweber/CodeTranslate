@@ -1,5 +1,6 @@
 import unittest2
 import translate
+import test_matrix
 
 
 class TestFunctionDeclarations(unittest2.TestCase):
@@ -8,55 +9,47 @@ class TestFunctionDeclarations(unittest2.TestCase):
         js_code = 'function test() {\n\t2\n}'
         py_code = 'def test():\n\t2'
         java_code = 'public void test() {\n\t2;\n}'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
         self.assertEqual(js_code, translate.translate(java_code, 'java', 'js'))
         self.assertEqual(py_code, translate.translate(java_code, 'java', 'py'))
 
     def test_function_one_arg(self):
         js_code = 'function test(x) {\n\tconsole.log(x)\n}'
         py_code = 'def test(x):\n\tprint(x)'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_function_multiple_args(self):
         js_code = 'function test(x, y, z) {\n\tconsole.log(x + y + z)\n}'
         py_code = 'def test(x, y, z):\n\tprint(x + y + z)'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_function_multi_line_body(self):
         js_code = 'function test(x, y, z) {\n\tconsole.log(x)\n\tconsole.log(y)'
         js_code += '\n\tconsole.log(z)\n}'
         py_code = 'def test(x, y, z):\n\tprint(x)\n\tprint(y)\n\tprint(z)'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_simple_return(self):
         js_code = 'function test() {\n\treturn 1\n}'
         py_code = 'def test():\n\treturn 1'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_complicated_function(self):
         js_code = 'function test(x, y, z) {\n\tconsole.log(x)\n\tconsole.log(y)'
         js_code += '\n\tconsole.log(z)\n\treturn x + y + z\n}'
         py_code = 'def test(x, y, z):\n\tprint(x)\n\tprint(y)\n\tprint(z)'
         py_code += '\n\treturn x + y + z'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_default_vals(self):
         js_code = 'function test(x = 1) {\n\tconsole.log(x)\n}'
         py_code = 'def test(x = 1):\n\tprint(x)'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_multiple_default_vals(self):
         js_code = 'function test(x, y = 2, z = 4, a = 1) {\n\treturn y\n}'
         py_code = 'def test(x, y = 2, z = 4, a = 1):\n\treturn y'
-        self.assertEqual(py_code, translate.translate(js_code, 'js', 'py'))
-        self.assertEqual(js_code, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_java_func_no_arg_no_body(self):
         java_input = 'public void test() {}'
@@ -94,10 +87,9 @@ class TestFunctionDeclarations(unittest2.TestCase):
         self.assertEqual(py_code, translate.translate(js_arrow, 'js', 'py'))
 
     def test_basic_arrow_functions(self):
-        js_arrow = '() => {\n\t1\n}'
+        js_code = '() => {\n\t1\n}'
         py_code = 'lambda: 1'
-        self.assertEqual(py_code, translate.translate(js_arrow, 'js', 'py'))
-        self.assertEqual(js_arrow, translate.translate(py_code, 'py', 'js'))
+        test_matrix.test(self, py_code, js_code)
 
     def test_basic_arrow_anon_functions(self):
         js_arrow = 'let a = () => {\n\t1\n}'

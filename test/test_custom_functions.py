@@ -34,7 +34,8 @@ class TestCustomFunctions(unittest2.TestCase):
     def test_object_attribute(self):
         py_code = 'car.honda.drive(1, 2)'
         js_code = 'car.honda.drive(1, 2)'
-        test_matrix.test(self, py_code, js_code)
+        java_code = 'car.honda.drive(1, 2);'
+        test_matrix.test(self, py_code, js_code, java_code)
 
     def test_arg_varaible(self):
         py_code = 'test(file)'
