@@ -76,6 +76,8 @@ We would also like to acknowledge:
 * Google STEP Intern Program
 * Google SURF Chicago Team 
 
+## License
 
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 
