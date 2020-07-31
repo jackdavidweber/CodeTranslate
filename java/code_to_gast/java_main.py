@@ -31,5 +31,4 @@ def java_to_gast(java_input):
         except:
             # this will signal to translate that error occurred
             return None
-
     return java_router.node_to_gast(input_ast)

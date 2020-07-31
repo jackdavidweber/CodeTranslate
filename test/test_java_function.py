@@ -4,15 +4,6 @@ import translate
 
 class TestJavaFunctionCalls(unittest2.TestCase):
 
-    def test_basic(self):
-        code = 'myFunction();'
-        self.assertEqual('myFunction();',
-                         translate.translate(code, 'java', 'java'))
-
-    def test_basic_args(self):
-        code = 'myFunction(1, "str", true);'
-        self.assertEqual('myFunction(1, "str", true);',
-                         translate.translate(code, 'java', 'java'))
 
     def test_function_on_object(self):
         code = 'car.drive("hi");'
