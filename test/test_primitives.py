@@ -3,7 +3,7 @@ import test_matrix
 import translate
 
 
-class TestBashPrimitives(unittest2.TestCase):
+class TestPrimitives(unittest2.TestCase):
 
     def test_string(self):
         js_code = '"hello"'
