@@ -34,7 +34,6 @@ def is_valid_gast(gast):
 
 
 def gast_to_code_caller(gast, output_lang, error_handler):
-    # try:
     output_code = gtc.gast_to_code(gast, output_lang)
 
     # TODO: remove last static reference to language
@@ -42,6 +41,3 @@ def gast_to_code_caller(gast, output_lang, error_handler):
         output_code = general_helpers.java_linter(output_code)
 
     return output_code
-    # except:
-    #     artifact = {'gast': gast, 'outputLang': output_lang}
-    #     return error_handler.unknown_error("translate.py", artifact)
