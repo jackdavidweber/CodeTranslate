@@ -10,77 +10,53 @@ Check out our live demo at http://bit.do/codetranslate. The repository for the f
 ## API Documentation
 Check out our API Documentation at https://app.swaggerhub.com/apis-docs/jackdavidweber/CodeTranslate/1.0.0#/developers/translate
 
-## Getting Started
+## Technical Setup
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+- Clone this repository ([how to clone](https://docs.github.com/en/enterprise/2.13/user/articles/cloning-a-repository))
+- `cd cjs_capstone`
+- follow steps in prerequisites section
+
+#### To run tests:
+- `pytest`
+
+#### To run api locally:
+- `python app.py`
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+The main pre-requisite is that you have pip installed. Install [pip](https://pypi.org/project/pip/). Once you have pip installed, take the following steps:
+
+- make sure you are in the root directory
+- create a [virtual enviornment](https://docs.python.org/3/library/venv.html) in python 3
+- copy-paste the following into terminal:
 
 ```
-Give examples
+pip install -r requirements.txt
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+## Related Reading
+Fill this section in with design doc, gast design doc, etc.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+We welcome contributions to this project. For small fixes, use github PR's. For larger changes, first add an issue to github issues.
 
-## Versioning
+All contributions should follow the general principles for this repository:
+- **Modularization of languages**: each language is contained to language-specific directory and test directory.
+- **Google style guide**: we use [yapf](https://github.com/google/yapf) to adhere to the google style guide for each PR.
+- **Tests**: any new language features should be tested extensively in the following 3 ways: code to gast, gast to code, integration (code to code). All tests must pass before merging any PR's
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
-## Authors
+## Contributors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Cory O'Shea** - *Founding Contributor* - [Personal Website](https://cjoshea-step-2020.appspot.com/)
+* **Jack Weber** - *Founding Contributor* - [Personal Website](https://jackdavidweber.github.io/)
+* **Steph Walsh** - *Founding Contributor* - [Personal Website](https://stephwalsh-step-2020.appspot.com/)
+
+Advisors
+* **Danish Noorani** - *Founding Advisor*
+* **Gabriel Harel** - *Founding Advisor*
+* **Michael Auger** - *Founding Advisor*
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
