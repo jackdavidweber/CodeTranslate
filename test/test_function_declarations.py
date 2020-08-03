@@ -1,5 +1,4 @@
 import unittest2
-import translate
 import matrix
 from Unittest import Unittest
 
