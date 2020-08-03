@@ -1,7 +1,7 @@
 
 class Unittest():
 
-    def __init__(self, code, language, is_input, is_output):
+    def __init__(self, code, language, is_input=True, is_output=True):
         self.language = language
         self.code = code
         self.is_input = is_input

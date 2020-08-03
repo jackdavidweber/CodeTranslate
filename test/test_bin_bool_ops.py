@@ -90,31 +90,31 @@ class TestBinBoolOps(unittest2.TestCase):
         matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_compare_equal(self):
-        py_code = Unittest('1 == 2', 'py', True, True)
-        js_code = Unittest('1 == 2', 'js', True, True)
-        java_code = Unittest('1 == 2;', 'java', False, True)
-        bash_code = Unittest('1 == 2', 'bash', False, True)
+        py_code = Unittest('1 == 2', 'py')
+        js_code = Unittest('1 == 2', 'js')
+        java_code = Unittest('1 == 2;', 'java', is_input=False)
+        bash_code = Unittest('1 == 2', 'bash', is_input=False)
         matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_comparemulti_equal(self):
-        py_code = Unittest('1 == 2 == 3', 'py', True, True)
-        js_code = Unittest('1 == 2 == 3', 'js', True, True)
-        java_code = Unittest('1 == 2 == 3;', 'java', False, True)
-        bash_code = Unittest('1 == 2 == 3', 'bash', False, True)
+        py_code = Unittest('1 == 2 == 3', 'py')
+        js_code = Unittest('1 == 2 == 3', 'js')
+        java_code = Unittest('1 == 2 == 3;', 'java', is_input=False)
+        bash_code = Unittest('1 == 2 == 3', 'bash', is_input=False)
         matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_comparemulti_all_ops(self):
-        py_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'py', True, True)
-        js_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'js', True, True)
-        java_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6;', 'java', False, True)
-        bash_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'bash', False, True)
+        py_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'py')
+        js_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'js')
+        java_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6;', 'java', is_input=False)
+        bash_code = Unittest('1 < 2 <= 3 == 4 >= 5 > 6', 'bash', is_input=False)
         matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_comparemulti_strs(self):
-        py_code = Unittest('a > b >= c == C', 'py', True, True)
-        js_code = Unittest('a > b >= c == C', 'js', True, True)
-        java_code = Unittest('a > b >= c == C;', 'java', False, True)
-        bash_code = Unittest('a > b >= c == C', 'bash', False, True)
+        py_code = Unittest('a > b >= c == C', 'py')
+        js_code = Unittest('a > b >= c == C', 'js')
+        java_code = Unittest('a > b >= c == C;', 'java', is_input=False)
+        bash_code = Unittest('a > b >= c == C', 'bash', is_input=False)
         matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
 

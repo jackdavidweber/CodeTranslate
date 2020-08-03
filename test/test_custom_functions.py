@@ -1,47 +1,49 @@
 import unittest2
 import matrix
+from Unittest import Unittest
 
 
 class TestCustomFunctions(unittest2.TestCase):
 
     def test_no_args_no_object(self):
-        py_code = "myFunction()"
-        js_code = "myFunction()"
-        bash_code = "myFunction "
-        java_code = "myFunction();"
-        matrix.test(self, py_code, js_code, java_code, bash_code)
+        js_code = Unittest('myFunction()', 'js')
+        py_code = Unittest('myFunction()', 'py')
+        bash_code = Unittest('myFunction ', 'bash', is_input=False)
+        java_code = Unittest('myFunction();', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_one_arg_no_object(self):
-        py_code = 'run("fast")'
-        js_code = 'run("fast")'
-        bash_code = 'run "fast"'
-        java_code = 'run("fast");'
-        matrix.test(self, py_code, js_code, java_code, bash_code)
+        js_code = Unittest('run("fast")', 'js')
+        py_code = Unittest('run("fast")', 'py')
+        bash_code = Unittest('run "fast"', 'bash', is_input=False)
+        java_code = Unittest('run("fast");', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_two_args(self):
-        py_code = 'greeting("hi", 1)'
-        js_code = 'greeting("hi", 1)'
-        bash_code = 'greeting "hi" 1'
-        java_code = 'greeting("hi", 1);'
-        matrix.test(self, py_code, js_code, java_code, bash_code)
+        js_code = Unittest('greeting("hi", 1)', 'js')
+        py_code = Unittest('greeting("hi", 1)', 'py')
+        bash_code = Unittest('greeting "hi" 1', 'bash', is_input=False)
+        java_code = Unittest('greeting("hi", 1);', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_object(self):
-        py_code = 'my.function()'
-        js_code = 'my.function()'
-        java_code = 'my.function();'
-        matrix.test(self, py_code, js_code, java_code)
+        js_code = Unittest('my.function()', 'js')
+        py_code = Unittest('my.function()', 'py')
+        java_code = Unittest('my.function();', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code])
 
     def test_object_attribute(self):
-        py_code = 'car.honda.drive(1, 2)'
-        js_code = 'car.honda.drive(1, 2)'
-        java_code = 'car.honda.drive(1, 2);'
-        matrix.test(self, py_code, js_code, java_code)
+        js_code = Unittest('car.honda.drive(1, 2)', 'js')
+        py_code = Unittest('car.honda.drive(1, 2)', 'py')
+        java_code = Unittest('car.honda.drive(1, 2);', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code])
 
     def test_arg_varaible(self):
-        py_code = 'test(file)'
-        js_code = 'test(file)'
-        bash_code = 'test "$file"'
-        matrix.test(self, py_code, js_code, None, bash_code)
+        js_code = Unittest('test(file)', 'js')
+        py_code = Unittest('test(file)', 'py')
+        java_code = Unittest('test(file);', 'java', is_input=False)
+        bash_code = Unittest('test "$file"', 'bash', is_input=False)
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
 
 if __name__ == '__main__':
