@@ -2,6 +2,7 @@ import shared.gast_to_code.general_helpers as general_helpers
 import js_built_in_functions
 import shared.gast_to_code.gast_to_code_router as router
 from shared.gast_to_code.error_handler import ErrorHandler
+import javascript.code_to_gast.js_main as js_main
 
 
 class JsGastToCodeConverter():
@@ -15,6 +16,9 @@ class JsGastToCodeConverter():
 
     def get_error_handler(self):
         return self.error_handler
+
+    def code_to_gast(self, code_input):
+        return js_main.js_to_gast(code_input)
 
     def handle_bool(self, gast):
         if gast["value"] == 1:
