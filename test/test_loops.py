@@ -26,15 +26,23 @@ class TestLoops(unittest2.TestCase):
         matrix.matrix(self, [py_code, js_code, java_code])
 
     # TODO: make these work with new matrix format
-    # def test_for_range_without_let(self):
-    #     js_code = Unittest('for(i=0; i<10; i+=1){\n\t5\n}', 'js')
-    #     py_code = Unittest('for i in range (0, 10, 1):\n\t5', 'py')
-    #     matrix.matrix(self, [js_code, py_code])
+    def test_for_range_without_let(self):
+        js_code = Unittest('for(i=0; i<10; i+=1){\n\t5\n}',
+                           'js',
+                           is_output=False)
+        py_code = Unittest('for i in range (0, 10, 1):\n\t5',
+                           'py',
+                           is_input=False)
+        matrix.matrix(self, [js_code, py_code])
 
-    # def test_for_range_without_let_java(self):
-    #     java_code = Unittest('for(i=0; i<10; i+=1){\n\t5;\n}', 'java')
-    #     py_code = Unittest('for $$E1$$ in range ($$E0$$, 10, 1):\n\t5', 'py')
-    #     matrix.matrix(self, [py_code, java_code])
+    def test_for_range_without_let_java(self):
+        java_code = Unittest('for(i=0; i<10; i+=1){\n\t5;\n}',
+                             'java',
+                             is_output=False)
+        py_code = Unittest('for $$E1$$ in range ($$E0$$, 10, 1):\n\t5',
+                           'py',
+                           is_input=False)
+        matrix.matrix(self, [py_code, java_code])
 
     def test_for_range_implied_increment_one(self):
         """
