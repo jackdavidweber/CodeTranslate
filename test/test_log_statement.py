@@ -1,47 +1,54 @@
 import unittest2
-import translate
+import matrix
+from Unittest import Unittest
 
 
 class TestLogStatement(unittest2.TestCase):
 
     def test_no_args(self):
-        self.assertEqual('console.log()',
-                         translate.translate('print()', 'py', 'js'))
-        self.assertEqual('print()',
-                         translate.translate('console.log()', 'js', 'py'))
+        py_code = Unittest('print()', 'py')
+        js_code = Unittest('console.log()', 'js')
+        java_code = Unittest('System.out.println();', 'java')
+        bash_code = Unittest('echo ', 'bash', is_input=False)
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_one_arg(self):
-        self.assertEqual('console.log("hello")',
-                         translate.translate('print("hello")', 'py', 'js'))
-        self.assertEqual('print(5)',
-                         translate.translate('console.log(5)', 'js', 'py'))
-        self.assertEqual('echo 8',
-                         translate.translate('console.log(8)', 'js', 'bash'))
-
-    def test_quotes_string(self):
-        self.assertEqual(
-            'print("working")',
-            translate.translate('console.log("working")', 'js', 'py'))
+        py_code = Unittest('print("hello")', 'py')
+        js_code = Unittest('console.log("hello")', 'js')
+        java_code = Unittest('System.out.println("hello");', 'java')
+        bash_code = Unittest('echo "hello"', 'bash', is_input=False)
+        matrix.matrix(self, [py_code, js_code, java_code, bash_code])
 
     def test_arrays(self):
-        self.assertEqual(
-            'print([[1, 3], [3, 4]])',
-            translate.translate('console.log([[1, 3], [3,4]])', 'js', 'py'))
-        self.assertEqual(
-            'console.log(["hi", "bye"])',
-            translate.translate('print(["hi", "bye"])', 'py', 'js'))
+        py_code = Unittest('print([[1, 3], [3, 4]])', 'py')
+        js_code = Unittest('console.log([[1, 3], [3, 4]])', 'js')
+        java_code = Unittest(
+            'System.out.println(Arrays.toString(new int[][] {{1, 3}, {3, 4}}));',
+            'java',
+            is_input=False)
+        matrix.matrix(self, [py_code, js_code, java_code])
 
     def test_boolean(self):
-        self.assertEqual('print(True)',
-                         translate.translate('console.log(true)', 'js', 'py'))
-        self.assertEqual('console.log(!false)',
-                         translate.translate('print(not False)', 'py', 'js'))
+        py_code = Unittest('print(True)', 'py')
+        js_code = Unittest('console.log(true)', 'js')
+        java_code = Unittest('System.out.println(true);', 'java')
+        matrix.matrix(self, [py_code, js_code, java_code])
 
     def test_none(self):
-        self.assertEqual('console.log(null)',
-                         translate.translate('print(None)', 'py', 'js'))
-        self.assertEqual('print(None)',
-                         translate.translate('console.log(null)', 'js', 'py'))
+        py_code = Unittest('print(None)', 'py')
+        js_code = Unittest('console.log(null)', 'js')
+        java_code = Unittest('System.out.println(null);',
+                             'java',
+                             is_input=False)
+        matrix.matrix(self, [py_code, js_code, java_code])
+
+    def test_log_arr_to_code(self):
+        py_code = Unittest('print([1, 2, 3])', "py")
+        java_output = Unittest(
+            'System.out.println(Arrays.toString(new int[] {1, 2, 3}));',
+            'java',
+            is_input=False)
+        matrix.matrix(self, [py_code, java_output])
 
 
 if __name__ == '__main__':

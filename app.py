@@ -47,8 +47,8 @@ class Translate(Resource):
 
         if input_lang == "auto":
             # Gets non-beta (fully supported) languages for automatic detection
-            fully_supported_lang_codes = ConverterRegistry.get_fully_supported_language_codes(
-            )
+            fully_supported_lang_codes = ConverterRegistry.get_language_codes_by_property(
+                "is_beta", is_complement=True)
             # automatic language detection (only fully supported languages) TODO: fall back on Beta if all else fails
             for lang in fully_supported_lang_codes:
                 response_input_lang = lang

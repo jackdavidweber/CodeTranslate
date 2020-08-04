@@ -80,11 +80,9 @@ def function_delcaration_to_gast(node):
     return gast
 
 
-'''
-Takes java parameter of a function (has type formal parameter) and
-transforms it into the parameter of gast function node 
-'''
-
-
 def formal_parameter_to_gast(node):
+    '''
+    Takes java parameter of a function (has type formal parameter) and
+    transforms it into the parameter of gast function node 
+    '''
     return {"type": "name", "value": node.name}

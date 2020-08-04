@@ -4,12 +4,12 @@ import python.code_to_gast.py_expression as expression
 import python.code_to_gast.py_assign as assign
 import python.code_to_gast.py_conditional as conditional
 import python.code_to_gast.py_loop as loop
-"""
-router that all nodes in the python AST are passed through recursively
-"""
 
 
 def node_to_gast(node):
+    """
+    router that all nodes in the python AST are passed through recursively
+    """
     # Base Cases
     if type(node) == ast.Str:
         return helpers.string_to_gast(node)

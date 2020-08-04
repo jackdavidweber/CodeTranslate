@@ -2,6 +2,7 @@ import shared.gast_to_code.gast_to_code_router as router
 import shared.gast_to_code.general_helpers as general_helpers
 import java.gast_to_code.java_helpers as java_helpers
 from shared.gast_to_code.error_handler import ErrorHandler
+import java.code_to_gast.java_main as java_main
 
 
 class JavaGastToCodeConverter():
@@ -15,6 +16,9 @@ class JavaGastToCodeConverter():
 
     def get_error_handler(self):
         return self.error_handler
+
+    def code_to_gast(self, code_input):
+        return java_main.java_to_gast(code_input)
 
     def handle_bool(self, gast):
         if gast["value"] == 1:

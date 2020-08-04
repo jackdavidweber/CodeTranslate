@@ -1,41 +1,37 @@
 import ast
 import python.code_to_gast.py_router as pr
-"""
-handles primitive number base cases
-example: 7
-    exampleIn: Num(n=7)
-    exampleOut: {"type": "num", "value": 7} 
-"""
 
 
 def num_to_gast(node):
+    """
+    handles primitive number base cases
+    example: 7
+        exampleIn: Num(n=7)
+        exampleOut: {"type": "num", "value": 7} 
+    """
     return {"type": "num", "value": node.n}
 
 
-"""
-handles primitive string base case
-example: "hello"
-    exampleIn: Str(s='hello')
-    exampleOut: {'type': 'str', 'value': 'hello'}
-"""
-
-
 def string_to_gast(node):
+    """
+    handles primitive string base case
+    example: "hello"
+        exampleIn: Str(s='hello')
+        exampleOut: {'type': 'str', 'value': 'hello'}
+    """
     return {"type": "str", "value": node.s}
 
 
-"""
-handles primitive boolean and None base cases
-example: True
-    exampleIn: NameConstant(value=True)
-    exampleOut: {'type': 'bool', 'value': 1}
-example: None
-    exampleIn: NameConstant(value=None)
-    exampleOut: {'type': 'none'}
-"""
-
-
 def name_constant_to_gast(node):
+    """
+    handles primitive boolean and None base cases
+    example: True
+        exampleIn: NameConstant(value=True)
+        exampleOut: {'type': 'bool', 'value': 1}
+    example: None
+        exampleIn: NameConstant(value=None)
+        exampleOut: {'type': 'none'}
+    """
     gast = {"type": "bool"}
     if node.value == True:
         gast["value"] = 1
@@ -46,12 +42,10 @@ def name_constant_to_gast(node):
     return gast
 
 
-"""
-takes an array of elements and recursively calls node_to_gast on each element
-"""
-
-
 def array_to_gast(node):
+    """
+    takes an array of elements and recursively calls node_to_gast on each element
+    """
     gast = {"type": "arr"}
     list_elem = []
     for elem in ast.iter_child_nodes(node):
@@ -61,12 +55,10 @@ def array_to_gast(node):
     return gast
 
 
-"""
-takes a dictionary converts it for the generic AST 
-"""
-
-
 def dictionary_to_gast(node):
+    """
+    takes a dictionary converts it for the generic AST 
+    """
     gast = {"type": "dict", "elements": []}
 
     for i in range(len(node.keys)):
@@ -77,12 +69,10 @@ def dictionary_to_gast(node):
     return gast
 
 
-"""
-converts python ast operations to common string representation
-"""
-
-
 def pyop_to_str(op):
+    """
+    converts python ast operations to common string representation
+    """
     op_to_str_map = {
         ast.Add: "+",
         ast.Mult: "*",
@@ -106,26 +96,22 @@ def pyop_to_str(op):
         return None
 
 
-"""
-TODO: fix this docstring
-converts a python ast BoolOp into a readable string recursively
-example: True and False
-    exampleIn: BoolOp(op=And(), values=[NameConstant(value=True), NameConstant(value=False)])
-    exampleOut: {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
-"""
-
-
 def bool_op_to_gast(node):
+    """
+    TODO: fix this docstring
+    converts a python ast BoolOp into a readable string recursively
+    example: True and False
+        exampleIn: BoolOp(op=And(), values=[NameConstant(value=True), NameConstant(value=False)])
+        exampleOut: {'type': 'boolOp', 'op': '&&', 'left': {'type': 'bool', 'value': 1}, 'right': {'type': 'bool', 'value': 0}}
+    """
     op = pyop_to_str(node.op)
     return bool_op_helper(node.values, op)
 
 
-"""
-Recursively handles case where Python creates a list of literals
-"""
-
-
 def bool_op_helper(node_list, op_str):
+    """
+    Recursively handles case where Python creates a list of literals
+    """
     if op_str == None:
         return {"type": "error", "value": "unsupported"}
 
@@ -141,15 +127,13 @@ def bool_op_helper(node_list, op_str):
     return gast
 
 
-"""
-converts a python ast BinOp and to a readable string recursively 
-example 3+4:
-    exampleIn BinOp(left=Num(n=3), op=Add, right=Num(n=4))
-    exampleOut {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}
-"""
-
-
 def bin_op_to_gast(node):
+    """
+    converts a python ast BinOp and to a readable string recursively 
+    example 3+4:
+        exampleIn BinOp(left=Num(n=3), op=Add, right=Num(n=4))
+        exampleOut {'type': 'binOp', 'op': '+', 'left': {'type': 'num', 'value': 3}, 'right': {'type': 'num', 'value': 4}}
+    """
     if pyop_to_str(node.op) == None:
         return {"type": "error", "value": "unsupported"}
 
@@ -159,34 +143,30 @@ def bin_op_to_gast(node):
     return gast
 
 
-"""
-takes ast node of type module and returns
-a generic ast for that node
-example print("hello"):
-    node (input): Module(body=[Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
-    gast (output): {'type': 'root', 'body': [{'type': 'funcCall', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}]}
-"""
-
-
 def module_to_gast(node):
+    """
+    takes ast node of type module and returns
+    a generic ast for that node
+    example print("hello"):
+        node (input): Module(body=[Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))])
+        gast (output): {'type': 'root', 'body': [{'type': 'funcCall', 'value': {'type': 'logStatement'}, 'args': [{'type': 'str', 'value': 'hello'}]}]}
+    """
     gast = {"type": "root"}
     gast["body"] = pr.node_to_gast(node.body)
     return gast
 
 
-"""
-takes a node that represents a list of nodes.
-returns a list of gast
-example print("hello"):
-    node (input): [Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))]
-    gast (output): [{'type': 'funcCall', 'value': {'type': 'logStatement'}, args': [{'type': 'str', 'value': 'hello'}]}]
-example array of strings:
-    input: [Str(s='hello'), Str(s='world')]
-    output:[{'type': 'str', 'value': 'hello'}, {'type': 'str', 'value': 'world'}]
-"""
-
-
 def node_list_to_gast(node):
+    """
+    takes a node that represents a list of nodes.
+    returns a list of gast
+    example print("hello"):
+        node (input): [Expr(value=Call(func=Name(id='print'), args=[Str(s='hello')], keywords=[]))]
+        gast (output): [{'type': 'funcCall', 'value': {'type': 'logStatement'}, args': [{'type': 'str', 'value': 'hello'}]}]
+    example array of strings:
+        input: [Str(s='hello'), Str(s='world')]
+        output:[{'type': 'str', 'value': 'hello'}, {'type': 'str', 'value': 'world'}]
+    """
     gast_list = []
     for i in range(0, len(node)):
         gast_list.append(pr.node_to_gast(node[i]))
@@ -194,23 +174,19 @@ def node_list_to_gast(node):
     return gast_list
 
 
-"""
-takes ast.name node from python ast and converts to string represenation for the generic ast
-"""
-
-
 def name_to_gast(node):
+    """
+    takes ast.name node from python ast and converts to string represenation for the generic ast
+    """
     if node.id == "print":
         return {"type": "logStatement"}
     return {"type": "name", "value": node.id}
 
 
-"""
-takes node of type unaryOp and converts it to our generic ast represenations
-"""
-
-
 def unary_op_to_gast(node):
+    """
+    takes node of type unaryOp and converts it to our generic ast represenations
+    """
     pyop = pyop_to_str(node.op)
     if pyop == None:
         return {"type": "error", "value": "unsupported"}
@@ -218,40 +194,32 @@ def unary_op_to_gast(node):
     return {"type": "unaryOp", "op": pyop, "arg": pr.node_to_gast(node.operand)}
 
 
-"""
-takes argument from function declaration and makes into gast node
-"""
-
-
 def arg_to_gast(node):
+    """
+    takes argument from function declaration and makes into gast node
+    """
     return pr.node_to_gast(node.arg)
 
 
-"""
-Python native string class is the type of function names and arguments. String literals are handled by str_to_gast()
-This function takes the name of an identifer and turns it into a gast node 
-"""
-
-
 def str_to_gast(node):
+    """
+    Python native string class is the type of function names and arguments. String literals are handled by str_to_gast()
+    This function takes the name of an identifer and turns it into a gast node 
+    """
     return {"type": "name", "value": node}
 
 
-"""
-Turns return statement into gast
-"""
-
-
 def return_statement_to_gast(node):
+    """
+    Turns return statement into gast
+    """
     return {"type": "returnStatement", "value": pr.node_to_gast(node.value)}
 
 
-"""
-Handles args of function declarations with default values
-"""
-
-
 def function_args_to_gast(node):
+    """
+    Handles args of function declarations with default values
+    """
     return arg_helper(node.args, node.defaults, [])
 
 
@@ -271,15 +239,13 @@ def arg_helper(arg_list, default_list, param_list):
         return arg_helper(arg_list, default_list, param_list)
 
 
-"""
-takes node of type Compare and converts it to our generic ast representation
-example:
-    Example In: Compare(left=Num(n=1), ops=[Gt()], comparators=[Num(n=1), Num(n=2)])
-    Example Out: {'type': 'binOp', 'left': {'type': 'num', 'value': 1}, 'op': '>', 'right': {'type': 'num', 'value': 2}}
-"""
-
-
 def compare_to_gast(node):
+    """
+    takes node of type Compare and converts it to our generic ast representation
+    example:
+        Example In: Compare(left=Num(n=1), ops=[Gt()], comparators=[Num(n=1), Num(n=2)])
+        Example Out: {'type': 'binOp', 'left': {'type': 'num', 'value': 1}, 'op': '>', 'right': {'type': 'num', 'value': 2}}
+    """
     # create list of comparators. (1>2>=3 would create list [1,2,3])
     comparator_list = node.comparators
     comparator_list.insert(
@@ -310,19 +276,15 @@ def compare_helper(node_list, op_list):
     return gast
 
 
-"""
-break statement to gast
-"""
-
-
 def break_to_gast(node):
+    """
+    break statement to gast
+    """
     return {"type": "break"}
 
 
-"""
-continue statement to gast
-"""
-
-
 def continue_to_gast(node):
+    """
+    continue statement to gast
+    """
     return {"type": "continue"}
