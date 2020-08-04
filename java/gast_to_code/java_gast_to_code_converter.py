@@ -123,14 +123,7 @@ class JavaGastToCodeConverter():
         return self.error_handler.unsupported_feature()
 
     def handle_name(self, gast):
-        ''' 
-        NOTE: some places store {"type": "name", "value": "s"} while others have
-        {"type": "name", "id" : "s"} in gAST but both get routed to this func.
-        We may want to re-evaluate gAST structure regarding funcs and vars
-        '''
-        if "value" in gast:
-            return gast["value"]
-        return gast["id"]
+        return gast["value"]
 
     def handle_attribute(self, gast):
         return router.gast_to_code(gast["value"], "java") + "." + gast["id"]

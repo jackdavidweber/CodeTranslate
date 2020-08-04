@@ -17,6 +17,8 @@ def member_reference_to_gast(node):
     Handles increment and decrement operators
     """
     gast = {"type": "augAssign"}
+    if len(node.postfix_operators) == 0:
+        return {"type": "error", "value": "unsupported"}
     gast["left"] = java_router.node_to_gast(node.member)
     gast["op"] = node.postfix_operators[0]
     return gast

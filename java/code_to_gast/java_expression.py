@@ -29,7 +29,7 @@ def method_invocation_to_gast(node):
 Takes list of callees and members and from function called
 on object and translates into gAST node
 Ex: car.drive() -> {"type": "attribute", "id": "drive", "value": 
-{"type": "name", "id": "car"}}
+{"type": "name", "value": "car"}}
 '''
 
 
