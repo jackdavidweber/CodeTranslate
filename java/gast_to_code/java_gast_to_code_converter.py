@@ -20,6 +20,9 @@ class JavaGastToCodeConverter():
     def code_to_gast(self, code_input):
         return java_main.java_to_gast(code_input)
 
+    def gast_to_code_post_processing(self, code_output):
+        return java_helpers.java_linter(code_output)
+
     def handle_bool(self, gast):
         if gast["value"] == 1:
             return "true"

@@ -36,8 +36,8 @@ def is_valid_gast(gast):
 def gast_to_code_caller(gast, output_lang, error_handler):
     output_code = gtc.gast_to_code(gast, output_lang)
 
-    # TODO: remove last static reference to language
-    if output_lang == "java":
-        output_code = general_helpers.java_linter(output_code)
+    #post processing
+    post_processed_output_code = ConverterRegistry.get_converter(
+        output_lang).gast_to_code_post_processing(output_code)
 
-    return output_code
+    return post_processed_output_code

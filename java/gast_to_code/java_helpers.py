@@ -67,3 +67,26 @@ def java_node_list_helper(gast_list,
                 out += csv_delimiter
 
     return out
+
+
+def java_linter(output_code):
+    """
+    Add semicolons to the end of java lines
+    """
+    #Check if its a one line comment
+    if '\n' not in output_code:
+        return output_code + ";"
+
+    #Add semicolons to every line
+    output_code = output_code.replace("\n", ";\n")
+    output_code += ";"
+
+    #Remove them where they shouldn't be
+    output_code = output_code.replace("{;", "{")
+    output_code = output_code.replace("};", "}")
+    output_code = output_code.replace("+;", "+")
+    # TODO fix edge cases Ticket 187
+    output_code = output_code.replace("\t;", "\t")
+    output_code = output_code.replace(".;", ".")
+
+    return output_code
