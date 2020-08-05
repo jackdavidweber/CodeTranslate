@@ -20,6 +20,9 @@ class PyGastToCodeConverter():
     def code_to_gast(self, code_input):
         return py_main.py_to_gast(code_input)
 
+    def gast_to_code_post_processing(self, code_output):
+        return code_output  # since there is no post-processing
+
     def handle_bool(self, gast):
         if gast["value"] == 1:
             return "True"
