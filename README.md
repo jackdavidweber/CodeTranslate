@@ -37,6 +37,15 @@ $ pip install yapf # for auto formatting
 3) Download to `private_keys/firebase-access-key.json`
 4) `python tools/add_environ_var.py` 
 
+### Testing 
+As languages are added to this codebase, we encourage developers to add test cases to go along with their additions. For each language feature added in a new language, three types of tests should be addded:
+
+1) End to end integration tests with other languages
+2) Code to generic AST tests
+3) Generic AST to code tests
+
+To add to an integration test case, a new Unittest object needs to be made following the pattern of the test cases already there. With this object the developer needs to decide if they want to test the code as an input command, output command, or both. Then, add code to GAST and GAST to code tests in a separate file for each language. The GASTs for current supported commands are already written out and can be found at `test/gasts.py`.
+
 ## Generic Abstract Syntax Tree
 The generic AST (gast) is a tree structured JSON file that is able to serve as a common-ground between the AST's of multiple languages. This is important because it allows the developers to think of the translation as a series of black boxes. For each supported language, there is the translation from the language to the gast and the translation from the gast back to the language. As long as the gast is agreed upon, developers can easily split up the work for the two parts of the translation without running into issues. The stable nature of the gast also means that adding new languages should not affect previously written code.
 
