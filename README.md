@@ -5,7 +5,7 @@ CodeTranslate is a one-stop site for developers to rapidly scale-up in unfamilia
 
 
 ## Demo
-Check out our live demo at http://bit.do/codetranslate. The repository for the frontend of the demo can be found [here](https://github.com/cjoshea9/cjs_capstone_frontend). Please note that the demo is currently hosted for free on [Heroku](https://www.heroku.com/) and may take some time to load up.
+Check out our live demo at http://demo.codetranslate.com/. The repository for the frontend of the demo can be found [here](https://github.com/cjoshea9/cjs_capstone_frontend). Please note that the demo is currently hosted for free on [Heroku](https://www.heroku.com/) and may take some time to load up.
 
 ## API Documentation
 We welcome use of our public api so that you can integrate code translations into your own projects! Check out our [API Documentation](https://app.swaggerhub.com/apis-docs/jackdavidweber/CodeTranslate/1.0.0#/developers/translate) if you are interested.
@@ -59,7 +59,7 @@ For information on how to contribute, please refer to [CONTRIBUTING.md](CONTRIBU
 ## Authors
 
 * **Cory O'Shea** - *Founding Contributor* - [Portfolio](https://cjoshea-step-2020.appspot.com/) | [Github](https://github.com/cjoshea9)
-* **Jack Weber** - *Founding Contributor* -- [Portfolio](https://jackdavidweber.github.io/) | [Github](https://github.com/jackdavidweber)
+* **Jack Weber** - *Founding Contributor* -- [Portfolio](http://jackdavidweber.com/) | [Github](https://github.com/jackdavidweber)
 * **Steph Walsh** - *Founding Contributor* - [Portfolio](https://stephwalsh-step-2020.appspot.com/) | [Github](https://github.com/swalsh15)
 * **Danish Noorani** - *Founding Advisor*
 * **Gabriel Harel** - *Founding Advisor*
